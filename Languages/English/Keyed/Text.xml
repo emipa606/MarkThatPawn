@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <MTP.CurrentModVersion>Installed mod-version: {0}</MTP.CurrentModVersion>
+  <MTP.SelectMarker>Select Marker</MTP.SelectMarker>
+  <MTP.SelectMarkerTT>Add a marker to this pawn</MTP.SelectMarkerTT>
+  <MTP.None>No marker</MTP.None>
+  <MTP.MarkerNumber>Marker {0}</MTP.MarkerNumber>
+  <MTP.IconSize>Icon size: {0}</MTP.IconSize>
+  <MTP.PulsatingIcons>Use pulsating icons</MTP.PulsatingIcons>
+  <MTP.PulsatingIconsTT>Icons will pulsate the same way the trader questionmark does</MTP.PulsatingIconsTT>
+</LanguageData>
