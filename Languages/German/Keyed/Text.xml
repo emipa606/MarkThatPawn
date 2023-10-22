@@ -9,4 +9,18 @@
   <MTP.IconSize>Symbolgröße: {0}</MTP.IconSize>
   <MTP.PulsatingIcons>Pulsierende Icons verwenden</MTP.PulsatingIcons>
   <MTP.PulsatingIconsTT>Die Symbole pulsieren auf die gleiche Weise wie das Fragezeichen des Händlers.</MTP.PulsatingIconsTT>
+  <MTP.DefaultMarkerSet>Standard-Markierungssatz: {0}</MTP.DefaultMarkerSet>
+  <MTP.ColonistMarkerSet>Kolonisten-Marker-Satz: {0}</MTP.ColonistMarkerSet>
+  <MTP.ColonistDiffer>Verschiedene Sets für Kolonisten</MTP.ColonistDiffer>
+  <MTP.PrisonerMarkerSet>Gefangenen-Marker-Satz: {0}</MTP.PrisonerMarkerSet>
+  <MTP.PrisonerDiffer>Unterschiedliches Set für Gefangene</MTP.PrisonerDiffer>
+  <MTP.SlaveMarkerSet>Slave-Marker-Satz: {0}</MTP.SlaveMarkerSet>
+  <MTP.SlaveDiffer>Unterschiedlicher Satz für Sklaven</MTP.SlaveDiffer>
+  <MTP.EnemyMarkerSet>Feindlicher Marker-Satz: {0}</MTP.EnemyMarkerSet>
+  <MTP.EnemyDiffer>Verschiedene Sets für Feinde</MTP.EnemyDiffer>
+  <MTP.NeutralMarkerSet>Neutraler Marker-Satz: {0}</MTP.NeutralMarkerSet>
+  <MTP.NeutralDiffer>Anderes Set für Nicht-Feinde</MTP.NeutralDiffer>
+  <MTP.Reset>Alle Werte zurücksetzen</MTP.Reset>
+  <MTP.ZOffset>Vertikaler Versatz: {0}</MTP.ZOffset>
+  <MTP.XOffset>Horizontaler Versatz: {0}</MTP.XOffset>
 </LanguageData>

@@ -31,27 +31,21 @@ public static class Pawn_GetGizmos
         }
 
         var currentMarking = tracker.GetPawnMarking(__instance);
+        var currentMarkerSet = MarkThatPawn.GetMarkerDefForPawn(__instance);
 
-        if (currentMarking > MarkThatPawn.GetTotalAmountOfMarkers())
+        if (currentMarking > currentMarkerSet.MarkerTextures.Count)
         {
             Log.Warning(
-                $"[MarkThatPawn]: {__instance.NameFullColored} had marker number {currentMarking} but there are only {MarkThatPawn.GetTotalAmountOfMarkers()} markers loaded. Removing marker.");
-            tracker.SetPawnMarking(__instance, 0);
+                $"[MarkThatPawn]: {__instance.NameFullColored} had marker number {currentMarking} but there are only {currentMarkerSet.MarkerTextures.Count} markers loaded. Removing marker.");
+            tracker.SetPawnMarking(__instance, 0, currentMarking, tracker, true);
             currentMarking = tracker.GetPawnMarking(__instance);
         }
 
-        var icon = MarkThatPawn.GetTextureForMarker(currentMarking);
+        var icon = MarkThatPawn.MarkerIcon;
 
-        if (currentMarking != 0 && icon == null)
+        if (currentMarking != 0)
         {
-            Log.Warning(
-                $"[MarkThatPawn]: {__instance.NameFullColored} had marker number {currentMarking} but failed to find the texture. Removing marker.");
-            tracker.SetPawnMarking(__instance, 0);
-        }
-
-        if (icon == null)
-        {
-            icon = MarkThatPawn.MarkerIcon;
+            icon = currentMarkerSet.MarkerTextures[currentMarking - 1];
         }
 
         yield return new Command_Action
@@ -62,7 +56,8 @@ public static class Pawn_GetGizmos
             action = delegate
             {
                 Find.WindowStack.Add(
-                    new FloatMenu(MarkThatPawn.GetMarkingOptions(currentMarking, tracker, __instance)));
+                    new FloatMenu(MarkThatPawn.GetMarkingOptions(currentMarking, tracker, currentMarkerSet,
+                        __instance)));
             }
         };
     }

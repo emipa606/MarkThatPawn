@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <MarkThatPawn.MarkerDef>
+    <defName>WowStyle</defName>
+    <label>WOW Style</label>
+    <description>Markers inspired by the Raid-markers in World of Warcraft</description>
+    <graphicPrefix>UI/Overlays/WowStyle/WowStyle</graphicPrefix>
+    <iconPath>UI/Overlays/WowStyle/WowStyle_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>Numbers</defName>
+    <label>Numbers</label>
+    <description>Markers with simple numbering</description>
+    <graphicPrefix>UI/Overlays/Numbers/Numbers</graphicPrefix>
+    <iconPath>UI/Overlays/Numbers/Numbers_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>Skills</defName>
+    <label>Skills</label>
+    <description>Markers to indicate work-skills</description>
+    <graphicPrefix>UI/Overlays/Skill/Skill</graphicPrefix>
+    <iconPath>UI/Overlays/Skill/Skill_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+</Defs>

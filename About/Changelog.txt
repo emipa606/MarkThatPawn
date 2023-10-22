@@ -1,5 +1,15 @@
 # Changelog for MarkThatPawn
 
+1.4.1 - Added support for marker sets via xml
+Added options to define icon-offsets
+Added options to have different sets based on pawntype
+Added 1.3 support
+Added possibility to change multiple pawns at the same time
+Added two new icon sets, numbers and also skills with textures from the pawnbadge mod
+Added some caching.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.0 - First publish.
 Used DeepL to update translations for ChineseSimplified, French, German
 

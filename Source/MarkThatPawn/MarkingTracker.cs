@@ -28,19 +28,59 @@ public class MarkingTracker : MapComponent
         return MarkedPawns.TryGetValue(pawn, out var result) ? result : 0;
     }
 
-    public void SetPawnMarking(Pawn pawn, int mark)
+    public void SetPawnMarking(Pawn pawn, int mark, int currentMarking, MarkingTracker tracker,
+        bool onlySelectedPawn = false)
     {
-        if (mark == 0)
+        if (onlySelectedPawn)
         {
-            if (MarkedPawns.ContainsKey(pawn))
+            if (mark == 0)
             {
-                MarkedPawns.Remove(pawn);
+                if (MarkedPawns.ContainsKey(pawn))
+                {
+                    MarkedPawns.Remove(pawn);
+                }
+
+                return;
             }
 
+            MarkedPawns[pawn] = mark;
             return;
         }
 
-        MarkedPawns[pawn] = mark;
+        var pawnSelector = MarkThatPawn.GetMarkerDefForPawn(pawn);
+        foreach (var selectorSelectedObject in Find.Selector.SelectedObjects)
+        {
+            if (selectorSelectedObject is not Pawn selectedPawn)
+            {
+                continue;
+            }
+
+            if (selectedPawn != pawn)
+            {
+                if (MarkThatPawn.GetMarkerDefForPawn(selectedPawn) != pawnSelector)
+                {
+                    continue;
+                }
+
+                if (tracker.GetPawnMarking(selectedPawn) != currentMarking)
+                {
+                    continue;
+                }
+            }
+
+
+            if (mark == 0)
+            {
+                if (MarkedPawns.ContainsKey(selectedPawn))
+                {
+                    MarkedPawns.Remove(selectedPawn);
+                }
+
+                continue;
+            }
+
+            MarkedPawns[selectedPawn] = mark;
+        }
     }
 
     public override void MapComponentTick()
@@ -59,7 +99,7 @@ public class MarkingTracker : MapComponent
     {
         base.ExposeData();
         Scribe_Collections.Look(ref MarkedPawns, "MarkedPawns", LookMode.Reference, LookMode.Value, ref markedPawnsKeys,
-            ref markedPawnsValues, false);
+            ref markedPawnsValues);
         Instance = this;
     }
 }

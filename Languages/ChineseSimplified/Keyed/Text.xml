@@ -9,4 +9,18 @@
   <MTP.IconSize>图标大小： {0}</MTP.IconSize>
   <MTP.PulsatingIcons>使用脉动图标</MTP.PulsatingIcons>
   <MTP.PulsatingIconsTT>图标将以与交易员问号相同的方式跳动</MTP.PulsatingIconsTT>
+  <MTP.DefaultMarkerSet>默认标记集：{0}</MTP.DefaultMarkerSet>
+  <MTP.ColonistMarkerSet>殖民者标记集：{0}</MTP.ColonistMarkerSet>
+  <MTP.ColonistDiffer>殖民者的不同设置</MTP.ColonistDiffer>
+  <MTP.PrisonerMarkerSet>囚犯标记集：{0}</MTP.PrisonerMarkerSet>
+  <MTP.PrisonerDiffer>为囚犯设置的不同场景</MTP.PrisonerDiffer>
+  <MTP.SlaveMarkerSet>从属标记集：{0}</MTP.SlaveMarkerSet>
+  <MTP.SlaveDiffer>针对奴隶的不同设置</MTP.SlaveDiffer>
+  <MTP.EnemyMarkerSet>敌人标记集：{0}</MTP.EnemyMarkerSet>
+  <MTP.EnemyDiffer>针对敌人的不同设置</MTP.EnemyDiffer>
+  <MTP.NeutralMarkerSet>中性标记集：{0}</MTP.NeutralMarkerSet>
+  <MTP.NeutralDiffer>非敌人的不同设置</MTP.NeutralDiffer>
+  <MTP.Reset>重置所有数值</MTP.Reset>
+  <MTP.ZOffset>垂直偏移：{0}</MTP.ZOffset>
+  <MTP.XOffset>水平偏移：{0}</MTP.XOffset>
 </LanguageData>

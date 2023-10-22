@@ -9,4 +9,18 @@
   <MTP.IconSize>Taille de l'icône : {0}</MTP.IconSize>
   <MTP.PulsatingIcons>Utiliser des icônes pulsées</MTP.PulsatingIcons>
   <MTP.PulsatingIconsTT>Les icônes émettent des pulsations de la même manière que le point d'interrogation de l'opérateur.</MTP.PulsatingIconsTT>
+  <MTP.DefaultMarkerSet>Jeu de marqueurs par défaut : {0}</MTP.DefaultMarkerSet>
+  <MTP.ColonistMarkerSet>Jeu de marqueurs de colons : {0}</MTP.ColonistMarkerSet>
+  <MTP.ColonistDiffer>Un ensemble différent pour les colons</MTP.ColonistDiffer>
+  <MTP.PrisonerMarkerSet>Jeu de marqueurs du prisonnier : {0}</MTP.PrisonerMarkerSet>
+  <MTP.PrisonerDiffer>Un ensemble différent pour les prisonniers</MTP.PrisonerDiffer>
+  <MTP.SlaveMarkerSet>Jeu de marqueurs de l'esclave : {0}</MTP.SlaveMarkerSet>
+  <MTP.SlaveDiffer>Différents ensembles pour les esclaves</MTP.SlaveDiffer>
+  <MTP.EnemyMarkerSet>Jeu de marqueurs ennemis : {0}</MTP.EnemyMarkerSet>
+  <MTP.EnemyDiffer>Différents jeux pour les ennemis</MTP.EnemyDiffer>
+  <MTP.NeutralMarkerSet>Jeu de marqueurs neutres : {0}</MTP.NeutralMarkerSet>
+  <MTP.NeutralDiffer>Un ensemble différent pour les non-ennemis</MTP.NeutralDiffer>
+  <MTP.Reset>Réinitialiser toutes les valeurs</MTP.Reset>
+  <MTP.ZOffset>Décalage vertical : {0}</MTP.ZOffset>
+  <MTP.XOffset>Décalage horizontal : {0}</MTP.XOffset>
 </LanguageData>

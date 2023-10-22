@@ -34,3 +34,6 @@ https://ko-fi.com/G2G55DDYD]![Image](https://i.imgur.com/VWG0yff.png)
 -  Use https://github.com/RimSort/RimSort/releases/latest]RimSort to sort your mods
 
 
+
+https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662]![Image](https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&style=plastic&labelColor=0070cd&color=white)
+
