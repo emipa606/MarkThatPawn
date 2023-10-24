@@ -1,19 +1,18 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-	<HugsLib.UpdateFeatureDef Abstract="true" Name="MarkThatPawn_UpdateFeatureBase">
-		<modNameReadable>MarkThatPawn</modNameReadable>
-		<linkUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3056996662</linkUrl>
-	</HugsLib.UpdateFeatureDef>
-	<HugsLib.UpdateFeatureDef ParentName="MarkThatPawn_UpdateFeatureBase">
-		<defName>MarkThatPawn_1_4_1</defName>
-		<assemblyVersion>1.4.1</assemblyVersion>
-		<content>Since the response of the mod was so positive I decided to expand on it further.
+  <HugsLib.UpdateFeatureDef Abstract="true" Name="MarkThatPawn_UpdateFeatureBase">
+    <modNameReadable>MarkThatPawn</modNameReadable>
+    <linkUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3056996662</linkUrl>
+  </HugsLib.UpdateFeatureDef>
+  <HugsLib.UpdateFeatureDef ParentName="MarkThatPawn_UpdateFeatureBase">
+    <defName>MarkThatPawn_1_4_1</defName>
+    <assemblyVersion>1.4.1</assemblyVersion>
+    <content>Since the response of the mod was so positive I decided to expand on it further.
 It is now possible to change the icon-set in the mod-options as well as have different icon-sets based on the pawn-type.
 The icon-sets are now based on xml and it should be pretty simple to add more.
 I added two new sets, one with simple numberings and also one with icons based on work-skills.
 The latter is based on icons from the Pawn Badge mod, following its included License.
 1.3 is now also supported but adding features to both versions is a bit of a pain so only the 1.4 version will see further additions.
 If you have any ideas for additional marker-icons, please leave a comment on the mod-page or on the linked Discord server!</content>
-	</HugsLib.UpdateFeatureDef>
+  </HugsLib.UpdateFeatureDef>
 </Defs>
-

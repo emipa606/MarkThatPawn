@@ -19,7 +19,8 @@ public static class MarkThatPawn
         Prisoner,
         Slave,
         Enemy,
-        Neutral
+        Neutral,
+        Vehicle
     }
 
     public static readonly Texture2D MarkerIcon;
@@ -27,13 +28,17 @@ public static class MarkThatPawn
     public static readonly List<Mesh> SizeMesh;
     private static readonly List<MarkerDef> markerDefs;
     private static readonly Dictionary<Pawn, MarkerDef> pawnMarkerCache;
+    private static readonly Dictionary<Pawn, Mesh> pawnMeshCache;
+    public static readonly bool VehiclesLoaded;
 
     static MarkThatPawn()
     {
-        new Harmony("Mlie.MarkThatPawn").PatchAll(Assembly.GetExecutingAssembly());
+        var harmony = new Harmony("Mlie.MarkThatPawn");
+        harmony.PatchAll(Assembly.GetExecutingAssembly());
 
         markerDefs = DefDatabase<MarkerDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
         pawnMarkerCache = new Dictionary<Pawn, MarkerDef>();
+        pawnMeshCache = new Dictionary<Pawn, Mesh>();
 
         MarkerIcon = ContentFinder<Texture2D>.Get("UI/Marker_Icon");
         CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
@@ -42,6 +47,17 @@ public static class MarkThatPawn
         {
             SizeMesh.Add(MeshMakerPlanes.NewPlaneMesh(i / 10f));
         }
+
+        VehiclesLoaded = ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework") != null;
+        if (!VehiclesLoaded)
+        {
+            return;
+        }
+
+        Log.Message("[MarkThatPawn]: Vehicle Framework detected, adding compatility patch");
+        var original = AccessTools.Method("Vehicles.VehicleRenderer:RenderPawnAt");
+        var postfix = typeof(VehicleRenderer_RenderPawnAt).GetMethod(nameof(VehicleRenderer_RenderPawnAt.Postfix));
+        harmony.Patch(original, postfix: new HarmonyMethod(postfix));
     }
 
     public static void RenderMarkingOverlay(Pawn pawn, int marker)
@@ -62,18 +78,38 @@ public static class MarkThatPawn
             return;
         }
 
+        var pawnHeight = pawn.def.size.z;
+        if (VehiclesLoaded && pawn.def.thingClass.Name.EndsWith("VehiclePawn"))
+        {
+            pawnHeight = 1 + (int)Math.Floor((pawn.def.size.z - 1) / 2f);
+        }
+
         var drawPos = pawn.DrawPos;
         drawPos.x += MarkThatPawnMod.instance.Settings.XOffset;
         drawPos.y = AltitudeLayer.MetaOverlays.AltitudeFor() + 0.28125f;
-        drawPos.z += pawn.def.size.z + (MarkThatPawnMod.instance.Settings.IconSize / 3);
+        drawPos.z += pawnHeight + (MarkThatPawnMod.instance.Settings.IconSize / 3);
         drawPos.z += MarkThatPawnMod.instance.Settings.ZOffset;
-        renderMarker(pawn, markerSet.MarkerMaterials[marker - 1], drawPos, getRightSizeMesh());
+        renderMarker(pawn, markerSet.MarkerMaterials[marker - 1], drawPos, getRightSizeMesh(pawn));
     }
 
-    private static Mesh getRightSizeMesh()
+    private static Mesh getRightSizeMesh(Pawn pawn)
     {
+        if (!pawn.IsHashIntervalTick(GenTicks.TickLongInterval) &&
+            pawnMeshCache.TryGetValue(pawn, out var meshForPawn))
+        {
+            return meshForPawn;
+        }
+
         var iconInt = (int)Math.Round(MarkThatPawnMod.instance.Settings.IconSize * 10);
-        return SizeMesh.Count < iconInt ? MeshPool.plane10 : SizeMesh[iconInt - 1];
+
+        if (MarkThatPawnMod.instance.Settings.RelativeIconSize)
+        {
+            var relativeSize = ((pawn.def.size.z - 1) / 2) + 1;
+            iconInt = Math.Min((int)Math.Round(relativeSize * (float)iconInt / 2), SizeMesh.Count);
+        }
+
+        pawnMeshCache[pawn] = SizeMesh.Count < iconInt ? MeshPool.plane10 : SizeMesh[iconInt - 1];
+        return pawnMeshCache[pawn];
     }
 
     private static void renderMarker(Pawn pawn, Material material, Vector3 drawPos, Mesh mesh)
@@ -95,67 +131,58 @@ public static class MarkThatPawn
 
     public static MarkerDef GetMarkerDefForPawn(Pawn pawn)
     {
-        if (!pawn.IsHashIntervalTick(GenTicks.TickRareInterval) &&
+        if (!pawn.IsHashIntervalTick(GenTicks.TickLongInterval) &&
             pawnMarkerCache.TryGetValue(pawn, out var markerDefForPawn))
         {
             return markerDefForPawn;
         }
 
-        var markerSet = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
-
-        if (pawn.IsColonist || pawn.IsColonyMech)
+        if (VehiclesLoaded && MarkThatPawnMod.instance.Settings.VehiclesDiffer &&
+            pawn.def.thingClass.Name.EndsWith("VehiclePawn"))
         {
-            if (MarkThatPawnMod.instance.Settings.ColonistDiffer)
-            {
-                markerSet = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
-            }
-
-            pawnMarkerCache[pawn] = markerSet;
-            return markerSet;
+            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.VehiclesMarkerSet;
+            return pawnMarkerCache[pawn];
         }
 
-        if (pawn.IsPrisonerOfColony)
+        if (MarkThatPawnMod.instance.Settings.ColonistDiffer && (pawn.IsColonist || pawn.IsColonyMech))
         {
-            if (MarkThatPawnMod.instance.Settings.PrisonerDiffer)
-            {
-                markerSet = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
-            }
-
-            pawnMarkerCache[pawn] = markerSet;
-            return markerSet;
+            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
+            return pawnMarkerCache[pawn];
         }
 
-        if (pawn.IsSlaveOfColony)
+        if (MarkThatPawnMod.instance.Settings.PrisonerDiffer && pawn.IsPrisonerOfColony)
         {
-            if (MarkThatPawnMod.instance.Settings.SlaveDiffer)
-            {
-                markerSet = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
-            }
-
-            pawnMarkerCache[pawn] = markerSet;
-            return markerSet;
+            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
+            return pawnMarkerCache[pawn];
         }
 
-        if (pawn.HostileTo(Faction.OfPlayer))
+        if (MarkThatPawnMod.instance.Settings.SlaveDiffer && pawn.IsSlaveOfColony)
         {
-            if (MarkThatPawnMod.instance.Settings.EnemyDiffer)
-            {
-                markerSet = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
-            }
+            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
+            return pawnMarkerCache[pawn];
+        }
 
-            pawnMarkerCache[pawn] = markerSet;
-            return markerSet;
+        if (MarkThatPawnMod.instance.Settings.EnemyDiffer && pawn.HostileTo(Faction.OfPlayer))
+        {
+            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
+            return pawnMarkerCache[pawn];
         }
 
         if (MarkThatPawnMod.instance.Settings.NeutralDiffer)
         {
-            markerSet = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
+            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
+            return pawnMarkerCache[pawn];
         }
 
-        pawnMarkerCache[pawn] = markerSet;
-        return markerSet;
+        pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
+        return pawnMarkerCache[pawn];
     }
 
+    public static void ResetCache()
+    {
+        pawnMeshCache.Clear();
+        pawnMarkerCache.Clear();
+    }
 
     public static List<FloatMenuOption> GetMarkingOptions(int currentMarking, MarkingTracker tracker,
         MarkerDef markerSet, Pawn pawn)
@@ -212,6 +239,9 @@ public static class MarkThatPawn
                     break;
                 case PawnMarkingType.Neutral:
                     action = () => { MarkThatPawnMod.instance.Settings.NeutralMarkerSet = markingSet; };
+                    break;
+                case PawnMarkingType.Vehicle:
+                    action = () => { MarkThatPawnMod.instance.Settings.VehiclesMarkerSet = markingSet; };
                     break;
             }
 

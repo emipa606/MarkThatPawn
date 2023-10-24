@@ -52,7 +52,7 @@ internal class MarkThatPawnMod : Mod
     {
         var containingRect = rect.ContractedBy(100, 0).CenteredOnXIn(rect);
         var viewingRect = containingRect.ContractedBy(10f);
-        viewingRect.height *= 1.2f;
+        viewingRect.height *= 1.45f;
         Widgets.BeginScrollView(containingRect, ref optionsScrollPosition, viewingRect);
         var listing_Standard = new Listing_Standard();
 
@@ -61,6 +61,8 @@ internal class MarkThatPawnMod : Mod
         listing_Standard.Gap();
         listing_Standard.CheckboxLabeled("MTP.PulsatingIcons".Translate(), ref Settings.PulsatingIcons,
             "MTP.PulsatingIconsTT".Translate());
+        listing_Standard.CheckboxLabeled("MTP.RelativeIconSize".Translate(), ref Settings.RelativeIconSize,
+            "MTP.RelativeIconSizeTT".Translate());
         Settings.IconSize =
             (float)Math.Round(listing_Standard.SliderLabeled(
                 "MTP.IconSize".Translate(Settings.IconSize.ToStringPercent()),
@@ -151,6 +153,22 @@ internal class MarkThatPawnMod : Mod
             }
         }
 
+        if (MarkThatPawn.VehiclesLoaded)
+        {
+            listing_Standard.GapLine();
+            selectorRect = listing_Standard.GetRect(64f);
+            Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
+                "MTP.VehiclesDiffer".Translate(Settings.VehiclesMarkerSet.LabelCap), ref Settings.VehiclesDiffer);
+            if (Settings.VehiclesDiffer)
+            {
+                if (MarkerSelector(selectorRect.RightHalf(), Settings.VehiclesMarkerSet))
+                {
+                    Find.WindowStack.Add(
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Vehicle)));
+                }
+            }
+        }
+
         if (listing_Standard.ButtonText("MTP.Reset".Translate()))
         {
             Settings.Reset();
@@ -166,6 +184,7 @@ internal class MarkThatPawnMod : Mod
 
         listing_Standard.End();
         Widgets.EndScrollView();
+        MarkThatPawn.ResetCache();
     }
 
     public static bool MarkerSelector(Rect rowRect, MarkerDef marker)
@@ -177,7 +196,7 @@ internal class MarkThatPawnMod : Mod
         imageRect.x = imageRect.xMax - imageRect.height;
         imageRect.width = imageRect.height;
         GUI.DrawTexture(imageRect, marker.Icon);
-
+        TooltipHandler.TipRegion(buttonRect, marker.description);
         return Widgets.ButtonText(buttonRect, marker.LabelCap);
     }
 }

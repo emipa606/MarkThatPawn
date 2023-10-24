@@ -23,4 +23,8 @@
   <MTP.Reset>重置所有数值</MTP.Reset>
   <MTP.ZOffset>垂直偏移：{0}</MTP.ZOffset>
   <MTP.XOffset>水平偏移：{0}</MTP.XOffset>
+  <MTP.VehiclesMarkerSet>车辆标记集：{0}</MTP.VehiclesMarkerSet>
+  <MTP.VehiclesDiffer>不同的车辆套件</MTP.VehiclesDiffer>
+  <MTP.RelativeIconSize>基于棋子大小的相对图标大小</MTP.RelativeIconSize>
+  <MTP.RelativeIconSizeTT>根据棋子的总大小（宽和高）改变图标的相对大小</MTP.RelativeIconSizeTT>
 </LanguageData>

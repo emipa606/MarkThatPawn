@@ -23,4 +23,8 @@
   <MTP.Reset>Réinitialiser toutes les valeurs</MTP.Reset>
   <MTP.ZOffset>Décalage vertical : {0}</MTP.ZOffset>
   <MTP.XOffset>Décalage horizontal : {0}</MTP.XOffset>
+  <MTP.VehiclesMarkerSet>Jeu de marqueurs de véhicules : {0}</MTP.VehiclesMarkerSet>
+  <MTP.VehiclesDiffer>Jeu différent pour les véhicules</MTP.VehiclesDiffer>
+  <MTP.RelativeIconSize>Taille relative de l'icône en fonction de la taille du pion</MTP.RelativeIconSize>
+  <MTP.RelativeIconSizeTT>Modifie la taille relative des icônes en fonction de la taille totale des pions (largeur et hauteur).</MTP.RelativeIconSizeTT>
 </LanguageData>

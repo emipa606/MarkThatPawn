@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RimWorld;
 using Verse;
 
 namespace MarkThatPawn;
@@ -6,7 +7,6 @@ namespace MarkThatPawn;
 public class MarkingTracker : MapComponent
 {
     public static MarkingTracker Instance;
-
     public Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
     private List<Pawn> markedPawnsKeys = new List<Pawn>();
     private List<int> markedPawnsValues = new List<int>();
@@ -86,13 +86,12 @@ public class MarkingTracker : MapComponent
     public override void MapComponentTick()
     {
         base.MapComponentTick();
-        if (Find.TickManager.TicksGame % 250 != 0 || MarkedPawns.NullOrEmpty())
+        if (Find.TickManager.TicksGame % GenDate.TicksPerDay != 0 || MarkedPawns.NullOrEmpty())
         {
             return;
         }
 
-        MarkedPawns.RemoveAll(pair =>
-            pair.Key == null || pair.Key.Destroyed);
+        MarkedPawns.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
     }
 
     public override void ExposeData()

@@ -21,4 +21,25 @@
     <graphicPrefix>UI/Overlays/Skill/Skill</graphicPrefix>
     <iconPath>UI/Overlays/Skill/Skill_Icon</iconPath>
   </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>Militar</defName>
+    <label>Militar</label>
+    <description>Marker based on the united states military</description>
+    <graphicPrefix>UI/Overlays/Militar/Militar</graphicPrefix>
+    <iconPath>UI/Overlays/Militar/Militar_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>GDI</defName>
+    <label>GDI</label>
+    <description>Marker based on the GDI-faction from the game Command and Conquer</description>
+    <graphicPrefix>UI/Overlays/GDI/GDI</graphicPrefix>
+    <iconPath>UI/Overlays/GDI/GDI_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>Nod</defName>
+    <label>Nod</label>
+    <description>Marker based on the Nod-faction from the game Command and Conquer</description>
+    <graphicPrefix>UI/Overlays/Nod/Nod</graphicPrefix>
+    <iconPath>UI/Overlays/Nod/Nod_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
 </Defs>

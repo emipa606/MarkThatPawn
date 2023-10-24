@@ -23,12 +23,14 @@ internal class MarkThatPawnSettings : ModSettings
     private string prisonerMarkerSet = "WowStyle";
     private MarkerDef prisonerMarkerSetDef;
     public bool PulsatingIcons;
+    public bool RelativeIconSize;
     public bool SlaveDiffer;
     private string slaveMarkerSet = "WowStyle";
     private MarkerDef slaveMarkerSetDef;
-
+    public bool VehiclesDiffer;
+    private string vehiclesMarkerSet = "WowStyle";
+    private MarkerDef vehiclesMarkerSetDef;
     public float XOffset;
-
     public float ZOffset;
 
     public MarkerDef DefaultMarkerSet
@@ -91,6 +93,16 @@ internal class MarkThatPawnSettings : ModSettings
         }
     }
 
+    public MarkerDef VehiclesMarkerSet
+    {
+        get => genericSetGetter(ref vehiclesMarkerSetDef, ref vehiclesMarkerSet);
+        set
+        {
+            vehiclesMarkerSetDef = value;
+            vehiclesMarkerSet = value.defName;
+        }
+    }
+
 
     private MarkerDef genericSetGetter(ref MarkerDef privateMarkerSetDef, ref string privateMarkerSet)
     {
@@ -123,12 +135,15 @@ internal class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref slaveMarkerSet, "slaveMarkerSet", "WowStyle");
         Scribe_Values.Look(ref enemyMarkerSet, "enemyMarkerSet", "WowStyle");
         Scribe_Values.Look(ref neutralMarkerSet, "neutralMarkerSet", "WowStyle");
+        Scribe_Values.Look(ref vehiclesMarkerSet, "vehiclesMarkerSet", "WowStyle");
         Scribe_Values.Look(ref PulsatingIcons, "PulsatingIcons");
         Scribe_Values.Look(ref ColonistDiffer, "ColonistDiffer");
         Scribe_Values.Look(ref PrisonerDiffer, "PrisonerDiffer");
+        Scribe_Values.Look(ref RelativeIconSize, "RelativeIconSize");
         Scribe_Values.Look(ref SlaveDiffer, "SlaveDiffer");
         Scribe_Values.Look(ref EnemyDiffer, "EnemyDiffer");
         Scribe_Values.Look(ref NeutralDiffer, "NeutralDiffer");
+        Scribe_Values.Look(ref VehiclesDiffer, "VehiclesDiffer");
         Scribe_Values.Look(ref IconSize, "IconSize", 0.7f);
         Scribe_Values.Look(ref XOffset, "XOffset");
         Scribe_Values.Look(ref ZOffset, "ZOffset");
@@ -142,12 +157,15 @@ internal class MarkThatPawnSettings : ModSettings
         SlaveMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
         EnemyMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
         NeutralMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
+        VehiclesMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
+        RelativeIconSize = false;
         PulsatingIcons = false;
         ColonistDiffer = false;
         PrisonerDiffer = false;
         SlaveDiffer = false;
         EnemyDiffer = false;
         NeutralDiffer = false;
+        VehiclesDiffer = false;
         IconSize = 0.7f;
         XOffset = 0f;
         ZOffset = 0f;

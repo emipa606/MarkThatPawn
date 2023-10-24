@@ -25,10 +25,15 @@ You get a large raid and looking through the pawns you find one that would be ex
 
 With this mod you can mark any pawn with a selection of icons to make them easier to keep track of.
 
-There are mod options for the size of the icon as well as a possibility to make them pulse like the question mark over traders in a caravan.
+Mod-options:
+[list]
+[*]Change the size and position of the icon
+[*]Change the icon-set used 
+[*]Have different icon-sets based on the pawn type
+[*]Have the icons pulse like the question mark over traders in a caravan
+[/list]
 
-Should you want to have you own icon-set you can do so the same way as normal re-texture mods.
-You can even add more textures as the mod iterates over Marker_ image-files at game start.
+It is very simple to add more Icon-sets as only a small xml-definition is needed to make it be selectable in the mod options. If you have suggestions for new icon-sets, please leave a comment here or on the Discord server and Ill see if I can add it to the mod!
 
 Mod-idea: Cedric
 

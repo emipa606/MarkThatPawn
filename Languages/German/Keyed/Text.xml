@@ -23,4 +23,8 @@
   <MTP.Reset>Alle Werte zurücksetzen</MTP.Reset>
   <MTP.ZOffset>Vertikaler Versatz: {0}</MTP.ZOffset>
   <MTP.XOffset>Horizontaler Versatz: {0}</MTP.XOffset>
+  <MTP.VehiclesMarkerSet>Fahrzeug-Marker-Satz: {0}</MTP.VehiclesMarkerSet>
+  <MTP.VehiclesDiffer>Verschiedene Sets für Fahrzeuge</MTP.VehiclesDiffer>
+  <MTP.RelativeIconSize>Relative Icon-Größe basierend auf der Größe der Spielfiguren</MTP.RelativeIconSize>
+  <MTP.RelativeIconSizeTT>Ändert die relative Größe der Symbole basierend auf der Gesamtgröße der Spielfiguren (Breite und Höhe)</MTP.RelativeIconSizeTT>
 </LanguageData>

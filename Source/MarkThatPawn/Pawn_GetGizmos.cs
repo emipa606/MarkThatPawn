@@ -1,13 +1,25 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using Verse;
 
 namespace MarkThatPawn;
 
-[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetGizmos))]
+[HarmonyPatch]
 public static class Pawn_GetGizmos
 {
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        yield return AccessTools.Method(typeof(Pawn), nameof(Pawn.GetGizmos));
+
+        if (ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework") != null)
+        {
+            yield return AccessTools.Method("Vehicles.VehiclePawn:GetGizmos");
+        }
+    }
+
+
     public static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> values, Pawn __instance)
     {
         if (values?.Any() == true)

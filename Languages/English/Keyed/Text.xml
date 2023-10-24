@@ -12,8 +12,12 @@
   <MTP.EnemyDiffer>Different set for enemies</MTP.EnemyDiffer>
   <MTP.NeutralMarkerSet>Neutral marker-set: {0}</MTP.NeutralMarkerSet>
   <MTP.NeutralDiffer>Different set for non-enemies</MTP.NeutralDiffer>
+  <MTP.VehiclesMarkerSet>Vehicle marker-set: {0}</MTP.VehiclesMarkerSet>
+  <MTP.VehiclesDiffer>Different set for vehicles</MTP.VehiclesDiffer>
   <MTP.SelectMarker>Select marker</MTP.SelectMarker>
   <MTP.SelectMarkerTT>Add a marker to this pawn</MTP.SelectMarkerTT>
+  <MTP.RelativeIconSize>Relative icon-size based on pawn-size</MTP.RelativeIconSize>
+  <MTP.RelativeIconSizeTT>Changes the relative size of the icons based on the pawns total size (width and height)</MTP.RelativeIconSizeTT>
   <MTP.None>No marker</MTP.None>
   <MTP.Reset>Reset all values</MTP.Reset>
   <MTP.ZOffset>Vertical offset: {0}</MTP.ZOffset>
