@@ -30,7 +30,7 @@ public static class Pawn_GetGizmos
             }
         }
 
-        if (__instance is not { Spawned: true } || __instance.Map == null)
+        if (!MarkThatPawn.ValidPawn(__instance))
         {
             yield break;
         }

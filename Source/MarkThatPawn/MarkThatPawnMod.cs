@@ -52,7 +52,7 @@ internal class MarkThatPawnMod : Mod
     {
         var containingRect = rect.ContractedBy(100, 0).CenteredOnXIn(rect);
         var viewingRect = containingRect.ContractedBy(10f);
-        viewingRect.height *= 1.45f;
+        viewingRect.height *= 1.55f;
         Widgets.BeginScrollView(containingRect, ref optionsScrollPosition, viewingRect);
         var listing_Standard = new Listing_Standard();
 
@@ -63,6 +63,8 @@ internal class MarkThatPawnMod : Mod
             "MTP.PulsatingIconsTT".Translate());
         listing_Standard.CheckboxLabeled("MTP.RelativeIconSize".Translate(), ref Settings.RelativeIconSize,
             "MTP.RelativeIconSizeTT".Translate());
+        listing_Standard.CheckboxLabeled("MTP.RelativeToZoom".Translate(), ref Settings.RelativeToZoom,
+            "MTP.RelativeToZoomTT".Translate());
         Settings.IconSize =
             (float)Math.Round(listing_Standard.SliderLabeled(
                 "MTP.IconSize".Translate(Settings.IconSize.ToStringPercent()),
@@ -78,7 +80,8 @@ internal class MarkThatPawnMod : Mod
 
         listing_Standard.GapLine();
         var selectorRect = listing_Standard.GetRect(64f);
-        Widgets.Label(selectorRect.LeftHalf(), "MTP.DefaultMarkerSet".Translate(Settings.DefaultMarkerSet.LabelCap));
+        Widgets.Label(selectorRect.LeftHalf(),
+            "MTP.DefaultMarkerSet".Translate(Settings.DefaultMarkerSet.LabelCap));
         if (MarkerSelector(selectorRect.RightHalf(), Settings.DefaultMarkerSet))
         {
             Find.WindowStack.Add(
@@ -86,85 +89,109 @@ internal class MarkThatPawnMod : Mod
         }
 
         listing_Standard.GapLine();
-        selectorRect = listing_Standard.GetRect(64f);
-        Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
-            "MTP.ColonistDiffer".Translate(Settings.ColonistMarkerSet.LabelCap), ref Settings.ColonistDiffer);
-        if (Settings.ColonistDiffer)
+        listing_Standard.CheckboxLabeled("MTP.ShowForColonist".Translate(), ref Settings.ShowForColonist);
+        if (Settings.ShowForColonist)
         {
-            if (MarkerSelector(selectorRect.RightHalf(), Settings.ColonistMarkerSet))
+            selectorRect = listing_Standard.GetRect(64f);
+            Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
+                "MTP.ColonistDiffer".Translate(Settings.ColonistMarkerSet.LabelCap), ref Settings.ColonistDiffer);
+            if (Settings.ColonistDiffer)
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Colonist)));
+                if (MarkerSelector(selectorRect.RightHalf(), Settings.ColonistMarkerSet))
+                {
+                    Find.WindowStack.Add(
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Colonist)));
+                }
             }
         }
 
         listing_Standard.GapLine();
-        selectorRect = listing_Standard.GetRect(64f);
-        Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
-            "MTP.PrisonerDiffer".Translate(Settings.PrisonerMarkerSet.LabelCap), ref Settings.PrisonerDiffer);
-        if (Settings.PrisonerDiffer)
+        listing_Standard.CheckboxLabeled("MTP.ShowForPrisoner".Translate(), ref Settings.ShowForPrisoner);
+        if (Settings.ShowForPrisoner)
         {
-            if (MarkerSelector(selectorRect.RightHalf(), Settings.PrisonerMarkerSet))
+            selectorRect = listing_Standard.GetRect(64f);
+            Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
+                "MTP.PrisonerDiffer".Translate(Settings.PrisonerMarkerSet.LabelCap), ref Settings.PrisonerDiffer);
+            if (Settings.PrisonerDiffer)
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Prisoner)));
+                if (MarkerSelector(selectorRect.RightHalf(), Settings.PrisonerMarkerSet))
+                {
+                    Find.WindowStack.Add(
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Prisoner)));
+                }
             }
         }
 
         if (ModLister.RoyaltyInstalled)
         {
             listing_Standard.GapLine();
-            selectorRect = listing_Standard.GetRect(64f);
-            Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
-                "MTP.SlaveDiffer".Translate(Settings.SlaveMarkerSet.LabelCap), ref Settings.SlaveDiffer);
-            if (Settings.SlaveDiffer)
+            listing_Standard.CheckboxLabeled("MTP.ShowForSlave".Translate(), ref Settings.ShowForSlave);
+            if (Settings.ShowForSlave)
             {
-                if (MarkerSelector(selectorRect.RightHalf(), Settings.SlaveMarkerSet))
+                selectorRect = listing_Standard.GetRect(64f);
+                Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
+                    "MTP.SlaveDiffer".Translate(Settings.SlaveMarkerSet.LabelCap), ref Settings.SlaveDiffer);
+                if (Settings.SlaveDiffer)
                 {
-                    Find.WindowStack.Add(
-                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Slave)));
+                    if (MarkerSelector(selectorRect.RightHalf(), Settings.SlaveMarkerSet))
+                    {
+                        Find.WindowStack.Add(
+                            new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Slave)));
+                    }
                 }
             }
         }
 
         listing_Standard.GapLine();
-        selectorRect = listing_Standard.GetRect(64f);
-        Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
-            "MTP.EnemyDiffer".Translate(Settings.EnemyMarkerSet.LabelCap), ref Settings.EnemyDiffer);
-        if (Settings.EnemyDiffer)
+        listing_Standard.CheckboxLabeled("MTP.ShowForEnemy".Translate(), ref Settings.ShowForEnemy);
+        if (Settings.ShowForEnemy)
         {
-            if (MarkerSelector(selectorRect.RightHalf(), Settings.EnemyMarkerSet))
+            selectorRect = listing_Standard.GetRect(64f);
+            Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
+                "MTP.EnemyDiffer".Translate(Settings.EnemyMarkerSet.LabelCap), ref Settings.EnemyDiffer);
+            if (Settings.EnemyDiffer)
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Enemy)));
+                if (MarkerSelector(selectorRect.RightHalf(), Settings.EnemyMarkerSet))
+                {
+                    Find.WindowStack.Add(
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Enemy)));
+                }
             }
         }
 
         listing_Standard.GapLine();
-        selectorRect = listing_Standard.GetRect(64f);
-        Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
-            "MTP.NeutralDiffer".Translate(Settings.NeutralMarkerSet.LabelCap), ref Settings.NeutralDiffer);
-        if (Settings.NeutralDiffer)
+        listing_Standard.CheckboxLabeled("MTP.ShowForNeutral".Translate(), ref Settings.ShowForNeutral);
+        if (Settings.ShowForNeutral)
         {
-            if (MarkerSelector(selectorRect.RightHalf(), Settings.NeutralMarkerSet))
+            selectorRect = listing_Standard.GetRect(64f);
+            Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
+                "MTP.NeutralDiffer".Translate(Settings.NeutralMarkerSet.LabelCap), ref Settings.NeutralDiffer);
+            if (Settings.NeutralDiffer)
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Neutral)));
+                if (MarkerSelector(selectorRect.RightHalf(), Settings.NeutralMarkerSet))
+                {
+                    Find.WindowStack.Add(
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Neutral)));
+                }
             }
         }
 
         if (MarkThatPawn.VehiclesLoaded)
         {
             listing_Standard.GapLine();
-            selectorRect = listing_Standard.GetRect(64f);
-            Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
-                "MTP.VehiclesDiffer".Translate(Settings.VehiclesMarkerSet.LabelCap), ref Settings.VehiclesDiffer);
-            if (Settings.VehiclesDiffer)
+            listing_Standard.CheckboxLabeled("MTP.ShowForVehicles".Translate(), ref Settings.ShowForVehicles);
+            if (Settings.ShowForVehicles)
             {
-                if (MarkerSelector(selectorRect.RightHalf(), Settings.VehiclesMarkerSet))
+                selectorRect = listing_Standard.GetRect(64f);
+                Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
+                    "MTP.VehiclesDiffer".Translate(Settings.VehiclesMarkerSet.LabelCap), ref Settings.VehiclesDiffer);
+                if (Settings.VehiclesDiffer)
                 {
-                    Find.WindowStack.Add(
-                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Vehicle)));
+                    if (MarkerSelector(selectorRect.RightHalf(), Settings.VehiclesMarkerSet))
+                    {
+                        Find.WindowStack.Add(
+                            new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Vehicle)));
+                    }
                 }
             }
         }

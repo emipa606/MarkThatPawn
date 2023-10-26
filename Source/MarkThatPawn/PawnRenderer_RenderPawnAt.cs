@@ -8,7 +8,12 @@ public static class PawnRenderer_RenderPawnAt
 {
     public static void Postfix(Pawn ___pawn)
     {
-        var tracker = ___pawn?.Map?.GetComponent<MarkingTracker>();
+        if (!MarkThatPawn.ValidPawn(___pawn))
+        {
+            return;
+        }
+
+        var tracker = ___pawn.Map.GetComponent<MarkingTracker>();
 
         if (tracker == null)
         {

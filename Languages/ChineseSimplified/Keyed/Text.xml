@@ -27,4 +27,12 @@
   <MTP.VehiclesDiffer>不同的车辆套件</MTP.VehiclesDiffer>
   <MTP.RelativeIconSize>基于棋子大小的相对图标大小</MTP.RelativeIconSize>
   <MTP.RelativeIconSizeTT>根据棋子的总大小（宽和高）改变图标的相对大小</MTP.RelativeIconSizeTT>
+  <MTP.ShowForColonist>在殖民者身上显示小工具</MTP.ShowForColonist>
+  <MTP.ShowForPrisoner>在囚犯身上显示小工具</MTP.ShowForPrisoner>
+  <MTP.ShowForSlave>在奴隶身上显示小工具</MTP.ShowForSlave>
+  <MTP.ShowForEnemy>在敌人身上显示小工具</MTP.ShowForEnemy>
+  <MTP.ShowForNeutral>在中性色上显示小工具</MTP.ShowForNeutral>
+  <MTP.ShowForVehicles>在车辆上显示小工具</MTP.ShowForVehicles>
+  <MTP.RelativeToZoom>放大时增大图标尺寸</MTP.RelativeToZoom>
+  <MTP.RelativeToZoomTT>放大图标时将增大图标尺寸，使其更清晰可见</MTP.RelativeToZoomTT>
 </LanguageData>

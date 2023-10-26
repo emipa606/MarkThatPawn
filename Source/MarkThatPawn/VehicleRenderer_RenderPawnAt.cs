@@ -6,7 +6,12 @@ public static class VehicleRenderer_RenderPawnAt
 {
     public static void Postfix(Pawn ___vehicle)
     {
-        var tracker = ___vehicle?.Map?.GetComponent<MarkingTracker>();
+        if (!MarkThatPawn.ValidPawn(___vehicle))
+        {
+            return;
+        }
+
+        var tracker = ___vehicle.Map.GetComponent<MarkingTracker>();
 
         if (tracker == null)
         {

@@ -6,7 +6,6 @@ namespace MarkThatPawn;
 
 public class MarkingTracker : MapComponent
 {
-    public static MarkingTracker Instance;
     public Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
     private List<Pawn> markedPawnsKeys = new List<Pawn>();
     private List<int> markedPawnsValues = new List<int>();
@@ -14,13 +13,6 @@ public class MarkingTracker : MapComponent
 
     public MarkingTracker(Map map) : base(map)
     {
-        Instance = this;
-    }
-
-    public override void FinalizeInit()
-    {
-        base.FinalizeInit();
-        Instance = this;
     }
 
     public int GetPawnMarking(Pawn pawn)
@@ -99,6 +91,5 @@ public class MarkingTracker : MapComponent
         base.ExposeData();
         Scribe_Collections.Look(ref MarkedPawns, "MarkedPawns", LookMode.Reference, LookMode.Value, ref markedPawnsKeys,
             ref markedPawnsValues);
-        Instance = this;
     }
 }

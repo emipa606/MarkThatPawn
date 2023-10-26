@@ -29,9 +29,12 @@ Mod-options:
 [list]
 [*]Change the size and position of the icon
 [*]Change the icon-set used 
+[*]Relative icon-size based on pawn-size
 [*]Have different icon-sets based on the pawn type
 [*]Have the icons pulse like the question mark over traders in a caravan
 [/list]
+
+There is also support for vehicles using [url=https://steamcommunity.com/workshop/filedetails/?id=3014915404]Vehicle Framework[/url].
 
 It is very simple to add more Icon-sets as only a small xml-definition is needed to make it be selectable in the mod options. If you have suggestions for new icon-sets, please leave a comment here or on the Discord server and Ill see if I can add it to the mod!
 

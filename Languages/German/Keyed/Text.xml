@@ -27,4 +27,12 @@
   <MTP.VehiclesDiffer>Verschiedene Sets für Fahrzeuge</MTP.VehiclesDiffer>
   <MTP.RelativeIconSize>Relative Icon-Größe basierend auf der Größe der Spielfiguren</MTP.RelativeIconSize>
   <MTP.RelativeIconSizeTT>Ändert die relative Größe der Symbole basierend auf der Gesamtgröße der Spielfiguren (Breite und Höhe)</MTP.RelativeIconSizeTT>
+  <MTP.ShowForColonist>Gizmo auf Kolonisten anzeigen</MTP.ShowForColonist>
+  <MTP.ShowForPrisoner>Gizmo bei Gefangenen anzeigen</MTP.ShowForPrisoner>
+  <MTP.ShowForSlave>Gizmo auf Sklaven anzeigen</MTP.ShowForSlave>
+  <MTP.ShowForEnemy>Gizmo bei Feinden anzeigen</MTP.ShowForEnemy>
+  <MTP.ShowForNeutral>Gizmo auf Neutralen anzeigen</MTP.ShowForNeutral>
+  <MTP.ShowForVehicles>Gizmo auf Fahrzeugen anzeigen</MTP.ShowForVehicles>
+  <MTP.RelativeToZoom>Icon-Größe beim Herauszoomen erhöhen</MTP.RelativeToZoom>
+  <MTP.RelativeToZoomTT>Erhöht die Größe der Symbole beim Verkleinern, um sie besser sichtbar zu machen</MTP.RelativeToZoomTT>
 </LanguageData>

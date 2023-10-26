@@ -30,6 +30,7 @@ public static class MarkThatPawn
     private static readonly Dictionary<Pawn, MarkerDef> pawnMarkerCache;
     private static readonly Dictionary<Pawn, Mesh> pawnMeshCache;
     public static readonly bool VehiclesLoaded;
+    private static CameraZoomRange lastCameraZoomRange = CameraZoomRange.Far;
 
     static MarkThatPawn()
     {
@@ -94,7 +95,9 @@ public static class MarkThatPawn
 
     private static Mesh getRightSizeMesh(Pawn pawn)
     {
-        if (!pawn.IsHashIntervalTick(GenTicks.TickLongInterval) &&
+        if ((!MarkThatPawnMod.instance.Settings.RelativeToZoom ||
+             lastCameraZoomRange == Find.CameraDriver.CurrentZoom) &&
+            !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) &&
             pawnMeshCache.TryGetValue(pawn, out var meshForPawn))
         {
             return meshForPawn;
@@ -106,6 +109,12 @@ public static class MarkThatPawn
         {
             var relativeSize = ((pawn.def.size.z - 1) / 2) + 1;
             iconInt = Math.Min((int)Math.Round(relativeSize * (float)iconInt / 2), SizeMesh.Count);
+        }
+
+        if (MarkThatPawnMod.instance.Settings.RelativeToZoom)
+        {
+            lastCameraZoomRange = Find.CameraDriver.CurrentZoom;
+            iconInt = Math.Min(iconInt + ((int)Find.CameraDriver.CurrentZoom * 2), SizeMesh.Count);
         }
 
         pawnMeshCache[pawn] = SizeMesh.Count < iconInt ? MeshPool.plane10 : SizeMesh[iconInt - 1];
@@ -182,6 +191,51 @@ public static class MarkThatPawn
     {
         pawnMeshCache.Clear();
         pawnMarkerCache.Clear();
+    }
+
+    public static bool ValidPawn(Pawn pawn)
+    {
+        if (pawn == null)
+        {
+            return false;
+        }
+
+        if (!pawn.Spawned)
+        {
+            return false;
+        }
+
+        if (pawn.Map == null)
+        {
+            return false;
+        }
+
+        if (!MarkThatPawnMod.instance.Settings.ShowForColonist && pawn.IsColonist)
+        {
+            return false;
+        }
+
+        if (!MarkThatPawnMod.instance.Settings.ShowForPrisoner && pawn.IsPrisoner)
+        {
+            return false;
+        }
+
+        if (!MarkThatPawnMod.instance.Settings.ShowForSlave && pawn.IsSlave)
+        {
+            return false;
+        }
+
+        if (!MarkThatPawnMod.instance.Settings.ShowForEnemy && pawn.HostileTo(Faction.OfPlayer))
+        {
+            return false;
+        }
+
+        if (!MarkThatPawnMod.instance.Settings.ShowForNeutral && !pawn.HostileTo(Faction.OfPlayer))
+        {
+            return false;
+        }
+
+        return MarkThatPawnMod.instance.Settings.ShowForVehicles || !pawn.def.thingClass.Name.EndsWith("VehiclePawn");
     }
 
     public static List<FloatMenuOption> GetMarkingOptions(int currentMarking, MarkingTracker tracker,

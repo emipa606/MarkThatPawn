@@ -27,4 +27,12 @@
   <MTP.VehiclesDiffer>Jeu différent pour les véhicules</MTP.VehiclesDiffer>
   <MTP.RelativeIconSize>Taille relative de l'icône en fonction de la taille du pion</MTP.RelativeIconSize>
   <MTP.RelativeIconSizeTT>Modifie la taille relative des icônes en fonction de la taille totale des pions (largeur et hauteur).</MTP.RelativeIconSizeTT>
+  <MTP.ShowForColonist>Afficher le gizmo sur les colons</MTP.ShowForColonist>
+  <MTP.ShowForPrisoner>Afficher le gizmo sur les prisonniers</MTP.ShowForPrisoner>
+  <MTP.ShowForSlave>Afficher le gizmo sur les esclaves</MTP.ShowForSlave>
+  <MTP.ShowForEnemy>Afficher le gadget sur les ennemis</MTP.ShowForEnemy>
+  <MTP.ShowForNeutral>Afficher le gadget sur les neutres</MTP.ShowForNeutral>
+  <MTP.ShowForVehicles>Afficher le gadget sur les véhicules</MTP.ShowForVehicles>
+  <MTP.RelativeToZoom>Augmenter la taille des icônes en cas de zoom arrière</MTP.RelativeToZoom>
+  <MTP.RelativeToZoomTT>Augmente la taille des icônes lors d'un zoom arrière pour les rendre plus visibles.</MTP.RelativeToZoomTT>
 </LanguageData>

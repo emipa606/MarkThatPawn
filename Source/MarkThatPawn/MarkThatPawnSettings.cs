@@ -24,6 +24,17 @@ internal class MarkThatPawnSettings : ModSettings
     private MarkerDef prisonerMarkerSetDef;
     public bool PulsatingIcons;
     public bool RelativeIconSize;
+    public bool RelativeToZoom = true;
+    public bool ShowForColonist = true;
+
+    public bool ShowForEnemy = true;
+
+    public bool ShowForNeutral = true;
+    public bool ShowForPrisoner = true;
+
+    public bool ShowForSlave = true;
+
+    public bool ShowForVehicles = true;
     public bool SlaveDiffer;
     private string slaveMarkerSet = "WowStyle";
     private MarkerDef slaveMarkerSetDef;
@@ -137,6 +148,13 @@ internal class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref neutralMarkerSet, "neutralMarkerSet", "WowStyle");
         Scribe_Values.Look(ref vehiclesMarkerSet, "vehiclesMarkerSet", "WowStyle");
         Scribe_Values.Look(ref PulsatingIcons, "PulsatingIcons");
+        Scribe_Values.Look(ref RelativeToZoom, "RelativeToZoom", true);
+        Scribe_Values.Look(ref ShowForColonist, "ShowForColonist", true);
+        Scribe_Values.Look(ref ShowForPrisoner, "ShowForPrisoner", true);
+        Scribe_Values.Look(ref ShowForSlave, "ShowForSlave", true);
+        Scribe_Values.Look(ref ShowForEnemy, "ShowForEnemy", true);
+        Scribe_Values.Look(ref ShowForNeutral, "ShowForNeutral", true);
+        Scribe_Values.Look(ref ShowForVehicles, "ShowForVehicles", true);
         Scribe_Values.Look(ref ColonistDiffer, "ColonistDiffer");
         Scribe_Values.Look(ref PrisonerDiffer, "PrisonerDiffer");
         Scribe_Values.Look(ref RelativeIconSize, "RelativeIconSize");
@@ -159,6 +177,13 @@ internal class MarkThatPawnSettings : ModSettings
         NeutralMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
         VehiclesMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
         RelativeIconSize = false;
+        RelativeToZoom = true;
+        ShowForColonist = true;
+        ShowForPrisoner = true;
+        ShowForSlave = true;
+        ShowForEnemy = true;
+        ShowForNeutral = true;
+        ShowForVehicles = true;
         PulsatingIcons = false;
         ColonistDiffer = false;
         PrisonerDiffer = false;

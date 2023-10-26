@@ -4,18 +4,26 @@
   <MTP.DefaultMarkerSet>Default marker-set: {0}</MTP.DefaultMarkerSet>
   <MTP.ColonistMarkerSet>Colonist marker-set: {0}</MTP.ColonistMarkerSet>
   <MTP.ColonistDiffer>Different set for colonists</MTP.ColonistDiffer>
+  <MTP.ShowForColonist>Show gizmo on colonists</MTP.ShowForColonist>
   <MTP.PrisonerMarkerSet>Prisoner marker-set: {0}</MTP.PrisonerMarkerSet>
   <MTP.PrisonerDiffer>Different set for prisoners</MTP.PrisonerDiffer>
+  <MTP.ShowForPrisoner>Show gizmo on prisoners</MTP.ShowForPrisoner>
   <MTP.SlaveMarkerSet>Slave marker-set: {0}</MTP.SlaveMarkerSet>
   <MTP.SlaveDiffer>Different set for slaves</MTP.SlaveDiffer>
+  <MTP.ShowForSlave>Show gizmo on slaves</MTP.ShowForSlave>
   <MTP.EnemyMarkerSet>Enemy marker-set: {0}</MTP.EnemyMarkerSet>
   <MTP.EnemyDiffer>Different set for enemies</MTP.EnemyDiffer>
+  <MTP.ShowForEnemy>Show gizmo on enemies</MTP.ShowForEnemy>
   <MTP.NeutralMarkerSet>Neutral marker-set: {0}</MTP.NeutralMarkerSet>
   <MTP.NeutralDiffer>Different set for non-enemies</MTP.NeutralDiffer>
+  <MTP.ShowForNeutral>Show gizmo on neutrals</MTP.ShowForNeutral>
   <MTP.VehiclesMarkerSet>Vehicle marker-set: {0}</MTP.VehiclesMarkerSet>
   <MTP.VehiclesDiffer>Different set for vehicles</MTP.VehiclesDiffer>
+  <MTP.ShowForVehicles>Show gizmo on vehicles</MTP.ShowForVehicles>
   <MTP.SelectMarker>Select marker</MTP.SelectMarker>
   <MTP.SelectMarkerTT>Add a marker to this pawn</MTP.SelectMarkerTT>
+  <MTP.RelativeToZoom>Increase icon-size when zoomed out</MTP.RelativeToZoom>
+  <MTP.RelativeToZoomTT>Will increase the icon-size when zooming out to keep them more visible</MTP.RelativeToZoomTT>
   <MTP.RelativeIconSize>Relative icon-size based on pawn-size</MTP.RelativeIconSize>
   <MTP.RelativeIconSizeTT>Changes the relative size of the icons based on the pawns total size (width and height)</MTP.RelativeIconSizeTT>
   <MTP.None>No marker</MTP.None>

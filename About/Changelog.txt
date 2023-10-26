@@ -1,5 +1,10 @@
 # Changelog for MarkThatPawn
 
+1.4.3 - Added options to remove the icon gizmo for types of pawns
+Added option (default on) to scale the icons based on zoom-level, larger when zoomed out.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.2 - Added support for [url=https://steamcommunity.com/workshop/filedetails/?id=3014915404]Vehicle Framework[/url]
 Added option for icon-sizes relative to body-size, good for large vehicles
 Added new icon-sets; United States Army, GDI and Nod.
