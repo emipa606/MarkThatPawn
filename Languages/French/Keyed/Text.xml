@@ -35,4 +35,5 @@
   <MTP.ShowForVehicles>Afficher le gadget sur les véhicules</MTP.ShowForVehicles>
   <MTP.RelativeToZoom>Augmenter la taille des icônes en cas de zoom arrière</MTP.RelativeToZoom>
   <MTP.RelativeToZoomTT>Augmente la taille des icônes lors d'un zoom arrière pour les rendre plus visibles.</MTP.RelativeToZoomTT>
+  <MTP.IconScalingFactor>Facteur d'échelle du zoom de l'icône : {0}</MTP.IconScalingFactor>
 </LanguageData>

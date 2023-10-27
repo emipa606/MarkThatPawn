@@ -118,7 +118,9 @@ public static class MarkThatPawn
 
         if (MarkThatPawnMod.instance.Settings.RelativeToZoom)
         {
-            iconInt = Math.Min(iconInt + ((int)Find.CameraDriver.CurrentZoom * 2), SizeMesh.Count);
+            iconInt = Math.Min(
+                iconInt + (int)Math.Round((int)Find.CameraDriver.CurrentZoom *
+                                          MarkThatPawnMod.instance.Settings.IconScalingFactor), SizeMesh.Count);
         }
 
         pawnMeshCache[pawn] = SizeMesh.Count < iconInt ? MeshPool.plane10 : SizeMesh[iconInt - 1];

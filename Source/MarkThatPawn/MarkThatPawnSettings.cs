@@ -15,6 +15,8 @@ internal class MarkThatPawnSettings : ModSettings
     public bool EnemyDiffer;
     private string enemyMarkerSet = "WowStyle";
     private MarkerDef enemyMarkerSetDef;
+
+    public float IconScalingFactor = 1f;
     public float IconSize = 0.7f;
     public bool NeutralDiffer;
     private string neutralMarkerSet = "WowStyle";
@@ -149,6 +151,7 @@ internal class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref vehiclesMarkerSet, "vehiclesMarkerSet", "WowStyle");
         Scribe_Values.Look(ref PulsatingIcons, "PulsatingIcons");
         Scribe_Values.Look(ref RelativeToZoom, "RelativeToZoom", true);
+        Scribe_Values.Look(ref IconScalingFactor, "IconScalingFactor", 1f);
         Scribe_Values.Look(ref ShowForColonist, "ShowForColonist", true);
         Scribe_Values.Look(ref ShowForPrisoner, "ShowForPrisoner", true);
         Scribe_Values.Look(ref ShowForSlave, "ShowForSlave", true);
@@ -178,6 +181,7 @@ internal class MarkThatPawnSettings : ModSettings
         VehiclesMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
         RelativeIconSize = false;
         RelativeToZoom = true;
+        IconScalingFactor = 1f;
         ShowForColonist = true;
         ShowForPrisoner = true;
         ShowForSlave = true;

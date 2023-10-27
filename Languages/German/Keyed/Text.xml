@@ -35,4 +35,5 @@
   <MTP.ShowForVehicles>Gizmo auf Fahrzeugen anzeigen</MTP.ShowForVehicles>
   <MTP.RelativeToZoom>Icon-Größe beim Herauszoomen erhöhen</MTP.RelativeToZoom>
   <MTP.RelativeToZoomTT>Erhöht die Größe der Symbole beim Verkleinern, um sie besser sichtbar zu machen</MTP.RelativeToZoomTT>
+  <MTP.IconScalingFactor>Skalierungsfaktor für den Symbolzoom: {0}</MTP.IconScalingFactor>
 </LanguageData>

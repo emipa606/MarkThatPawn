@@ -52,7 +52,7 @@ internal class MarkThatPawnMod : Mod
     {
         var containingRect = rect.ContractedBy(100, 0).CenteredOnXIn(rect);
         var viewingRect = containingRect.ContractedBy(10f);
-        viewingRect.height *= 1.55f;
+        viewingRect.height *= 1.75f;
         Widgets.BeginScrollView(containingRect, ref optionsScrollPosition, viewingRect);
         var listing_Standard = new Listing_Standard();
 
@@ -65,6 +65,14 @@ internal class MarkThatPawnMod : Mod
             "MTP.RelativeIconSizeTT".Translate());
         listing_Standard.CheckboxLabeled("MTP.RelativeToZoom".Translate(), ref Settings.RelativeToZoom,
             "MTP.RelativeToZoomTT".Translate());
+        if (Settings.RelativeToZoom)
+        {
+            Settings.IconScalingFactor =
+                (float)Math.Round(listing_Standard.SliderLabeled(
+                    "MTP.IconScalingFactor".Translate(Settings.IconScalingFactor.ToStringPercent()),
+                    Settings.IconScalingFactor, 0.1f, 5f), 2);
+        }
+
         Settings.IconSize =
             (float)Math.Round(listing_Standard.SliderLabeled(
                 "MTP.IconSize".Translate(Settings.IconSize.ToStringPercent()),

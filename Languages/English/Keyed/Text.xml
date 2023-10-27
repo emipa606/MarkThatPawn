@@ -3,22 +3,22 @@
   <MTP.CurrentModVersion>Installed mod-version: {0}</MTP.CurrentModVersion>
   <MTP.DefaultMarkerSet>Default marker-set: {0}</MTP.DefaultMarkerSet>
   <MTP.ColonistMarkerSet>Colonist marker-set: {0}</MTP.ColonistMarkerSet>
-  <MTP.ColonistDiffer>Different set for colonists</MTP.ColonistDiffer>
+  <MTP.ColonistDiffer>    Different set for colonists</MTP.ColonistDiffer>
   <MTP.ShowForColonist>Show gizmo on colonists</MTP.ShowForColonist>
   <MTP.PrisonerMarkerSet>Prisoner marker-set: {0}</MTP.PrisonerMarkerSet>
-  <MTP.PrisonerDiffer>Different set for prisoners</MTP.PrisonerDiffer>
+  <MTP.PrisonerDiffer>    Different set for prisoners</MTP.PrisonerDiffer>
   <MTP.ShowForPrisoner>Show gizmo on prisoners</MTP.ShowForPrisoner>
   <MTP.SlaveMarkerSet>Slave marker-set: {0}</MTP.SlaveMarkerSet>
-  <MTP.SlaveDiffer>Different set for slaves</MTP.SlaveDiffer>
+  <MTP.SlaveDiffer>    Different set for slaves</MTP.SlaveDiffer>
   <MTP.ShowForSlave>Show gizmo on slaves</MTP.ShowForSlave>
   <MTP.EnemyMarkerSet>Enemy marker-set: {0}</MTP.EnemyMarkerSet>
-  <MTP.EnemyDiffer>Different set for enemies</MTP.EnemyDiffer>
+  <MTP.EnemyDiffer>    Different set for enemies</MTP.EnemyDiffer>
   <MTP.ShowForEnemy>Show gizmo on enemies</MTP.ShowForEnemy>
   <MTP.NeutralMarkerSet>Neutral marker-set: {0}</MTP.NeutralMarkerSet>
-  <MTP.NeutralDiffer>Different set for non-enemies</MTP.NeutralDiffer>
+  <MTP.NeutralDiffer>    Different set for non-enemies</MTP.NeutralDiffer>
   <MTP.ShowForNeutral>Show gizmo on neutrals</MTP.ShowForNeutral>
   <MTP.VehiclesMarkerSet>Vehicle marker-set: {0}</MTP.VehiclesMarkerSet>
-  <MTP.VehiclesDiffer>Different set for vehicles</MTP.VehiclesDiffer>
+  <MTP.VehiclesDiffer>    Different set for vehicles</MTP.VehiclesDiffer>
   <MTP.ShowForVehicles>Show gizmo on vehicles</MTP.ShowForVehicles>
   <MTP.SelectMarker>Select marker</MTP.SelectMarker>
   <MTP.SelectMarkerTT>Add a marker to this pawn</MTP.SelectMarkerTT>
@@ -32,6 +32,7 @@
   <MTP.XOffset>Horizontal offset: {0}</MTP.XOffset>
   <MTP.MarkerNumber>Marker {0}</MTP.MarkerNumber>
   <MTP.IconSize>Icon size: {0}</MTP.IconSize>
+  <MTP.IconScalingFactor>    Icon zoom scaling factor: {0}</MTP.IconScalingFactor>
   <MTP.PulsatingIcons>Use pulsating icons</MTP.PulsatingIcons>
   <MTP.PulsatingIconsTT>Icons will pulsate the same way the trader question-mark does</MTP.PulsatingIconsTT>
 </LanguageData>

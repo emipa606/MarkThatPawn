@@ -35,4 +35,5 @@
   <MTP.ShowForVehicles>在车辆上显示小工具</MTP.ShowForVehicles>
   <MTP.RelativeToZoom>放大时增大图标尺寸</MTP.RelativeToZoom>
   <MTP.RelativeToZoomTT>放大图标时将增大图标尺寸，使其更清晰可见</MTP.RelativeToZoomTT>
+  <MTP.IconScalingFactor>图标缩放比例因子：{0}</MTP.IconScalingFactor>
 </LanguageData>
