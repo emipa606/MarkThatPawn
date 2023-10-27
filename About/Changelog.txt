@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.4 - Increased max icon-size to 500%, made the relative size calculations a bit more sensible
+
+
 1.4.3 - Added options to remove the icon gizmo for types of pawns
 Added option (default on) to scale the icons based on zoom-level, larger when zoomed out.
 Used DeepL to update translations for ChineseSimplified, French, German

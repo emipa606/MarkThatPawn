@@ -68,7 +68,7 @@ internal class MarkThatPawnMod : Mod
         Settings.IconSize =
             (float)Math.Round(listing_Standard.SliderLabeled(
                 "MTP.IconSize".Translate(Settings.IconSize.ToStringPercent()),
-                Settings.IconSize, 0.1f, 2.5f), 1);
+                Settings.IconSize, 0.1f, 5f), 1);
         Settings.XOffset =
             listing_Standard.SliderLabeled(
                 "MTP.XOffset".Translate(Math.Round(Settings.XOffset, 2)),

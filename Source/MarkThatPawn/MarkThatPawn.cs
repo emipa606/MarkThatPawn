@@ -31,6 +31,7 @@ public static class MarkThatPawn
     private static readonly Dictionary<Pawn, Mesh> pawnMeshCache;
     public static readonly bool VehiclesLoaded;
     private static CameraZoomRange lastCameraZoomRange = CameraZoomRange.Far;
+    private static readonly int standardSize;
 
     static MarkThatPawn()
     {
@@ -40,11 +41,11 @@ public static class MarkThatPawn
         markerDefs = DefDatabase<MarkerDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
         pawnMarkerCache = new Dictionary<Pawn, MarkerDef>();
         pawnMeshCache = new Dictionary<Pawn, Mesh>();
-
+        standardSize = ThingDefOf.Human.size.z;
         MarkerIcon = ContentFinder<Texture2D>.Get("UI/Marker_Icon");
         CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
         SizeMesh = new List<Mesh>();
-        for (var i = 1; i <= 25; i++)
+        for (var i = 1; i <= 50; i++)
         {
             SizeMesh.Add(MeshMakerPlanes.NewPlaneMesh(i / 10f));
         }
@@ -82,7 +83,7 @@ public static class MarkThatPawn
         var pawnHeight = pawn.def.size.z;
         if (VehiclesLoaded && pawn.def.thingClass.Name.EndsWith("VehiclePawn"))
         {
-            pawnHeight = 1 + (int)Math.Floor((pawn.def.size.z - 1) / 2f);
+            pawnHeight = standardSize + (int)Math.Floor((pawn.def.size.z - standardSize) / 2f);
         }
 
         var drawPos = pawn.DrawPos;
@@ -95,9 +96,13 @@ public static class MarkThatPawn
 
     private static Mesh getRightSizeMesh(Pawn pawn)
     {
-        if ((!MarkThatPawnMod.instance.Settings.RelativeToZoom ||
-             lastCameraZoomRange == Find.CameraDriver.CurrentZoom) &&
-            !pawn.IsHashIntervalTick(GenTicks.TickLongInterval) &&
+        if (MarkThatPawnMod.instance.Settings.RelativeToZoom && lastCameraZoomRange != Find.CameraDriver.CurrentZoom)
+        {
+            pawnMeshCache.Clear();
+            lastCameraZoomRange = Find.CameraDriver.CurrentZoom;
+        }
+
+        if (!pawn.IsHashIntervalTick(GenTicks.TickLongInterval) &&
             pawnMeshCache.TryGetValue(pawn, out var meshForPawn))
         {
             return meshForPawn;
@@ -107,13 +112,12 @@ public static class MarkThatPawn
 
         if (MarkThatPawnMod.instance.Settings.RelativeIconSize)
         {
-            var relativeSize = ((pawn.def.size.z - 1) / 2) + 1;
-            iconInt = Math.Min((int)Math.Round(relativeSize * (float)iconInt / 2), SizeMesh.Count);
+            var relativeSize = ((pawn.def.size.z - standardSize) / 2) + 1;
+            iconInt = Math.Min((int)Math.Round(relativeSize * (float)iconInt), SizeMesh.Count);
         }
 
         if (MarkThatPawnMod.instance.Settings.RelativeToZoom)
         {
-            lastCameraZoomRange = Find.CameraDriver.CurrentZoom;
             iconInt = Math.Min(iconInt + ((int)Find.CameraDriver.CurrentZoom * 2), SizeMesh.Count);
         }
 

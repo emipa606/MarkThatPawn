@@ -13,7 +13,9 @@ Mod-options:
 - Change the size and position of the icon
 - Change the icon-set used 
 - Relative icon-size based on pawn-size
+- Increase the icon-size when zoomed out
 - Have different icon-sets based on the pawn type
+- Disable the gizmos based on the pawn type
 - Have the icons pulse like the question mark over traders in a caravan
 
 
