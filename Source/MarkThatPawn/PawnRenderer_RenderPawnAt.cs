@@ -26,6 +26,6 @@ public static class PawnRenderer_RenderPawnAt
             return;
         }
 
-        MarkThatPawn.RenderMarkingOverlay(___pawn, result);
+        MarkThatPawn.RenderMarkingOverlay(___pawn, result, tracker);
     }
 }

@@ -6,6 +6,7 @@ namespace MarkThatPawn;
 
 public class MarkerDef : Def
 {
+    private bool? enabled;
     private string graphicPrefix;
     private Texture2D icon;
     private string iconPath;
@@ -13,6 +14,7 @@ public class MarkerDef : Def
 
 
     private List<Texture2D> markerTextures;
+    private List<string> mayRequire;
 
     public List<Material> MarkerMaterials
     {
@@ -50,6 +52,37 @@ public class MarkerDef : Def
             }
 
             return icon;
+        }
+    }
+
+    public bool Enabled
+    {
+        get
+        {
+            if (enabled != null)
+            {
+                return (bool)enabled;
+            }
+
+            if (mayRequire == null || mayRequire.Any() == false)
+            {
+                enabled = true;
+                return true;
+            }
+
+            foreach (var modId in mayRequire)
+            {
+                if (ModLister.GetActiveModWithIdentifier(modId) != null)
+                {
+                    continue;
+                }
+
+                enabled = false;
+                return false;
+            }
+
+            enabled = true;
+            return true;
         }
     }
 

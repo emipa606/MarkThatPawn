@@ -36,4 +36,37 @@
   <MTP.RelativeToZoom>Icon-Größe beim Herauszoomen erhöhen</MTP.RelativeToZoom>
   <MTP.RelativeToZoomTT>Erhöht die Größe der Symbole beim Verkleinern, um sie besser sichtbar zu machen</MTP.RelativeToZoomTT>
   <MTP.IconScalingFactor>Skalierungsfaktor für den Symbolzoom: {0}</MTP.IconScalingFactor>
+  <MTP.UnsavedRule>Es gibt eine ungespeicherte Regel. Möchten Sie Ihre Änderungen vor dem Schließen speichern?</MTP.UnsavedRule>
+  <MTP.ResetAll>Regeln zurücksetzen</MTP.ResetAll>
+  <MTP.ResetAllConfirm>Wirklich alle festgelegten Regeln entfernen?</MTP.ResetAllConfirm>
+  <MTP.NoneSelected>Keine ausgewählt</MTP.NoneSelected>
+  <MTP.SomeSelected>{0} ausgewählt</MTP.SomeSelected>
+  <MTP.ChangeTraits>Eigenschaften ändern</MTP.ChangeTraits>
+  <MTP.ChangeSkills>Fähigkeiten ändern</MTP.ChangeSkills>
+  <MTP.Enabled>Aktiviert</MTP.Enabled>
+  <MTP.EnabledChange>Regel aktiviert, zum Deaktivieren anklicken</MTP.EnabledChange>
+  <MTP.Disabled>Behinderte</MTP.Disabled>
+  <MTP.CannotEnable>Regel kann aufgrund einer fehlenden Einstellung nicht aktiviert werden</MTP.CannotEnable>
+  <MTP.DisabledChange>Regel deaktiviert, zum Aktivieren anklicken</MTP.DisabledChange>
+  <MTP.IncreasePrio>Priorität erhöhen</MTP.IncreasePrio>
+  <MTP.DecreasePrio>Priorität herabsetzen</MTP.DecreasePrio>
+  <MTP.SaveAutomaticType>Speichern Sie</MTP.SaveAutomaticType>
+  <MTP.CancelAutomaticType>Abbrechen</MTP.CancelAutomaticType>
+  <MTP.EditAutomaticType>bearbeiten</MTP.EditAutomaticType>
+  <MTP.DeleteAutomaticType>Löschen</MTP.DeleteAutomaticType>
+  <MTP.DeleteAutomaticTypeConfirm>Regel wirklich löschen?</MTP.DeleteAutomaticTypeConfirm>
+  <MTP.AutomaticRulesTitle>Automatische Markierungsregeln</MTP.AutomaticRulesTitle>
+  <MTP.NewRuleButton>Neue Regel</MTP.NewRuleButton>
+  <MTP.RulesButtonInfo>Automatische Regeln ({0} aktiv)</MTP.RulesButtonInfo>
+  <MTP.RulesButtonText>Regeln bearbeiten</MTP.RulesButtonText>
+  <MTP.UseAutoIcon>Auto-Symbol</MTP.UseAutoIcon>
+  <MTP.EquippedWeaponType.Melee>Nahkampfwaffe</MTP.EquippedWeaponType.Melee>
+  <MTP.EquippedWeaponType.Ranged>Fernkampfgeschoßwaffe</MTP.EquippedWeaponType.Ranged>
+  <MTP.EquippedWeaponType.RangedExplosive>Explosive Fernkampfwaffe</MTP.EquippedWeaponType.RangedExplosive>
+  <MTP.EquippedWeaponType.Thrown>Geworfen</MTP.EquippedWeaponType.Thrown>
+  <MTP.AutomaticType.Weapon>Ausgerüstete Waffe</MTP.AutomaticType.Weapon>
+  <MTP.AutomaticType.WeaponType>Ausgerüsteter Waffentyp</MTP.AutomaticType.WeaponType>
+  <MTP.AutomaticType.Trait>Hat Eigenschaften</MTP.AutomaticType.Trait>
+  <MTP.AutomaticType.Skill>Mindestens die Fähigkeit</MTP.AutomaticType.Skill>
+  <MTP.AutomaticType.Relative>Hat Beziehung zu Kolonist</MTP.AutomaticType.Relative>
 </LanguageData>

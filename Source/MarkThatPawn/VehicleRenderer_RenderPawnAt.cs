@@ -24,6 +24,6 @@ public static class VehicleRenderer_RenderPawnAt
             return;
         }
 
-        MarkThatPawn.RenderMarkingOverlay(___vehicle, result);
+        MarkThatPawn.RenderMarkingOverlay(___vehicle, result, tracker);
     }
 }

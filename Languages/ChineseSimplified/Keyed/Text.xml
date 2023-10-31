@@ -36,4 +36,37 @@
   <MTP.RelativeToZoom>放大时增大图标尺寸</MTP.RelativeToZoom>
   <MTP.RelativeToZoomTT>放大图标时将增大图标尺寸，使其更清晰可见</MTP.RelativeToZoomTT>
   <MTP.IconScalingFactor>图标缩放比例因子：{0}</MTP.IconScalingFactor>
+  <MTP.UnsavedRule>有一条未保存的规则，您想在关闭前保存更改吗？</MTP.UnsavedRule>
+  <MTP.ResetAll>重置规则</MTP.ResetAll>
+  <MTP.ResetAllConfirm>真的要删除所有已定义的规则吗？</MTP.ResetAllConfirm>
+  <MTP.NoneSelected>没有选择</MTP.NoneSelected>
+  <MTP.SomeSelected>{0}已选定</MTP.SomeSelected>
+  <MTP.ChangeTraits>变化特征</MTP.ChangeTraits>
+  <MTP.ChangeSkills>改变技能</MTP.ChangeSkills>
+  <MTP.Enabled>已启用</MTP.Enabled>
+  <MTP.EnabledChange>启用规则，点击禁用</MTP.EnabledChange>
+  <MTP.Disabled>残疾</MTP.Disabled>
+  <MTP.CannotEnable>由于缺少设置，规则无法启用</MTP.CannotEnable>
+  <MTP.DisabledChange>禁用规则，单击启用</MTP.DisabledChange>
+  <MTP.IncreasePrio>提高优先程度</MTP.IncreasePrio>
+  <MTP.DecreasePrio>降低优先级</MTP.DecreasePrio>
+  <MTP.SaveAutomaticType>节省</MTP.SaveAutomaticType>
+  <MTP.CancelAutomaticType>取消</MTP.CancelAutomaticType>
+  <MTP.EditAutomaticType>编辑</MTP.EditAutomaticType>
+  <MTP.DeleteAutomaticType>删除</MTP.DeleteAutomaticType>
+  <MTP.DeleteAutomaticTypeConfirm>真的要删除规则？</MTP.DeleteAutomaticTypeConfirm>
+  <MTP.AutomaticRulesTitle>自动打标规则</MTP.AutomaticRulesTitle>
+  <MTP.NewRuleButton>新规则</MTP.NewRuleButton>
+  <MTP.RulesButtonInfo>自动规则（{0}激活）</MTP.RulesButtonInfo>
+  <MTP.RulesButtonText>编辑规则</MTP.RulesButtonText>
+  <MTP.UseAutoIcon>自动图标</MTP.UseAutoIcon>
+  <MTP.EquippedWeaponType.Melee>近战武器</MTP.EquippedWeaponType.Melee>
+  <MTP.EquippedWeaponType.Ranged>远程射弹武器</MTP.EquippedWeaponType.Ranged>
+  <MTP.EquippedWeaponType.RangedExplosive>范围爆炸武器</MTP.EquippedWeaponType.RangedExplosive>
+  <MTP.EquippedWeaponType.Thrown>抛出</MTP.EquippedWeaponType.Thrown>
+  <MTP.AutomaticType.Weapon>装备武器</MTP.AutomaticType.Weapon>
+  <MTP.AutomaticType.WeaponType>装备的武器类型</MTP.AutomaticType.WeaponType>
+  <MTP.AutomaticType.Trait>具有特征</MTP.AutomaticType.Trait>
+  <MTP.AutomaticType.Skill>技能至少</MTP.AutomaticType.Skill>
+  <MTP.AutomaticType.Relative>与殖民者有关系</MTP.AutomaticType.Relative>
 </LanguageData>

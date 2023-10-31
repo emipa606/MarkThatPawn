@@ -22,6 +22,13 @@
     <iconPath>UI/Overlays/Skill/Skill_Icon</iconPath>
   </MarkThatPawn.MarkerDef>
   <MarkThatPawn.MarkerDef>
+    <defName>Jobs</defName>
+    <label>Jobs</label>
+    <description>Markers to indicate job designations, made by [✚] Survivalmaster</description>
+    <graphicPrefix>UI/Overlays/Jobs/Jobs</graphicPrefix>
+    <iconPath>UI/Overlays/Jobs/Jobs_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
     <defName>Militar</defName>
     <label>Militar</label>
     <description>Marker based on the united states military</description>
@@ -41,5 +48,36 @@
     <description>Marker based on the Nod-faction from the game Command and Conquer</description>
     <graphicPrefix>UI/Overlays/Nod/Nod</graphicPrefix>
     <iconPath>UI/Overlays/Nod/Nod_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>XCOM</defName>
+    <label>XCOM</label>
+    <description>Marker based on the game XCOM, made by Botaxalim</description>
+    <graphicPrefix>UI/Overlays/XCOM/XCOM</graphicPrefix>
+    <iconPath>UI/Overlays/XCOM/XCOM_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>Weapons</defName>
+    <label>Weapons</label>
+    <description>Generic weapon-types, made by max.icons on flaticon.com</description>
+    <graphicPrefix>UI/Overlays/Weapons/Weapons</graphicPrefix>
+    <iconPath>UI/Overlays/Weapons/Weapons_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>XCOMMedieval</defName>
+    <label>XCOM Medieval</label>
+    <description>Marker based on the game XCOM but in a medieval style, made by Botaxalim</description>
+    <graphicPrefix>UI/Overlays/XCOMMedieval/XCOMMedieval</graphicPrefix>
+    <iconPath>UI/Overlays/XCOMMedieval/XCOMMedieval_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
+    <defName>Ideology</defName>
+    <label>Ideology</label>
+    <description>Markers from Ideology, made by Yoann</description>
+    <graphicPrefix>UI/Overlays/Ideology/Ideology</graphicPrefix>
+    <iconPath>UI/Overlays/Ideology/Ideology_Icon</iconPath>
+    <mayRequire>
+      <li>Ludeon.RimWorld.Ideology</li>
+    </mayRequire>
   </MarkThatPawn.MarkerDef>
 </Defs>

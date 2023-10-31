@@ -36,4 +36,37 @@
   <MTP.RelativeToZoom>Augmenter la taille des icônes en cas de zoom arrière</MTP.RelativeToZoom>
   <MTP.RelativeToZoomTT>Augmente la taille des icônes lors d'un zoom arrière pour les rendre plus visibles.</MTP.RelativeToZoomTT>
   <MTP.IconScalingFactor>Facteur d'échelle du zoom de l'icône : {0}</MTP.IconScalingFactor>
+  <MTP.UnsavedRule>Il y a une règle non sauvegardée, voulez-vous sauvegarder vos modifications avant de fermer ?</MTP.UnsavedRule>
+  <MTP.ResetAll>Réinitialiser les règles</MTP.ResetAll>
+  <MTP.ResetAllConfirm>Supprimer réellement toutes les règles définies ?</MTP.ResetAllConfirm>
+  <MTP.NoneSelected>Aucun sélectionné</MTP.NoneSelected>
+  <MTP.SomeSelected>{0} sélectionné</MTP.SomeSelected>
+  <MTP.ChangeTraits>Modifier les caractéristiques</MTP.ChangeTraits>
+  <MTP.ChangeSkills>Compétences en matière de changement</MTP.ChangeSkills>
+  <MTP.Enabled>Activé</MTP.Enabled>
+  <MTP.EnabledChange>Règle activée, cliquer pour la désactiver</MTP.EnabledChange>
+  <MTP.Disabled>Handicapés</MTP.Disabled>
+  <MTP.CannotEnable>La règle ne peut être activée en raison d'un paramètre manquant</MTP.CannotEnable>
+  <MTP.DisabledChange>Règle désactivée, cliquer pour activer</MTP.DisabledChange>
+  <MTP.IncreasePrio>Augmenter la priorité</MTP.IncreasePrio>
+  <MTP.DecreasePrio>Diminuer la priorité</MTP.DecreasePrio>
+  <MTP.SaveAutomaticType>Économiser</MTP.SaveAutomaticType>
+  <MTP.CancelAutomaticType>Annuler</MTP.CancelAutomaticType>
+  <MTP.EditAutomaticType>Editer</MTP.EditAutomaticType>
+  <MTP.DeleteAutomaticType>Supprimer</MTP.DeleteAutomaticType>
+  <MTP.DeleteAutomaticTypeConfirm>Vraiment, la règle de la suppression ?</MTP.DeleteAutomaticTypeConfirm>
+  <MTP.AutomaticRulesTitle>Règles de marquage automatique</MTP.AutomaticRulesTitle>
+  <MTP.NewRuleButton>Nouvelle règle</MTP.NewRuleButton>
+  <MTP.RulesButtonInfo>Règles automatiques ({0} actif)</MTP.RulesButtonInfo>
+  <MTP.RulesButtonText>Modifier les règles</MTP.RulesButtonText>
+  <MTP.UseAutoIcon>Icône automatique</MTP.UseAutoIcon>
+  <MTP.EquippedWeaponType.Melee>Arme de mêlée</MTP.EquippedWeaponType.Melee>
+  <MTP.EquippedWeaponType.Ranged>Arme à projectile à distance</MTP.EquippedWeaponType.Ranged>
+  <MTP.EquippedWeaponType.RangedExplosive>Arme explosive à distance</MTP.EquippedWeaponType.RangedExplosive>
+  <MTP.EquippedWeaponType.Thrown>Jetée</MTP.EquippedWeaponType.Thrown>
+  <MTP.AutomaticType.Weapon>Arme équipée</MTP.AutomaticType.Weapon>
+  <MTP.AutomaticType.WeaponType>Type d'arme équipée</MTP.AutomaticType.WeaponType>
+  <MTP.AutomaticType.Trait>A des caractéristiques</MTP.AutomaticType.Trait>
+  <MTP.AutomaticType.Skill>Compétence au moins</MTP.AutomaticType.Skill>
+  <MTP.AutomaticType.Relative>A un lien avec le colon</MTP.AutomaticType.Relative>
 </LanguageData>

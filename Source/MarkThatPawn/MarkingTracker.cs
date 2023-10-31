@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -6,6 +7,10 @@ namespace MarkThatPawn;
 
 public class MarkingTracker : MapComponent
 {
+    public readonly List<Pawn> PawnsToEvaluate = new List<Pawn>();
+    public Dictionary<Pawn, string> AutomaticPawns = new Dictionary<Pawn, string>();
+    private List<Pawn> automaticPawnsKeys = new List<Pawn>();
+    private List<string> automaticPawnsValues = new List<string>();
     public Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
     private List<Pawn> markedPawnsKeys = new List<Pawn>();
     private List<int> markedPawnsValues = new List<int>();
@@ -71,19 +76,34 @@ public class MarkingTracker : MapComponent
                 continue;
             }
 
-            MarkedPawns[selectedPawn] = mark;
+            if (mark > 0 || AutomaticPawns?.ContainsKey(selectedPawn) == true)
+            {
+                MarkedPawns[selectedPawn] = mark;
+            }
         }
     }
 
     public override void MapComponentTick()
     {
         base.MapComponentTick();
+        if (PawnsToEvaluate?.Any() == true)
+        {
+            var firstPawn = PawnsToEvaluate.First();
+            PawnsToEvaluate.Remove(firstPawn);
+            if (MarkThatPawn.TryGetAutoMarkerForPawn(firstPawn, out var result))
+            {
+                AutomaticPawns[firstPawn] = result;
+                MarkedPawns[firstPawn] = -1;
+            }
+        }
+
         if (Find.TickManager.TicksGame % GenDate.TicksPerDay != 0 || MarkedPawns.NullOrEmpty())
         {
             return;
         }
 
         MarkedPawns.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+        AutomaticPawns.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
     }
 
     public override void ExposeData()
@@ -91,5 +111,7 @@ public class MarkingTracker : MapComponent
         base.ExposeData();
         Scribe_Collections.Look(ref MarkedPawns, "MarkedPawns", LookMode.Reference, LookMode.Value, ref markedPawnsKeys,
             ref markedPawnsValues);
+        Scribe_Collections.Look(ref AutomaticPawns, "AutomaticPawns", LookMode.Reference, LookMode.Value,
+            ref automaticPawnsKeys, ref automaticPawnsValues);
     }
 }

@@ -55,9 +55,19 @@ public static class Pawn_GetGizmos
 
         var icon = MarkThatPawn.MarkerIcon;
 
-        if (currentMarking != 0)
+        switch (currentMarking)
         {
-            icon = currentMarkerSet.MarkerTextures[currentMarking - 1];
+            case < 0:
+                if (!tracker.AutomaticPawns.TryGetValue(__instance, out var autoString) ||
+                    !MarkThatPawn.TryToConvertAutostringToTexture2D(autoString, out icon))
+                {
+                    icon = BaseContent.BadTex;
+                }
+
+                break;
+            case > 0:
+                icon = currentMarkerSet.MarkerTextures[currentMarking - 1];
+                break;
         }
 
         yield return new Command_Action

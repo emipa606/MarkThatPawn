@@ -13,16 +13,27 @@ Mod-options:
 - Change the size and position of the icon
 - Change the icon-set used 
 - Relative icon-size based on pawn-size
-- Increase the icon-size when zoomed out
+- Increase the icon-size when zoomed out, selectable strength
 - Have different icon-sets based on the pawn type
 - Disable the gizmos based on the pawn type
 - Have the icons pulse like the question mark over traders in a caravan
 
 
 
+You can define rules to make spawning pawns get marked automatically. The rules are defined based on:
+
+
+- Weapon equipped
+- Weapon type equipped
+- Pawn skill levels
+- Pawn traits
+- Relations to colonists
+
+
+
 There is also support for vehicles using https://steamcommunity.com/workshop/filedetails/?id=3014915404]Vehicle Framework.
 
-It is very simple to add more Icon-sets as only a small xml-definition is needed to make it be selectable in the mod options. If you have suggestions for new icon-sets, please leave a comment here or on the Discord server and Ill see if I can add it to the mod!
+It is very simple to add more Icon-sets as only a small xml-definition is needed to make it be selectable in the mod options. If you have suggestions for new icon-sets or new rules, please leave a comment here or on the Discord server and Ill see if I can add it to the mod!
 
 Mod-idea: Cedric
 

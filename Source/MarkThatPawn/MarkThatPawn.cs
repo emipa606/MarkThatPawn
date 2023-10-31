@@ -23,32 +23,101 @@ public static class MarkThatPawn
         Vehicle
     }
 
+
+    public const float ButtonIconSizeFactor = 0.8f;
+    public static readonly Texture2D ChangeSomething;
+    public static readonly List<TraitDef> AllTraits;
+    public static readonly List<SkillDef> AllSkills;
+    public static readonly List<ThingDef> AllValidWeapons;
+    public static readonly List<ThingDef> AllExplosiveRangedWeapons;
+    public static readonly List<ThingDef> AllThrownWeapons;
     public static readonly Texture2D MarkerIcon;
     public static readonly Texture2D CancelIcon;
     public static readonly List<Mesh> SizeMesh;
-    private static readonly List<MarkerDef> markerDefs;
+    public static readonly List<MarkerDef> MarkerDefs;
     private static readonly Dictionary<Pawn, MarkerDef> pawnMarkerCache;
     private static readonly Dictionary<Pawn, Mesh> pawnMeshCache;
     public static readonly bool VehiclesLoaded;
     private static CameraZoomRange lastCameraZoomRange = CameraZoomRange.Far;
     private static readonly int standardSize;
+    private static readonly Texture2D autoIcon;
 
     static MarkThatPawn()
     {
         var harmony = new Harmony("Mlie.MarkThatPawn");
         harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-        markerDefs = DefDatabase<MarkerDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+        AllTraits = DefDatabase<TraitDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+        AllSkills = DefDatabase<SkillDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+        MarkerDefs = DefDatabase<MarkerDef>.AllDefsListForReading.Where(def => def.Enabled).OrderBy(def => def.label)
+            .ToList();
         pawnMarkerCache = new Dictionary<Pawn, MarkerDef>();
         pawnMeshCache = new Dictionary<Pawn, Mesh>();
         standardSize = ThingDefOf.Human.size.z;
         MarkerIcon = ContentFinder<Texture2D>.Get("UI/Marker_Icon");
         CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
+        ChangeSomething = ContentFinder<Texture2D>.Get("UI/Icons/SwitchFaction");
+        autoIcon = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Scheduled");
         SizeMesh = new List<Mesh>();
         for (var i = 1; i <= 50; i++)
         {
             SizeMesh.Add(MeshMakerPlanes.NewPlaneMesh(i / 10f));
         }
+
+        AllValidWeapons = DefDatabase<ThingDef>.AllDefsListForReading
+            .Where(def => !string.IsNullOrEmpty(def.label) && def.IsWeapon)
+            .OrderBy(def => def.label).ToList();
+
+        AllExplosiveRangedWeapons = AllValidWeapons
+            .Where(def => def.IsRangedWeapon && def.Verbs.Any(properties =>
+                properties.CausesExplosion && properties.defaultProjectile?.projectile.arcHeightFactor == 0)).ToList();
+        AllThrownWeapons = AllValidWeapons.Where(def =>
+            def.Verbs.Any(properties => properties.defaultProjectile?.projectile.arcHeightFactor > 0)).ToList();
+
+        Log.Message(
+            $"[MarkThatPawn]: Found {AllValidWeapons.Count} loaded weapons, {AllExplosiveRangedWeapons.Count} explosive weapons and {AllThrownWeapons.Count} thrown projectiles");
+
+        foreach (var ruleBlob in MarkThatPawnMod.instance.Settings.AutoRuleBlobs)
+        {
+            MarkerRule rule;
+            if (!MarkerRule.TryGetRuleTypeFromBlob(ruleBlob, out var type))
+            {
+                continue;
+            }
+
+            switch (type)
+            {
+                case MarkerRule.AutoRuleType.Weapon:
+                    rule = new WeaponMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.WeaponType:
+                    rule = new WeaponTypeMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Trait:
+                    rule = new TraitMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Skill:
+                    rule = new SkillMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Relative:
+                    rule = new RelativeMarkerRule(ruleBlob);
+                    break;
+                default:
+                    continue;
+            }
+
+            if (rule.ConfigError)
+            {
+                Log.Warning(
+                    $"Failed to load a marker-rule from blob: \n{ruleBlob}\n{rule.ErrorMessage}\nDisabling the rule.");
+                rule.SetEnabled(false);
+            }
+
+            MarkThatPawnMod.instance.Settings.AutoRules.Add(rule);
+        }
+
+        Log.Message(
+            $"[MarkThatPawn]: Found {MarkThatPawnMod.instance.Settings.AutoRules.Count} automatic rules defined");
 
         VehiclesLoaded = ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework") != null;
         if (!VehiclesLoaded)
@@ -62,22 +131,46 @@ public static class MarkThatPawn
         harmony.Patch(original, postfix: new HarmonyMethod(postfix));
     }
 
-    public static void RenderMarkingOverlay(Pawn pawn, int marker)
+
+    public static void RenderMarkingOverlay(Pawn pawn, int marker, MarkingTracker tracker)
     {
         if (!pawn.Spawned)
         {
             return;
         }
 
-        var markerSet = GetMarkerDefForPawn(pawn);
-        if (markerSet == null)
-        {
-            return;
-        }
+        Material material;
 
-        if (markerSet.MarkerMaterials.Count < marker)
+        switch (marker)
         {
-            return;
+            case > 0:
+                var markerSet = GetMarkerDefForPawn(pawn);
+                if (markerSet == null)
+                {
+                    return;
+                }
+
+                if (markerSet.MarkerMaterials.Count < marker)
+                {
+                    return;
+                }
+
+                material = markerSet.MarkerMaterials[marker - 1];
+                break;
+            case < 0:
+                if (!tracker.AutomaticPawns.TryGetValue(pawn, out var result))
+                {
+                    return;
+                }
+
+                if (!TryToConvertAutostringToMaterial(result, out material))
+                {
+                    return;
+                }
+
+                break;
+            default:
+                return;
         }
 
         var pawnHeight = pawn.def.size.z;
@@ -91,7 +184,7 @@ public static class MarkThatPawn
         drawPos.y = AltitudeLayer.MetaOverlays.AltitudeFor() + 0.28125f;
         drawPos.z += pawnHeight + (MarkThatPawnMod.instance.Settings.IconSize / 3);
         drawPos.z += MarkThatPawnMod.instance.Settings.ZOffset;
-        renderMarker(pawn, markerSet.MarkerMaterials[marker - 1], drawPos, getRightSizeMesh(pawn));
+        renderMarker(pawn, material, drawPos, getRightSizeMesh(pawn));
     }
 
     private static Mesh getRightSizeMesh(Pawn pawn)
@@ -141,6 +234,92 @@ public static class MarkThatPawn
 
         var fadedMaterial = FadedMaterialPool.FadedVersionOf(material, pulsatingCyclePlace);
         Graphics.DrawMesh(mesh, drawPos, Quaternion.identity, fadedMaterial, 0);
+    }
+
+
+    public static bool TryGetAutoMarkerForPawn(Pawn pawn, out string result)
+    {
+        result = null;
+        if (MarkThatPawnMod.instance.Settings.AutoRules == null || !MarkThatPawnMod.instance.Settings.AutoRules.Any())
+        {
+            return false;
+        }
+
+        if (!ValidPawn(pawn))
+        {
+            return false;
+        }
+
+        foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.Enabled)
+                     .OrderBy(rule => rule.RuleOrder))
+        {
+            if (!markerRule.AppliesToPawn(pawn))
+            {
+                continue;
+            }
+
+            result = markerRule.GetMarkerBlob();
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public static bool TryToConvertAutostringToMaterial(string autoString, out Material result)
+    {
+        result = null;
+        if (autoString == null || !autoString.Contains(";"))
+        {
+            return false;
+        }
+
+        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == autoString.Split(';')[0]);
+        if (markerSet == null)
+        {
+            return false;
+        }
+
+        if (!int.TryParse(autoString.Split(';')[1], out var number))
+        {
+            return false;
+        }
+
+        if (markerSet.MarkerMaterials.Count < number)
+        {
+            return false;
+        }
+
+        result = markerSet.MarkerMaterials[number - 1];
+        return true;
+    }
+
+    public static bool TryToConvertAutostringToTexture2D(string autoString, out Texture2D result)
+    {
+        result = null;
+        if (autoString == null || !autoString.Contains(";"))
+        {
+            return false;
+        }
+
+        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == autoString.Split(';')[0]);
+        if (markerSet == null)
+        {
+            return false;
+        }
+
+        if (!int.TryParse(autoString.Split(';')[1], out var number))
+        {
+            return false;
+        }
+
+        if (markerSet.MarkerTextures.Count < number)
+        {
+            return false;
+        }
+
+        result = markerSet.MarkerTextures[number - 1];
+        return true;
     }
 
 
@@ -244,10 +423,32 @@ public static class MarkThatPawn
         return MarkThatPawnMod.instance.Settings.ShowForVehicles || !pawn.def.thingClass.Name.EndsWith("VehiclePawn");
     }
 
+    public static bool TryGetMarkerDef(string markerDefName, out MarkerDef result)
+    {
+        result = null;
+        if (MarkerDefs == null || !MarkerDefs.Any())
+        {
+            return false;
+        }
+
+        result = MarkerDefs.FirstOrDefault(def => def.defName == markerDefName);
+        return result != null;
+    }
+
     public static List<FloatMenuOption> GetMarkingOptions(int currentMarking, MarkingTracker tracker,
         MarkerDef markerSet, Pawn pawn)
     {
         var returnList = new List<FloatMenuOption>();
+        if (tracker.AutomaticPawns.TryGetValue(pawn, out _))
+        {
+            void AutoAction()
+            {
+                tracker.SetPawnMarking(pawn, -1, currentMarking, tracker);
+            }
+
+            returnList.Add(new FloatMenuOption("MTP.UseAutoIcon".Translate(), AutoAction, autoIcon, Color.white));
+        }
+
         for (var i = 0; i <= markerSet.MarkerTextures.Count; i++)
         {
             var mark = i;
@@ -279,7 +480,7 @@ public static class MarkThatPawn
     public static List<FloatMenuOption> GetMarkingSetOptions(PawnMarkingType type)
     {
         var returnList = new List<FloatMenuOption>();
-        foreach (var markingSet in markerDefs)
+        foreach (var markingSet in MarkerDefs)
         {
             var action = () => { MarkThatPawnMod.instance.Settings.DefaultMarkerSet = markingSet; };
 

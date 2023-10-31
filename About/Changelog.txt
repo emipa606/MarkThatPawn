@@ -1,5 +1,14 @@
 # Changelog for MarkThatPawn
 
+1.4.6 - Added automatic rule-support
+MarkerDefs can require other mods to load
+Added Ideology markerDefs, made by Yoann
+Added Weapon-type icons, based on icons by max.icons from www.flaticon.com
+Added XCOM-icons from the pawn badge-pack by Botaxalim
+Added job-icons from the pawn badge-pach by [✚] Survivalmaster.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.5 - Added a zoom-scale factor option.
 Used DeepL to update translations for ChineseSimplified, French, German
 

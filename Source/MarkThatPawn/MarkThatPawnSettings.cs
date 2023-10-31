@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using System.Collections.Generic;
+using Verse;
 
 namespace MarkThatPawn;
 
@@ -7,6 +8,8 @@ namespace MarkThatPawn;
 /// </summary>
 internal class MarkThatPawnSettings : ModSettings
 {
+    public List<string> AutoRuleBlobs = new List<string>();
+    public List<MarkerRule> AutoRules = new List<MarkerRule>();
     public bool ColonistDiffer;
     private string colonistMarkerSet = "WowStyle";
     private MarkerDef colonistMarkerSetDef;
@@ -164,6 +167,7 @@ internal class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref SlaveDiffer, "SlaveDiffer");
         Scribe_Values.Look(ref EnemyDiffer, "EnemyDiffer");
         Scribe_Values.Look(ref NeutralDiffer, "NeutralDiffer");
+        Scribe_Collections.Look(ref AutoRuleBlobs, "AutoRuleBlobs");
         Scribe_Values.Look(ref VehiclesDiffer, "VehiclesDiffer");
         Scribe_Values.Look(ref IconSize, "IconSize", 0.7f);
         Scribe_Values.Look(ref XOffset, "XOffset");

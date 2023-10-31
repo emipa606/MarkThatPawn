@@ -25,7 +25,31 @@
   <MTP.RelativeToZoom>Increase icon-size when zoomed out</MTP.RelativeToZoom>
   <MTP.RelativeToZoomTT>Will increase the icon-size when zooming out to keep them more visible</MTP.RelativeToZoomTT>
   <MTP.RelativeIconSize>Relative icon-size based on pawn-size</MTP.RelativeIconSize>
-  <MTP.RelativeIconSizeTT>Changes the relative size of the icons based on the pawns total size (width and height)</MTP.RelativeIconSizeTT>
+  <MTP.RelativeIconSizeTT>Changes the relative size of the icons based on the pawns size</MTP.RelativeIconSizeTT>
+  <MTP.UnsavedRule>There is an unsaved rule, do you want to save your changes before closing?</MTP.UnsavedRule>
+  <MTP.ResetAll>Reset rules</MTP.ResetAll>
+  <MTP.ResetAllConfirm>Really remove all defined rules?</MTP.ResetAllConfirm>
+  <MTP.NoneSelected>None selected</MTP.NoneSelected>
+  <MTP.SomeSelected>{0} selected</MTP.SomeSelected>
+  <MTP.ChangeTraits>Change traits</MTP.ChangeTraits>
+  <MTP.ChangeSkills>Change skills</MTP.ChangeSkills>
+  <MTP.Enabled>Enabled</MTP.Enabled>
+  <MTP.EnabledChange>Rule enabled, click to disable</MTP.EnabledChange>
+  <MTP.Disabled>Disabled</MTP.Disabled>
+  <MTP.CannotEnable>Rule cannot be enabled due to missing setting</MTP.CannotEnable>
+  <MTP.DisabledChange>Rule disabled, click to enable</MTP.DisabledChange>
+  <MTP.IncreasePrio>Increase priority</MTP.IncreasePrio>
+  <MTP.DecreasePrio>Decrease priority</MTP.DecreasePrio>
+  <MTP.SaveAutomaticType>Save</MTP.SaveAutomaticType>
+  <MTP.CancelAutomaticType>Cancel</MTP.CancelAutomaticType>
+  <MTP.EditAutomaticType>Edit</MTP.EditAutomaticType>
+  <MTP.DeleteAutomaticType>Delete</MTP.DeleteAutomaticType>
+  <MTP.DeleteAutomaticTypeConfirm>Really delete rule?</MTP.DeleteAutomaticTypeConfirm>
+  <MTP.AutomaticRulesTitle>Automatic marking rules</MTP.AutomaticRulesTitle>
+  <MTP.NewRuleButton>New rule</MTP.NewRuleButton>
+  <MTP.RulesButtonInfo>Automatic rules ({0} active)</MTP.RulesButtonInfo>
+  <MTP.RulesButtonText>Edit rules</MTP.RulesButtonText>
+  <MTP.UseAutoIcon>Auto-icon</MTP.UseAutoIcon>
   <MTP.None>No marker</MTP.None>
   <MTP.Reset>Reset all values</MTP.Reset>
   <MTP.ZOffset>Vertical offset: {0}</MTP.ZOffset>
@@ -35,4 +59,13 @@
   <MTP.IconScalingFactor>    Icon zoom scaling factor: {0}</MTP.IconScalingFactor>
   <MTP.PulsatingIcons>Use pulsating icons</MTP.PulsatingIcons>
   <MTP.PulsatingIconsTT>Icons will pulsate the same way the trader question-mark does</MTP.PulsatingIconsTT>
+  <MTP.EquippedWeaponType.Melee>Melee weapon</MTP.EquippedWeaponType.Melee>
+  <MTP.EquippedWeaponType.Ranged>Ranged projectile weapon</MTP.EquippedWeaponType.Ranged>
+  <MTP.EquippedWeaponType.RangedExplosive>Ranged explosive weapon</MTP.EquippedWeaponType.RangedExplosive>
+  <MTP.EquippedWeaponType.Thrown>Thrown</MTP.EquippedWeaponType.Thrown>
+  <MTP.AutomaticType.Weapon>Equipped weapon</MTP.AutomaticType.Weapon>
+  <MTP.AutomaticType.WeaponType>Equipped weapon-type</MTP.AutomaticType.WeaponType>
+  <MTP.AutomaticType.Trait>Has traits</MTP.AutomaticType.Trait>
+  <MTP.AutomaticType.Skill>Skill at least</MTP.AutomaticType.Skill>
+  <MTP.AutomaticType.Relative>Has relation to colonist</MTP.AutomaticType.Relative>
 </LanguageData>

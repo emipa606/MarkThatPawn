@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mlie;
 using UnityEngine;
 using Verse;
@@ -25,13 +26,30 @@ internal class MarkThatPawnMod : Mod
     {
         instance = this;
         Settings = GetSettings<MarkThatPawnSettings>();
+        if (Settings.AutoRuleBlobs == null)
+        {
+            Settings.AutoRuleBlobs = new List<string>();
+        }
+
         currentVersion = VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
+        Settings.AutoRules = new List<MarkerRule>();
     }
 
     /// <summary>
     ///     The instance-settings for the mod
     /// </summary>
     internal MarkThatPawnSettings Settings { get; }
+
+    public override void WriteSettings()
+    {
+        Settings.AutoRuleBlobs = new List<string>();
+        foreach (var rule in Settings.AutoRules)
+        {
+            Settings.AutoRuleBlobs.Add(rule.GetBlob());
+        }
+
+        base.WriteSettings();
+    }
 
     /// <summary>
     ///     The title for the mod-settings
@@ -52,7 +70,7 @@ internal class MarkThatPawnMod : Mod
     {
         var containingRect = rect.ContractedBy(100, 0).CenteredOnXIn(rect);
         var viewingRect = containingRect.ContractedBy(10f);
-        viewingRect.height *= 1.75f;
+        viewingRect.height *= 1.85f;
         Widgets.BeginScrollView(containingRect, ref optionsScrollPosition, viewingRect);
         var listing_Standard = new Listing_Standard();
 
@@ -85,6 +103,13 @@ internal class MarkThatPawnMod : Mod
             listing_Standard.SliderLabeled(
                 "MTP.ZOffset".Translate(Math.Round(Settings.ZOffset, 2)),
                 Settings.ZOffset, -1f, 1f);
+
+        var activeRules = Settings.AutoRules.Count(rule => rule.Enabled);
+        if (listing_Standard.ButtonTextLabeled("MTP.RulesButtonInfo".Translate(activeRules),
+                "MTP.RulesButtonText".Translate()))
+        {
+            Find.WindowStack.Add(new Dialog_AutoMarkingRules());
+        }
 
         listing_Standard.GapLine();
         var selectorRect = listing_Standard.GetRect(64f);
