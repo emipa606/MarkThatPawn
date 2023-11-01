@@ -25,7 +25,6 @@ public static class MarkThatPawn
 
 
     public const float ButtonIconSizeFactor = 0.8f;
-    public static readonly Texture2D ChangeSomething;
     public static readonly List<TraitDef> AllTraits;
     public static readonly List<SkillDef> AllSkills;
     public static readonly List<ThingDef> AllValidWeapons;
@@ -56,7 +55,6 @@ public static class MarkThatPawn
         standardSize = ThingDefOf.Human.size.z;
         MarkerIcon = ContentFinder<Texture2D>.Get("UI/Marker_Icon");
         CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
-        ChangeSomething = ContentFinder<Texture2D>.Get("UI/Icons/SwitchFaction");
         autoIcon = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Scheduled");
         SizeMesh = new List<Mesh>();
         for (var i = 1; i <= 50; i++)
@@ -439,6 +437,11 @@ public static class MarkThatPawn
         MarkerDef markerSet, Pawn pawn)
     {
         var returnList = new List<FloatMenuOption>();
+        if (tracker.AutomaticPawns == null)
+        {
+            tracker.AutomaticPawns = new Dictionary<Pawn, string>();
+        }
+
         if (tracker.AutomaticPawns.TryGetValue(pawn, out _))
         {
             void AutoAction()

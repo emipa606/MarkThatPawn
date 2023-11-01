@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.7 - Should no longer trigger gizmo-errors when loading an existing save.
+
+
 1.4.6 - Added automatic rule-support
 MarkerDefs can require other mods to load
 Added Ideology markerDefs, made by Yoann
