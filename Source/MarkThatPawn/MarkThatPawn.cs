@@ -12,7 +12,7 @@ namespace MarkThatPawn;
 [StaticConstructorOnStartup]
 public static class MarkThatPawn
 {
-    public enum PawnMarkingType
+    public enum PawnType
     {
         Default,
         Colonist,
@@ -22,7 +22,6 @@ public static class MarkThatPawn
         Neutral,
         Vehicle
     }
-
 
     public const float ButtonIconSizeFactor = 0.8f;
     public static readonly List<TraitDef> AllTraits;
@@ -99,6 +98,9 @@ public static class MarkThatPawn
                     break;
                 case MarkerRule.AutoRuleType.Relative:
                     rule = new RelativeMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.PawnType:
+                    rule = new PawnTypeMarkerRule(ruleBlob);
                     break;
                 default:
                     continue;
@@ -329,44 +331,31 @@ public static class MarkThatPawn
             return markerDefForPawn;
         }
 
-        if (VehiclesLoaded && MarkThatPawnMod.instance.Settings.VehiclesDiffer &&
-            pawn.def.thingClass.Name.EndsWith("VehiclePawn"))
+        switch (pawn.GetPawnType())
         {
-            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.VehiclesMarkerSet;
-            return pawnMarkerCache[pawn];
+            case PawnType.Colonist when MarkThatPawnMod.instance.Settings.ColonistDiffer:
+                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
+                break;
+            case PawnType.Prisoner when MarkThatPawnMod.instance.Settings.PrisonerDiffer:
+                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
+                break;
+            case PawnType.Slave when MarkThatPawnMod.instance.Settings.SlaveDiffer:
+                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
+                break;
+            case PawnType.Enemy when MarkThatPawnMod.instance.Settings.EnemyDiffer:
+                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
+                break;
+            case PawnType.Neutral when MarkThatPawnMod.instance.Settings.NeutralDiffer:
+                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
+                break;
+            case PawnType.Vehicle when MarkThatPawnMod.instance.Settings.VehiclesDiffer:
+                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.VehiclesMarkerSet;
+                break;
+            default:
+                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
+                break;
         }
 
-        if (MarkThatPawnMod.instance.Settings.PrisonerDiffer && pawn.IsPrisonerOfColony)
-        {
-            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
-            return pawnMarkerCache[pawn];
-        }
-
-        if (MarkThatPawnMod.instance.Settings.SlaveDiffer && pawn.IsSlaveOfColony)
-        {
-            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
-            return pawnMarkerCache[pawn];
-        }
-
-        if (MarkThatPawnMod.instance.Settings.ColonistDiffer && (pawn.IsColonist || pawn.IsColonyMech))
-        {
-            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
-            return pawnMarkerCache[pawn];
-        }
-
-        if (MarkThatPawnMod.instance.Settings.EnemyDiffer && pawn.HostileTo(Faction.OfPlayer))
-        {
-            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
-            return pawnMarkerCache[pawn];
-        }
-
-        if (MarkThatPawnMod.instance.Settings.NeutralDiffer)
-        {
-            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
-            return pawnMarkerCache[pawn];
-        }
-
-        pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
         return pawnMarkerCache[pawn];
     }
 
@@ -374,6 +363,31 @@ public static class MarkThatPawn
     {
         pawnMeshCache.Clear();
         pawnMarkerCache.Clear();
+    }
+
+    public static PawnType GetPawnType(this Pawn pawn)
+    {
+        if (VehiclesLoaded && pawn.def.thingClass.Name.EndsWith("VehiclePawn"))
+        {
+            return PawnType.Vehicle;
+        }
+
+        if (ModLister.RoyaltyInstalled && pawn.IsSlaveOfColony)
+        {
+            return PawnType.Slave;
+        }
+
+        if (pawn.IsColonist)
+        {
+            return PawnType.Colonist;
+        }
+
+        if (pawn.IsPrisonerOfColony)
+        {
+            return PawnType.Prisoner;
+        }
+
+        return pawn.HostileTo(Faction.OfPlayer) ? PawnType.Enemy : PawnType.Neutral;
     }
 
     public static bool ValidPawn(Pawn pawn)
@@ -393,32 +407,23 @@ public static class MarkThatPawn
             return false;
         }
 
-        if (!MarkThatPawnMod.instance.Settings.ShowForColonist && pawn.IsColonist)
+        switch (pawn.GetPawnType())
         {
-            return false;
+            case PawnType.Colonist:
+                return MarkThatPawnMod.instance.Settings.ShowForColonist;
+            case PawnType.Prisoner:
+                return MarkThatPawnMod.instance.Settings.ShowForPrisoner;
+            case PawnType.Slave:
+                return MarkThatPawnMod.instance.Settings.ShowForSlave;
+            case PawnType.Enemy:
+                return MarkThatPawnMod.instance.Settings.ShowForEnemy;
+            case PawnType.Neutral:
+                return MarkThatPawnMod.instance.Settings.ShowForNeutral;
+            case PawnType.Vehicle:
+                return MarkThatPawnMod.instance.Settings.ShowForVehicles;
+            default:
+                return true;
         }
-
-        if (!MarkThatPawnMod.instance.Settings.ShowForPrisoner && pawn.IsPrisoner)
-        {
-            return false;
-        }
-
-        if (!MarkThatPawnMod.instance.Settings.ShowForSlave && pawn.IsSlave)
-        {
-            return false;
-        }
-
-        if (!MarkThatPawnMod.instance.Settings.ShowForEnemy && pawn.HostileTo(Faction.OfPlayer))
-        {
-            return false;
-        }
-
-        if (!MarkThatPawnMod.instance.Settings.ShowForNeutral && !pawn.HostileTo(Faction.OfPlayer))
-        {
-            return false;
-        }
-
-        return MarkThatPawnMod.instance.Settings.ShowForVehicles || !pawn.def.thingClass.Name.EndsWith("VehiclePawn");
     }
 
     public static bool TryGetMarkerDef(string markerDefName, out MarkerDef result)
@@ -480,7 +485,7 @@ public static class MarkThatPawn
         return returnList;
     }
 
-    public static List<FloatMenuOption> GetMarkingSetOptions(PawnMarkingType type)
+    public static List<FloatMenuOption> GetMarkingSetOptions(PawnType type)
     {
         var returnList = new List<FloatMenuOption>();
         foreach (var markingSet in MarkerDefs)
@@ -489,22 +494,22 @@ public static class MarkThatPawn
 
             switch (type)
             {
-                case PawnMarkingType.Colonist:
+                case PawnType.Colonist:
                     action = () => { MarkThatPawnMod.instance.Settings.ColonistMarkerSet = markingSet; };
                     break;
-                case PawnMarkingType.Prisoner:
+                case PawnType.Prisoner:
                     action = () => { MarkThatPawnMod.instance.Settings.PrisonerMarkerSet = markingSet; };
                     break;
-                case PawnMarkingType.Slave:
+                case PawnType.Slave:
                     action = () => { MarkThatPawnMod.instance.Settings.SlaveMarkerSet = markingSet; };
                     break;
-                case PawnMarkingType.Enemy:
+                case PawnType.Enemy:
                     action = () => { MarkThatPawnMod.instance.Settings.EnemyMarkerSet = markingSet; };
                     break;
-                case PawnMarkingType.Neutral:
+                case PawnType.Neutral:
                     action = () => { MarkThatPawnMod.instance.Settings.NeutralMarkerSet = markingSet; };
                     break;
-                case PawnMarkingType.Vehicle:
+                case PawnType.Vehicle:
                     action = () => { MarkThatPawnMod.instance.Settings.VehiclesMarkerSet = markingSet; };
                     break;
             }

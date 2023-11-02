@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -14,7 +15,8 @@ public abstract class MarkerRule
         WeaponType,
         Trait,
         Skill,
-        Relative
+        Relative,
+        PawnType
     }
 
     public bool ConfigError;
@@ -35,26 +37,7 @@ public abstract class MarkerRule
         }
 
         var typeString = blob.Split(';')[0];
-        switch (typeString)
-        {
-            case "Weapon":
-                type = AutoRuleType.Weapon;
-                return true;
-            case "WeaponType":
-                type = AutoRuleType.WeaponType;
-                return true;
-            case "Trait":
-                type = AutoRuleType.Trait;
-                return true;
-            case "Skill":
-                type = AutoRuleType.Skill;
-                return true;
-            case "Relative":
-                type = AutoRuleType.Relative;
-                return true;
-            default:
-                return false;
-        }
+        return Enum.TryParse(typeString, out type);
     }
 
     public void ShowChangeMarkerDefMenu()

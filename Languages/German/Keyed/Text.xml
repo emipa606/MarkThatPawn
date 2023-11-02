@@ -69,4 +69,11 @@
   <MTP.AutomaticType.Trait>Hat Eigenschaften</MTP.AutomaticType.Trait>
   <MTP.AutomaticType.Skill>Mindestens die Fähigkeit</MTP.AutomaticType.Skill>
   <MTP.AutomaticType.Relative>Hat Beziehung zu Kolonist</MTP.AutomaticType.Relative>
+  <MTP.PawnType.Colonist>Kolonist</MTP.PawnType.Colonist>
+  <MTP.PawnType.Slave>Sklave</MTP.PawnType.Slave>
+  <MTP.PawnType.Prisoner>Häftling</MTP.PawnType.Prisoner>
+  <MTP.PawnType.Vehicle>Fahrzeug</MTP.PawnType.Vehicle>
+  <MTP.PawnType.Enemy>Feindliche</MTP.PawnType.Enemy>
+  <MTP.PawnType.Neutral>Neutral</MTP.PawnType.Neutral>
+  <MTP.AutomaticType.PawnType>Pfand ist vom Typ</MTP.AutomaticType.PawnType>
 </LanguageData>

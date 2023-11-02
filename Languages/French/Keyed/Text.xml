@@ -69,4 +69,11 @@
   <MTP.AutomaticType.Trait>A des caractéristiques</MTP.AutomaticType.Trait>
   <MTP.AutomaticType.Skill>Compétence au moins</MTP.AutomaticType.Skill>
   <MTP.AutomaticType.Relative>A un lien avec le colon</MTP.AutomaticType.Relative>
+  <MTP.PawnType.Colonist>Coloniste</MTP.PawnType.Colonist>
+  <MTP.PawnType.Slave>Esclave</MTP.PawnType.Slave>
+  <MTP.PawnType.Prisoner>Prisonnier</MTP.PawnType.Prisoner>
+  <MTP.PawnType.Vehicle>Véhicule</MTP.PawnType.Vehicle>
+  <MTP.PawnType.Enemy>Ennemi</MTP.PawnType.Enemy>
+  <MTP.PawnType.Neutral>Neutre</MTP.PawnType.Neutral>
+  <MTP.AutomaticType.PawnType>Le pion est de type</MTP.AutomaticType.PawnType>
 </LanguageData>

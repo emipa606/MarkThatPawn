@@ -118,7 +118,7 @@ internal class MarkThatPawnMod : Mod
         if (MarkerSelector(selectorRect.RightHalf(), Settings.DefaultMarkerSet))
         {
             Find.WindowStack.Add(
-                new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Default)));
+                new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Default)));
         }
 
         listing_Standard.GapLine();
@@ -133,7 +133,7 @@ internal class MarkThatPawnMod : Mod
                 if (MarkerSelector(selectorRect.RightHalf(), Settings.ColonistMarkerSet))
                 {
                     Find.WindowStack.Add(
-                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Colonist)));
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Colonist)));
                 }
             }
         }
@@ -150,7 +150,7 @@ internal class MarkThatPawnMod : Mod
                 if (MarkerSelector(selectorRect.RightHalf(), Settings.PrisonerMarkerSet))
                 {
                     Find.WindowStack.Add(
-                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Prisoner)));
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Prisoner)));
                 }
             }
         }
@@ -169,7 +169,7 @@ internal class MarkThatPawnMod : Mod
                     if (MarkerSelector(selectorRect.RightHalf(), Settings.SlaveMarkerSet))
                     {
                         Find.WindowStack.Add(
-                            new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Slave)));
+                            new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Slave)));
                     }
                 }
             }
@@ -187,7 +187,7 @@ internal class MarkThatPawnMod : Mod
                 if (MarkerSelector(selectorRect.RightHalf(), Settings.EnemyMarkerSet))
                 {
                     Find.WindowStack.Add(
-                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Enemy)));
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Enemy)));
                 }
             }
         }
@@ -204,7 +204,7 @@ internal class MarkThatPawnMod : Mod
                 if (MarkerSelector(selectorRect.RightHalf(), Settings.NeutralMarkerSet))
                 {
                     Find.WindowStack.Add(
-                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Neutral)));
+                        new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Neutral)));
                 }
             }
         }
@@ -223,7 +223,7 @@ internal class MarkThatPawnMod : Mod
                     if (MarkerSelector(selectorRect.RightHalf(), Settings.VehiclesMarkerSet))
                     {
                         Find.WindowStack.Add(
-                            new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnMarkingType.Vehicle)));
+                            new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Vehicle)));
                     }
                 }
             }

@@ -69,4 +69,11 @@
   <MTP.AutomaticType.Trait>具有特征</MTP.AutomaticType.Trait>
   <MTP.AutomaticType.Skill>技能至少</MTP.AutomaticType.Skill>
   <MTP.AutomaticType.Relative>与殖民者有关系</MTP.AutomaticType.Relative>
+  <MTP.PawnType.Colonist>殖民者</MTP.PawnType.Colonist>
+  <MTP.PawnType.Slave>奴隶</MTP.PawnType.Slave>
+  <MTP.PawnType.Prisoner>囚犯</MTP.PawnType.Prisoner>
+  <MTP.PawnType.Vehicle>车辆</MTP.PawnType.Vehicle>
+  <MTP.PawnType.Enemy>敌人</MTP.PawnType.Enemy>
+  <MTP.PawnType.Neutral>中性</MTP.PawnType.Neutral>
+  <MTP.AutomaticType.PawnType>典当类型</MTP.AutomaticType.PawnType>
 </LanguageData>

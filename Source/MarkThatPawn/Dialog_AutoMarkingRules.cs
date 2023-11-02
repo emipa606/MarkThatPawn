@@ -271,6 +271,10 @@ public class Dialog_AutoMarkingRules : Window
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new RelativeMarkerRule())));
                     break;
+                case MarkerRule.AutoRuleType.PawnType:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new PawnTypeMarkerRule())));
+                    break;
                 default:
                     continue;
             }
