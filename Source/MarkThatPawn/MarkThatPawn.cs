@@ -157,13 +157,25 @@ public static class MarkThatPawn
 
                 material = markerSet.MarkerMaterials[marker - 1];
                 break;
-            case < 0:
-                if (!tracker.AutomaticPawns.TryGetValue(pawn, out var result))
+            case -1:
+                if (!tracker.AutomaticPawns.TryGetValue(pawn, out var autoString))
                 {
                     return;
                 }
 
-                if (!TryToConvertAutostringToMaterial(result, out material))
+                if (!TryToConvertStringToMaterial(autoString, out material))
+                {
+                    return;
+                }
+
+                break;
+            case -2:
+                if (!tracker.CustomPawns.TryGetValue(pawn, out var customString))
+                {
+                    return;
+                }
+
+                if (!TryToConvertStringToMaterial(customString, out material))
                 {
                     return;
                 }
@@ -266,21 +278,21 @@ public static class MarkThatPawn
     }
 
 
-    public static bool TryToConvertAutostringToMaterial(string autoString, out Material result)
+    public static bool TryToConvertStringToMaterial(string markerString, out Material result)
     {
         result = null;
-        if (autoString == null || !autoString.Contains(";"))
+        if (markerString == null || !markerString.Contains(";"))
         {
             return false;
         }
 
-        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == autoString.Split(';')[0]);
+        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == markerString.Split(';')[0]);
         if (markerSet == null)
         {
             return false;
         }
 
-        if (!int.TryParse(autoString.Split(';')[1], out var number))
+        if (!int.TryParse(markerString.Split(';')[1], out var number))
         {
             return false;
         }
@@ -294,21 +306,21 @@ public static class MarkThatPawn
         return true;
     }
 
-    public static bool TryToConvertAutostringToTexture2D(string autoString, out Texture2D result)
+    public static bool TryToConvertStringToTexture2D(string markerString, out Texture2D result)
     {
         result = null;
-        if (autoString == null || !autoString.Contains(";"))
+        if (markerString == null || !markerString.Contains(";"))
         {
             return false;
         }
 
-        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == autoString.Split(';')[0]);
+        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == markerString.Split(';')[0]);
         if (markerSet == null)
         {
             return false;
         }
 
-        if (!int.TryParse(autoString.Split(';')[1], out var number))
+        if (!int.TryParse(markerString.Split(';')[1], out var number))
         {
             return false;
         }
@@ -446,6 +458,43 @@ public static class MarkThatPawn
         {
             tracker.AutomaticPawns = new Dictionary<Pawn, string>();
         }
+
+        if (tracker.CustomPawns == null)
+        {
+            tracker.CustomPawns = new Dictionary<Pawn, string>();
+        }
+
+        void CustomAction()
+        {
+            var markerMenu = new List<FloatMenuOption>();
+            foreach (var markerDef in MarkerDefs)
+            {
+                markerMenu.Add(new FloatMenuOption(markerDef.LabelCap, () =>
+                {
+                    var markerNumber = new List<FloatMenuOption>();
+                    for (var i = 0; i < markerDef.MarkerTextures.Count; i++)
+                    {
+                        var mark = i + 1;
+
+                        void Action()
+                        {
+                            tracker.SetPawnMarking(pawn, -2, currentMarking, tracker,
+                                customMarkerString: $"{markerDef.defName};{mark}");
+                        }
+
+                        markerNumber.Add(new FloatMenuOption("MTP.MarkerNumber".Translate(mark), Action,
+                            markerDef.MarkerTextures[i], Color.white));
+                    }
+
+                    Find.WindowStack.Add(new FloatMenu(markerNumber));
+                }, markerDef.Icon, Color.white));
+            }
+
+            Find.WindowStack.Add(new FloatMenu(markerMenu));
+        }
+
+        returnList.Add(new FloatMenuOption("MTP.CustomIcon".Translate(), CustomAction, TexButton.NewItem,
+            Color.white));
 
         if (tracker.AutomaticPawns.TryGetValue(pawn, out _))
         {

@@ -33,6 +33,7 @@
   <MTP.SomeSelected>{0} selected</MTP.SomeSelected>
   <MTP.ChangeTraits>Change traits</MTP.ChangeTraits>
   <MTP.ChangeSkills>Change skills</MTP.ChangeSkills>
+  <MTP.CustomIcon>Custom-icon</MTP.CustomIcon>
   <MTP.Enabled>Enabled</MTP.Enabled>
   <MTP.EnabledChange>Rule enabled, click to disable</MTP.EnabledChange>
   <MTP.Disabled>Disabled</MTP.Disabled>

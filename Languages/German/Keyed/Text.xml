@@ -76,4 +76,5 @@
   <MTP.PawnType.Enemy>Feindliche</MTP.PawnType.Enemy>
   <MTP.PawnType.Neutral>Neutral</MTP.PawnType.Neutral>
   <MTP.AutomaticType.PawnType>Pfand ist vom Typ</MTP.AutomaticType.PawnType>
+  <MTP.CustomIcon>Benutzerdefiniertes Symbol</MTP.CustomIcon>
 </LanguageData>

@@ -76,4 +76,5 @@
   <MTP.PawnType.Enemy>Ennemi</MTP.PawnType.Enemy>
   <MTP.PawnType.Neutral>Neutre</MTP.PawnType.Neutral>
   <MTP.AutomaticType.PawnType>Le pion est de type</MTP.AutomaticType.PawnType>
+  <MTP.CustomIcon>Icône personnalisée</MTP.CustomIcon>
 </LanguageData>

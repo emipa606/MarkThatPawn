@@ -76,4 +76,5 @@
   <MTP.PawnType.Enemy>敌人</MTP.PawnType.Enemy>
   <MTP.PawnType.Neutral>中性</MTP.PawnType.Neutral>
   <MTP.AutomaticType.PawnType>典当类型</MTP.AutomaticType.PawnType>
+  <MTP.CustomIcon>自定义图标</MTP.CustomIcon>
 </LanguageData>

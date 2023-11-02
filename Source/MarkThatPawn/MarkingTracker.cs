@@ -11,6 +11,9 @@ public class MarkingTracker : MapComponent
     public Dictionary<Pawn, string> AutomaticPawns = new Dictionary<Pawn, string>();
     private List<Pawn> automaticPawnsKeys = new List<Pawn>();
     private List<string> automaticPawnsValues = new List<string>();
+    public Dictionary<Pawn, string> CustomPawns = new Dictionary<Pawn, string>();
+    private List<Pawn> customPawnsKeys = new List<Pawn>();
+    private List<string> customPawnsValues = new List<string>();
     public Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
     private List<Pawn> markedPawnsKeys = new List<Pawn>();
     private List<int> markedPawnsValues = new List<int>();
@@ -26,10 +29,15 @@ public class MarkingTracker : MapComponent
     }
 
     public void SetPawnMarking(Pawn pawn, int mark, int currentMarking, MarkingTracker tracker,
-        bool onlySelectedPawn = false)
+        bool onlySelectedPawn = false, string customMarkerString = null)
     {
         if (onlySelectedPawn)
         {
+            if (tracker.CustomPawns.ContainsKey(pawn))
+            {
+                tracker.CustomPawns.Remove(pawn);
+            }
+
             if (mark == 0)
             {
                 if (MarkedPawns.ContainsKey(pawn))
@@ -38,6 +46,11 @@ public class MarkingTracker : MapComponent
                 }
 
                 return;
+            }
+
+            if (customMarkerString != null)
+            {
+                CustomPawns[pawn] = customMarkerString;
             }
 
             MarkedPawns[pawn] = mark;
@@ -54,7 +67,7 @@ public class MarkingTracker : MapComponent
 
             if (selectedPawn != pawn)
             {
-                if (MarkThatPawn.GetMarkerDefForPawn(selectedPawn) != pawnSelector)
+                if (MarkThatPawn.GetMarkerDefForPawn(selectedPawn) != pawnSelector && mark > -2)
                 {
                     continue;
                 }
@@ -65,20 +78,30 @@ public class MarkingTracker : MapComponent
                 }
             }
 
-
-            if (mark == 0)
+            if (tracker.CustomPawns.ContainsKey(selectedPawn))
             {
-                if (MarkedPawns.ContainsKey(selectedPawn))
-                {
-                    MarkedPawns.Remove(selectedPawn);
-                }
-
-                continue;
+                tracker.CustomPawns.Remove(selectedPawn);
             }
 
-            if (mark > 0 || AutomaticPawns?.ContainsKey(selectedPawn) == true)
+            switch (mark)
             {
-                MarkedPawns[selectedPawn] = mark;
+                case -2:
+                case -1 when AutomaticPawns?.ContainsKey(selectedPawn) == true:
+                case > 0:
+                    MarkedPawns[selectedPawn] = mark;
+                    if (customMarkerString != null)
+                    {
+                        CustomPawns[selectedPawn] = customMarkerString;
+                    }
+
+                    break;
+                case 0:
+                    if (MarkedPawns.ContainsKey(selectedPawn))
+                    {
+                        MarkedPawns.Remove(selectedPawn);
+                    }
+
+                    break;
             }
         }
     }
@@ -97,13 +120,14 @@ public class MarkingTracker : MapComponent
             }
         }
 
-        if (Find.TickManager.TicksGame % GenDate.TicksPerDay != 0 || MarkedPawns.NullOrEmpty())
+        if (Find.TickManager.TicksGame % GenDate.TicksPerDay != 0)
         {
             return;
         }
 
-        MarkedPawns.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
-        AutomaticPawns.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+        MarkedPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+        AutomaticPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+        CustomPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
     }
 
     public override void ExposeData()
@@ -113,5 +137,7 @@ public class MarkingTracker : MapComponent
             ref markedPawnsValues);
         Scribe_Collections.Look(ref AutomaticPawns, "AutomaticPawns", LookMode.Reference, LookMode.Value,
             ref automaticPawnsKeys, ref automaticPawnsValues);
+        Scribe_Collections.Look(ref CustomPawns, "CustomPawns", LookMode.Reference, LookMode.Value,
+            ref customPawnsKeys, ref customPawnsValues);
     }
 }

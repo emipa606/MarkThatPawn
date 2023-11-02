@@ -142,7 +142,7 @@ public class TraitMarkerRule : MarkerRule
                     {
                         traitDefs.Remove(traitDef);
                         RuleParameters = string.Join(",", traitDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
-                    }, TexButton.Minus, Color.white));
+                    }, TexButton.Empty, Color.white));
                     continue;
                 }
 
@@ -150,7 +150,7 @@ public class TraitMarkerRule : MarkerRule
                 {
                     traitDefs[traitDef] = traitDefDegree.degree;
                     RuleParameters = string.Join(",", traitDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
-                }, TexButton.Plus, Color.white));
+                }, TexButton.Add, Color.white));
             }
         }
 

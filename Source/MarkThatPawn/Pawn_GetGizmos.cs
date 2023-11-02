@@ -57,9 +57,17 @@ public static class Pawn_GetGizmos
 
         switch (currentMarking)
         {
-            case < 0:
+            case -2:
+                if (!tracker.CustomPawns.TryGetValue(__instance, out var customString) ||
+                    !MarkThatPawn.TryToConvertStringToTexture2D(customString, out icon))
+                {
+                    icon = BaseContent.BadTex;
+                }
+
+                break;
+            case -1:
                 if (!tracker.AutomaticPawns.TryGetValue(__instance, out var autoString) ||
-                    !MarkThatPawn.TryToConvertAutostringToTexture2D(autoString, out icon))
+                    !MarkThatPawn.TryToConvertStringToTexture2D(autoString, out icon))
                 {
                     icon = BaseContent.BadTex;
                 }
