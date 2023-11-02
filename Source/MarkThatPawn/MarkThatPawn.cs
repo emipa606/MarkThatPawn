@@ -336,12 +336,6 @@ public static class MarkThatPawn
             return pawnMarkerCache[pawn];
         }
 
-        if (MarkThatPawnMod.instance.Settings.ColonistDiffer && (pawn.IsColonist || pawn.IsColonyMech))
-        {
-            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
-            return pawnMarkerCache[pawn];
-        }
-
         if (MarkThatPawnMod.instance.Settings.PrisonerDiffer && pawn.IsPrisonerOfColony)
         {
             pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
@@ -351,6 +345,12 @@ public static class MarkThatPawn
         if (MarkThatPawnMod.instance.Settings.SlaveDiffer && pawn.IsSlaveOfColony)
         {
             pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
+            return pawnMarkerCache[pawn];
+        }
+
+        if (MarkThatPawnMod.instance.Settings.ColonistDiffer && (pawn.IsColonist || pawn.IsColonyMech))
+        {
+            pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
             return pawnMarkerCache[pawn];
         }
 

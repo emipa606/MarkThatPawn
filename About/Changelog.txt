@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.8 - Slaves marker set should now not be overridden by colonists
+
+
 1.4.7 - Should no longer trigger gizmo-errors when loading an existing save.
 
 
