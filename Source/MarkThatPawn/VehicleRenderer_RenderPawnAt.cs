@@ -18,7 +18,7 @@ public static class VehicleRenderer_RenderPawnAt
             return;
         }
 
-        var result = tracker.GetPawnMarking(___vehicle);
+        var result = tracker.GlobalMarkingTracker.GetPawnMarking(___vehicle);
         if (result == 0)
         {
             return;

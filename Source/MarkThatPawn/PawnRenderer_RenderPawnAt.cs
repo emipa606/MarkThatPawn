@@ -20,7 +20,7 @@ public static class PawnRenderer_RenderPawnAt
             return;
         }
 
-        var result = tracker.GetPawnMarking(___pawn);
+        var result = tracker.GlobalMarkingTracker.GetPawnMarking(___pawn);
         if (result == 0)
         {
             return;

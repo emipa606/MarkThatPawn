@@ -35,8 +35,8 @@ public class TraitMarkerRule : MarkerRule
 
         if (edit)
         {
-            traitListRect = rect.RightPart(0.8f);
-            var buttonRect = rect.LeftPart(0.18f);
+            traitListRect = rect.RightPart(0.75f);
+            var buttonRect = rect.LeftPart(0.23f);
             if (Widgets.ButtonText(buttonRect,
                     !traitDefs.Any() ? "MTP.NoneSelected".Translate() : "MTP.SomeSelected".Translate(traitDefs.Count)))
             {
@@ -67,6 +67,12 @@ public class TraitMarkerRule : MarkerRule
         }
 
         traitDefs = new Dictionary<TraitDef, int>();
+
+        if (RuleParameters == string.Empty && !Enabled)
+        {
+            return;
+        }
+
         foreach (var traitKeyPair in RuleParameters.Split(','))
         {
             if (!traitKeyPair.Contains("|") || traitKeyPair.Split('|').Length != 2)
@@ -105,6 +111,11 @@ public class TraitMarkerRule : MarkerRule
 
     public override bool AppliesToPawn(Pawn pawn)
     {
+        if (!base.AppliesToPawn(pawn))
+        {
+            return false;
+        }
+
         if (pawn == null || pawn.Destroyed || !pawn.Spawned)
         {
             return false;

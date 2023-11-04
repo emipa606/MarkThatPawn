@@ -57,7 +57,7 @@ public class PawnTypeMarkerRule : MarkerRule
             return;
         }
 
-        if (Enum.TryParse(RuleParameters, out pawnType))
+        if (Enum.TryParse(RuleParameters, out pawnType) || !Enabled)
         {
             return;
         }

@@ -133,11 +133,18 @@ public class Dialog_AutoMarkingRules : Window
                     }
                 }
 
-                infoRect = workingRect.LeftPart(0.45f).TopHalf().CenteredOnYIn(workingRect);
                 infoLabel = autoRule.GetTranslatedType();
                 if (!autoRule.Enabled)
                 {
                     infoLabel = $"{infoLabel} ({"MTP.Disabled".Translate()})";
+                }
+
+                infoRect = workingRect.LeftPart(0.45f).TopHalf().CenteredOnYIn(workingRect);
+                if (autoRule.PawnLimitation != MarkThatPawn.PawnType.Default)
+                {
+                    infoRect = workingRect.LeftPart(0.45f).TopPart(0.75f).CenteredOnYIn(workingRect);
+                    infoLabel +=
+                        $"{Environment.NewLine}{"MTP.PawnLimitation".Translate($"MTP.PawnType.{autoRule.PawnLimitation}".Translate())}";
                 }
 
                 Widgets.Label(infoRect, infoLabel);
@@ -169,7 +176,22 @@ public class Dialog_AutoMarkingRules : Window
                 ruleWorkingCopy.SetEnabled(!ruleWorkingCopy.Enabled);
             }
 
-            infoRect = workingRect.LeftPart(0.45f).TopHalf().CenteredOnYIn(workingRect);
+            infoRect = workingRect.LeftPart(0.45f).TopHalf().ContractedBy(1f);
+            if (ruleWorkingCopy is not PawnTypeMarkerRule)
+            {
+                var limitationRect = workingRect.LeftPart(0.45f).BottomHalf().ContractedBy(1f);
+                Widgets.Label(limitationRect.LeftHalf(), "MTP.PawnLimitation".Translate());
+                if (Widgets.ButtonText(limitationRect.RightHalf(),
+                        $"MTP.PawnType.{ruleWorkingCopy.PawnLimitation}".Translate()))
+                {
+                    ruleWorkingCopy.ShowPawnLimitationSelectorMenu();
+                }
+            }
+            else
+            {
+                infoRect = infoRect.CenteredOnYIn(workingRect);
+            }
+
             infoLabel = ruleWorkingCopy.GetTranslatedType();
             if (!ruleWorkingCopy.Enabled)
             {
@@ -177,6 +199,7 @@ public class Dialog_AutoMarkingRules : Window
             }
 
             Widgets.Label(infoRect, infoLabel);
+
 
             ruleWorkingCopy.ShowTypeParametersRect(workingRect.RightPart(0.53f), true);
 

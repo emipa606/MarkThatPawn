@@ -62,6 +62,11 @@ public class WeaponMarkerRule : MarkerRule
             return;
         }
 
+        if (RuleParameters == string.Empty && !Enabled)
+        {
+            return;
+        }
+
         weaponThingDef = DefDatabase<ThingDef>.GetNamedSilentFail(RuleParameters);
         if (weaponThingDef != null)
         {
@@ -74,6 +79,11 @@ public class WeaponMarkerRule : MarkerRule
 
     public override bool AppliesToPawn(Pawn pawn)
     {
+        if (!base.AppliesToPawn(pawn))
+        {
+            return false;
+        }
+
         if (pawn == null || pawn.Destroyed || !pawn.Spawned)
         {
             return false;

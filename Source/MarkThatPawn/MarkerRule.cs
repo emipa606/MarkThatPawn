@@ -4,6 +4,7 @@ using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using static MarkThatPawn.MarkThatPawn;
 
 namespace MarkThatPawn;
 
@@ -24,6 +25,7 @@ public abstract class MarkerRule
     public string ErrorMessage;
     public MarkerDef MarkerDef;
     public int MarkerIndex;
+    public PawnType PawnLimitation;
     public int RuleOrder;
     protected string RuleParameters;
     protected AutoRuleType RuleType;
@@ -44,7 +46,7 @@ public abstract class MarkerRule
     {
         var markerSetList = new List<FloatMenuOption>();
 
-        foreach (var def in MarkThatPawn.MarkerDefs)
+        foreach (var def in MarkerDefs)
         {
             markerSetList.Add(new FloatMenuOption(def.LabelCap, () => TrySetMarkerDef(def), def.Icon, Color.white));
         }
@@ -88,6 +90,7 @@ public abstract class MarkerRule
     protected void SetDefaultValues()
     {
         RuleParameters = string.Empty;
+        PawnLimitation = PawnType.Default;
         MarkerIndex = 0;
         MarkerDef = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
         Enabled = false;
@@ -105,16 +108,21 @@ public abstract class MarkerRule
     {
         SetDefaultValues();
         var rowSplitted = blob.Split(';');
-        if (rowSplitted.Length != 6)
+        if (rowSplitted.Length is < 6 or > 7)
         {
-            ErrorMessage = "blob is malformed, cannot split into 5 parts";
+            ErrorMessage = $"Blob is malformed, cannot split into correct parts, got {rowSplitted.Length}";
             ConfigError = true;
             return;
         }
 
+        if (rowSplitted.Length == 6)
+        {
+            rowSplitted = $"{blob};Default".Split(';');
+        }
+
         RuleParameters = rowSplitted[1];
 
-        if (!MarkThatPawn.TryGetMarkerDef(rowSplitted[2], out MarkerDef))
+        if (!TryGetMarkerDef(rowSplitted[2], out MarkerDef))
         {
             ErrorMessage = "Cannot parse MarkerDef";
             ConfigError = true;
@@ -141,17 +149,33 @@ public abstract class MarkerRule
             return;
         }
 
+        if (!Enum.TryParse(rowSplitted[6], out PawnType pawnType))
+        {
+            ErrorMessage = "Cannot parse PawnLimitation";
+            ConfigError = true;
+            return;
+        }
+
+        PawnLimitation = pawnType;
         RuleOrder = ruleOrder;
         PopulateRuleParameterObjects();
     }
 
     protected abstract void PopulateRuleParameterObjects();
 
-    public abstract bool AppliesToPawn(Pawn pawn);
+    public virtual bool AppliesToPawn(Pawn pawn)
+    {
+        if (PawnLimitation == PawnType.Default)
+        {
+            return true;
+        }
+
+        return pawn.GetPawnType() == PawnLimitation;
+    }
 
     public string GetBlob()
     {
-        return $"{RuleType};{RuleParameters};{MarkerDef.defName};{MarkerIndex};{Enabled};{RuleOrder}";
+        return $"{RuleType};{RuleParameters};{MarkerDef.defName};{MarkerIndex};{Enabled};{RuleOrder};{PawnLimitation}";
     }
 
     public string GetTranslatedType()
@@ -254,5 +278,26 @@ public abstract class MarkerRule
             .First(rule => rule.RuleOrder > RuleOrder);
 
         (ruleToSwitchWith.RuleOrder, RuleOrder) = (RuleOrder, ruleToSwitchWith.RuleOrder);
+    }
+
+    public void ShowPawnLimitationSelectorMenu()
+    {
+        var pawnTypeList = new List<FloatMenuOption>();
+
+        foreach (var typeOfPawn in (PawnType[])Enum.GetValues(typeof(PawnType)))
+        {
+            switch (typeOfPawn)
+            {
+                case PawnType.Slave when !ModLister.RoyaltyInstalled:
+                case PawnType.Vehicle when !VehiclesLoaded:
+                    continue;
+                default:
+                    pawnTypeList.Add(new FloatMenuOption($"MTP.PawnType.{typeOfPawn}".Translate(),
+                        () => { PawnLimitation = typeOfPawn; }));
+                    break;
+            }
+        }
+
+        Find.WindowStack.Add(new FloatMenu(pawnTypeList));
     }
 }

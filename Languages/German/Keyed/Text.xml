@@ -77,4 +77,6 @@
   <MTP.PawnType.Neutral>Neutral</MTP.PawnType.Neutral>
   <MTP.AutomaticType.PawnType>Pfand ist vom Typ</MTP.AutomaticType.PawnType>
   <MTP.CustomIcon>Benutzerdefiniertes Symbol</MTP.CustomIcon>
+  <MTP.PawnType.Default>Jede</MTP.PawnType.Default>
+  <MTP.PawnLimitation>Gilt nur für: {0}</MTP.PawnLimitation>
 </LanguageData>

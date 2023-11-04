@@ -35,8 +35,8 @@ public class SkillMarkerRule : MarkerRule
 
         if (edit)
         {
-            skillListRect = rect.RightPart(0.8f);
-            var buttonRect = rect.LeftPart(0.18f);
+            skillListRect = rect.RightPart(0.75f);
+            var buttonRect = rect.LeftPart(0.23f);
             if (Widgets.ButtonText(buttonRect,
                     !skillDefs.Any() ? "MTP.NoneSelected".Translate() : "MTP.SomeSelected".Translate(skillDefs.Count)))
             {
@@ -67,6 +67,12 @@ public class SkillMarkerRule : MarkerRule
         }
 
         skillDefs = new Dictionary<SkillDef, int>();
+
+        if (RuleParameters == string.Empty && !Enabled)
+        {
+            return;
+        }
+
         foreach (var skillKeyPair in RuleParameters.Split(','))
         {
             if (!skillKeyPair.Contains("|") || skillKeyPair.Split('|').Length != 2)
@@ -99,6 +105,11 @@ public class SkillMarkerRule : MarkerRule
 
     public override bool AppliesToPawn(Pawn pawn)
     {
+        if (!base.AppliesToPawn(pawn))
+        {
+            return false;
+        }
+
         if (pawn == null || pawn.Destroyed || !pawn.Spawned)
         {
             return false;

@@ -77,4 +77,6 @@
   <MTP.PawnType.Neutral>中性</MTP.PawnType.Neutral>
   <MTP.AutomaticType.PawnType>典当类型</MTP.AutomaticType.PawnType>
   <MTP.CustomIcon>自定义图标</MTP.CustomIcon>
+  <MTP.PawnType.Default>任何</MTP.PawnType.Default>
+  <MTP.PawnLimitation>仅适用于{0}</MTP.PawnLimitation>
 </LanguageData>

@@ -42,15 +42,15 @@ public static class Pawn_GetGizmos
             yield break;
         }
 
-        var currentMarking = tracker.GetPawnMarking(__instance);
+        var currentMarking = tracker.GlobalMarkingTracker.GetPawnMarking(__instance);
         var currentMarkerSet = MarkThatPawn.GetMarkerDefForPawn(__instance);
 
         if (currentMarking > currentMarkerSet.MarkerTextures.Count)
         {
             Log.Warning(
                 $"[MarkThatPawn]: {__instance.NameFullColored} had marker number {currentMarking} but there are only {currentMarkerSet.MarkerTextures.Count} markers loaded. Removing marker.");
-            tracker.SetPawnMarking(__instance, 0, currentMarking, tracker, true);
-            currentMarking = tracker.GetPawnMarking(__instance);
+            tracker.GlobalMarkingTracker.SetPawnMarking(__instance, 0, currentMarking, true);
+            currentMarking = tracker.GlobalMarkingTracker.GetPawnMarking(__instance);
         }
 
         var icon = MarkThatPawn.MarkerIcon;
@@ -58,7 +58,7 @@ public static class Pawn_GetGizmos
         switch (currentMarking)
         {
             case -2:
-                if (!tracker.CustomPawns.TryGetValue(__instance, out var customString) ||
+                if (!tracker.GlobalMarkingTracker.CustomPawns.TryGetValue(__instance, out var customString) ||
                     !MarkThatPawn.TryToConvertStringToTexture2D(customString, out icon))
                 {
                     icon = BaseContent.BadTex;
@@ -66,7 +66,7 @@ public static class Pawn_GetGizmos
 
                 break;
             case -1:
-                if (!tracker.AutomaticPawns.TryGetValue(__instance, out var autoString) ||
+                if (!tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(__instance, out var autoString) ||
                     !MarkThatPawn.TryToConvertStringToTexture2D(autoString, out icon))
                 {
                     icon = BaseContent.BadTex;

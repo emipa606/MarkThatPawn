@@ -158,7 +158,7 @@ public static class MarkThatPawn
                 material = markerSet.MarkerMaterials[marker - 1];
                 break;
             case -1:
-                if (!tracker.AutomaticPawns.TryGetValue(pawn, out var autoString))
+                if (!tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(pawn, out var autoString))
                 {
                     return;
                 }
@@ -170,7 +170,7 @@ public static class MarkThatPawn
 
                 break;
             case -2:
-                if (!tracker.CustomPawns.TryGetValue(pawn, out var customString))
+                if (!tracker.GlobalMarkingTracker.CustomPawns.TryGetValue(pawn, out var customString))
                 {
                     return;
                 }
@@ -454,14 +454,14 @@ public static class MarkThatPawn
         MarkerDef markerSet, Pawn pawn)
     {
         var returnList = new List<FloatMenuOption>();
-        if (tracker.AutomaticPawns == null)
+        if (tracker.GlobalMarkingTracker.AutomaticPawns == null)
         {
-            tracker.AutomaticPawns = new Dictionary<Pawn, string>();
+            tracker.GlobalMarkingTracker.AutomaticPawns = new Dictionary<Pawn, string>();
         }
 
-        if (tracker.CustomPawns == null)
+        if (tracker.GlobalMarkingTracker.CustomPawns == null)
         {
-            tracker.CustomPawns = new Dictionary<Pawn, string>();
+            tracker.GlobalMarkingTracker.CustomPawns = new Dictionary<Pawn, string>();
         }
 
         void CustomAction()
@@ -478,7 +478,7 @@ public static class MarkThatPawn
 
                         void Action()
                         {
-                            tracker.SetPawnMarking(pawn, -2, currentMarking, tracker,
+                            tracker.GlobalMarkingTracker.SetPawnMarking(pawn, -2, currentMarking,
                                 customMarkerString: $"{markerDef.defName};{mark}");
                         }
 
@@ -496,11 +496,11 @@ public static class MarkThatPawn
         returnList.Add(new FloatMenuOption("MTP.CustomIcon".Translate(), CustomAction, TexButton.NewItem,
             Color.white));
 
-        if (tracker.AutomaticPawns.TryGetValue(pawn, out _))
+        if (tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(pawn, out _))
         {
             void AutoAction()
             {
-                tracker.SetPawnMarking(pawn, -1, currentMarking, tracker);
+                tracker.GlobalMarkingTracker.SetPawnMarking(pawn, -1, currentMarking);
             }
 
             returnList.Add(new FloatMenuOption("MTP.UseAutoIcon".Translate(), AutoAction, autoIcon, Color.white));
@@ -512,7 +512,7 @@ public static class MarkThatPawn
 
             void Action()
             {
-                tracker.SetPawnMarking(pawn, mark, currentMarking, tracker);
+                tracker.GlobalMarkingTracker.SetPawnMarking(pawn, mark, currentMarking);
             }
 
             Texture2D icon;

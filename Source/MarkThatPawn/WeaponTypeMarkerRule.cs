@@ -70,6 +70,11 @@ public class WeaponTypeMarkerRule : MarkerRule
             return;
         }
 
+        if (RuleParameters == string.Empty && !Enabled)
+        {
+            return;
+        }
+
         if (Enum.TryParse(RuleParameters, out equippedWeaponType))
         {
             return;
@@ -81,6 +86,11 @@ public class WeaponTypeMarkerRule : MarkerRule
 
     public override bool AppliesToPawn(Pawn pawn)
     {
+        if (!base.AppliesToPawn(pawn))
+        {
+            return false;
+        }
+
         if (pawn == null || pawn.Destroyed || !pawn.Spawned)
         {
             return false;
