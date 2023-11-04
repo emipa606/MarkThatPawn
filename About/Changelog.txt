@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.12 - Auto-markings will no longer override any existing markers
+
+
 1.4.11 - Moved markings from map-components to one game-component to avoid issues with caravans.
 Added pawn-type filtering to all applicable rules..
 Used DeepL to update translations for ChineseSimplified, French, German

@@ -25,6 +25,11 @@ public class GlobalMarkingTracker : GameComponent
         return MarkedPawns.TryGetValue(pawn, out var result) ? result : 0;
     }
 
+    public bool HasAnyDefinedMarking(Pawn pawn)
+    {
+        return MarkedPawns.ContainsKey(pawn) || CustomPawns.ContainsKey(pawn) || AutomaticPawns.ContainsKey(pawn);
+    }
+
     public void SetPawnMarking(Pawn pawn, int mark, int currentMarking, bool onlySelectedPawn = false,
         string customMarkerString = null)
     {

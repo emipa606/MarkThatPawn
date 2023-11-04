@@ -30,13 +30,18 @@ public class MarkingTracker : MapComponent
 
         var firstPawn = PawnsToEvaluate.First();
         PawnsToEvaluate.Remove(firstPawn);
+
         if (!MarkThatPawn.TryGetAutoMarkerForPawn(firstPawn, out var result))
         {
             return;
         }
 
+        if (!GlobalMarkingTracker.HasAnyDefinedMarking(firstPawn))
+        {
+            GlobalMarkingTracker.MarkedPawns[firstPawn] = -1;
+        }
+
         GlobalMarkingTracker.AutomaticPawns[firstPawn] = result;
-        GlobalMarkingTracker.MarkedPawns[firstPawn] = -1;
     }
 
 

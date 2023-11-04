@@ -14,11 +14,6 @@ public static class GenSpawn_Spawn
             return;
         }
 
-        if (GenTicks.TicksGame < 2)
-        {
-            return;
-        }
-
         if (__result is not Pawn pawn)
         {
             return;
