@@ -79,4 +79,10 @@
   <MTP.CustomIcon>自定义图标</MTP.CustomIcon>
   <MTP.PawnType.Default>任何</MTP.PawnType.Default>
   <MTP.PawnLimitation>仅适用于{0}</MTP.PawnLimitation>
+  <MTP.AutomaticType.Drafted>卒被征召入伍</MTP.AutomaticType.Drafted>
+  <MTP.AutomaticType.MentalState>卒处于精神状态</MTP.AutomaticType.MentalState>
+  <MTP.MentalState.Any>任何州</MTP.MentalState.Any>
+  <MTP.MentalState.Passive>被动状态</MTP.MentalState.Passive>
+  <MTP.MentalState.Aggressive>侵略状态</MTP.MentalState.Aggressive>
+  <MTP.OverrideRule>这是一个覆盖规则。它只会在满足条件时覆盖当前图标。</MTP.OverrideRule>
 </LanguageData>

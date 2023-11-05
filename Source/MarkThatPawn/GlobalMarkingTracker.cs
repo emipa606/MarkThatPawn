@@ -15,6 +15,9 @@ public class GlobalMarkingTracker : GameComponent
     public Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
     private List<Pawn> markedPawnsKeys = new List<Pawn>();
     private List<int> markedPawnsValues = new List<int>();
+    public Dictionary<Pawn, string> OverridePawns = new Dictionary<Pawn, string>();
+    private List<Pawn> overridePawnsKeys = new List<Pawn>();
+    private List<string> overridePawnsValues = new List<string>();
 
     public GlobalMarkingTracker(Game game)
     {
@@ -117,6 +120,8 @@ public class GlobalMarkingTracker : GameComponent
             ref automaticPawnsKeys, ref automaticPawnsValues);
         Scribe_Collections.Look(ref CustomPawns, "CustomPawns", LookMode.Reference, LookMode.Value,
             ref customPawnsKeys, ref customPawnsValues);
+        Scribe_Collections.Look(ref OverridePawns, "OverridePawns", LookMode.Reference, LookMode.Value,
+            ref overridePawnsKeys, ref overridePawnsValues);
     }
 
     public override void GameComponentTick()
@@ -131,5 +136,6 @@ public class GlobalMarkingTracker : GameComponent
         MarkedPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
         AutomaticPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
         CustomPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+        OverridePawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
     }
 }

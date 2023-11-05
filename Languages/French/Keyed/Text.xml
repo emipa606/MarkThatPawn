@@ -79,4 +79,10 @@
   <MTP.CustomIcon>Icône personnalisée</MTP.CustomIcon>
   <MTP.PawnType.Default>Tous</MTP.PawnType.Default>
   <MTP.PawnLimitation>Ne s'applique qu'à : {0}</MTP.PawnLimitation>
+  <MTP.AutomaticType.Drafted>Le pion est repêché</MTP.AutomaticType.Drafted>
+  <MTP.AutomaticType.MentalState>Le pion est dans un état mental</MTP.AutomaticType.MentalState>
+  <MTP.MentalState.Any>Tous les États</MTP.MentalState.Any>
+  <MTP.MentalState.Passive>État passif</MTP.MentalState.Passive>
+  <MTP.MentalState.Aggressive>État agressif</MTP.MentalState.Aggressive>
+  <MTP.OverrideRule>Il s'agit d'une règle de remplacement. Elle ne remplace l'icône actuelle que pendant la période où la condition est remplie.</MTP.OverrideRule>
 </LanguageData>

@@ -18,6 +18,12 @@ public static class VehicleRenderer_RenderPawnAt
             return;
         }
 
+        if (tracker.GlobalMarkingTracker.OverridePawns.TryGetValue(___vehicle, out _))
+        {
+            MarkThatPawn.RenderMarkingOverlay(___vehicle, -3, tracker);
+            return;
+        }
+
         var result = tracker.GlobalMarkingTracker.GetPawnMarking(___vehicle);
         if (result == 0)
         {

@@ -77,5 +77,11 @@
   <MTP.AutomaticType.Skill>Skill at least</MTP.AutomaticType.Skill>
   <MTP.AutomaticType.Relative>Has relation to colonist</MTP.AutomaticType.Relative>
   <MTP.AutomaticType.PawnType>Pawn is of type</MTP.AutomaticType.PawnType>
+  <MTP.AutomaticType.Drafted>Pawn is drafted</MTP.AutomaticType.Drafted>
+  <MTP.AutomaticType.MentalState>Pawn is in mental state</MTP.AutomaticType.MentalState>
   <MTP.PawnLimitation>Only applies to: {0}</MTP.PawnLimitation>
+  <MTP.MentalState.Any>Any state</MTP.MentalState.Any>
+  <MTP.MentalState.Passive>Passive state</MTP.MentalState.Passive>
+  <MTP.MentalState.Aggressive>Aggressive state</MTP.MentalState.Aggressive>
+  <MTP.OverrideRule>This is an override-rule. It will only override the current icon during the time the condition for it is fulfilled.</MTP.OverrideRule>
 </LanguageData>

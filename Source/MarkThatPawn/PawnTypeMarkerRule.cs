@@ -14,6 +14,7 @@ public class PawnTypeMarkerRule : MarkerRule
         RuleType = AutoRuleType.PawnType;
         pawnType = MarkThatPawn.PawnType.Default;
         SetDefaultValues();
+        ApplicablePawnTypes = new List<MarkThatPawn.PawnType> { MarkThatPawn.PawnType.Default };
     }
 
     public PawnTypeMarkerRule(string blob)
@@ -21,14 +22,15 @@ public class PawnTypeMarkerRule : MarkerRule
         RuleType = AutoRuleType.PawnType;
         pawnType = MarkThatPawn.PawnType.Default;
         SetBlob(blob);
+        ApplicablePawnTypes = new List<MarkThatPawn.PawnType> { MarkThatPawn.PawnType.Default };
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var weaponArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
+        var pawnTypeArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
         if (edit)
         {
-            if (Widgets.ButtonText(weaponArea,
+            if (Widgets.ButtonText(pawnTypeArea,
                     pawnType == MarkThatPawn.PawnType.Default
                         ? "MTP.NoneSelected".Translate()
                         : $"MTP.PawnType.{pawnType}".Translate()))
@@ -38,7 +40,7 @@ public class PawnTypeMarkerRule : MarkerRule
         }
         else
         {
-            Widgets.Label(weaponArea,
+            Widgets.Label(pawnTypeArea,
                 pawnType == MarkThatPawn.PawnType.Default
                     ? "MTP.NoneSelected".Translate()
                     : $"MTP.PawnType.{pawnType}".Translate());

@@ -79,4 +79,10 @@
   <MTP.CustomIcon>Benutzerdefiniertes Symbol</MTP.CustomIcon>
   <MTP.PawnType.Default>Jede</MTP.PawnType.Default>
   <MTP.PawnLimitation>Gilt nur für: {0}</MTP.PawnLimitation>
+  <MTP.AutomaticType.Drafted>Pfand wird eingezogen</MTP.AutomaticType.Drafted>
+  <MTP.AutomaticType.MentalState>Bauer ist in geistigem Zustand</MTP.AutomaticType.MentalState>
+  <MTP.MentalState.Any>Jeder Staat</MTP.MentalState.Any>
+  <MTP.MentalState.Passive>Passiver Zustand</MTP.MentalState.Passive>
+  <MTP.MentalState.Aggressive>Aggressiver Zustand</MTP.MentalState.Aggressive>
+  <MTP.OverrideRule>Dies ist eine Überschreibungsregel. Sie überschreibt das aktuelle Symbol nur während der Zeit, in der die Bedingung für sie erfüllt ist.</MTP.OverrideRule>
 </LanguageData>

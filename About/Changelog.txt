@@ -1,5 +1,11 @@
 # Changelog for MarkThatPawn
 
+1.4.13 - Added rule for pawns being drafted
+Added rule for pawns being in a mental state
+Added a generic symbol icon-set.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.12 - Auto-markings will no longer override any existing markers
 
 

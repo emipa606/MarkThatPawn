@@ -9,6 +9,7 @@ namespace MarkThatPawn;
 public class Dialog_AutoMarkingRules : Window
 {
     private static readonly Color inactiveColor = new Color(0.3f, 0.3f, 0.3f, 0.6f);
+    private static readonly Color overrideColor = new Color(0.1f, 0.3f, 0.3f, 0.6f);
     private static readonly float rowHeight = 62f;
 
     private MarkerRule originalRule;
@@ -55,30 +56,40 @@ public class Dialog_AutoMarkingRules : Window
         var rulesListing = new Listing_Standard();
         Widgets.BeginScrollView(rulesOuterRect, ref ScrollPosition, rulesInnerRect);
         rulesListing.Begin(rulesInnerRect);
-        foreach (var autoRule in MarkThatPawnMod.instance.Settings.AutoRules.OrderBy(rule => rule.RuleOrder))
+        foreach (var autoRule in MarkThatPawnMod.instance.Settings.AutoRules.OrderByDescending(rule => rule.IsOverride)
+                     .ThenBy(rule => rule.RuleOrder))
         {
             rulesListing.GapLine();
             var editing = originalRule == autoRule;
             var ruleRow = rulesListing.GetRect(50f);
+            if (autoRule.IsOverride)
+            {
+                TooltipHandler.TipRegion(ruleRow, "MTP.OverrideRule".Translate());
+            }
+
             var rowRightArea = ruleRow.RightPart(0.3f);
             var prioButtonsArea = rowRightArea.RightPartPixels(25f);
             if (ruleWorkingCopy == null)
             {
                 var increaseButtonArea = prioButtonsArea.TopPartPixels(24f);
                 var decreaseButtonArea = prioButtonsArea.BottomPartPixels(24f);
-                if (autoRule.RuleOrder != MarkThatPawnMod.instance.Settings.AutoRules.Min(rule => rule.RuleOrder))
+                if (autoRule.RuleOrder != MarkThatPawnMod.instance.Settings.AutoRules
+                        .Where(rule => rule.IsOverride == autoRule.IsOverride).Min(rule => rule.RuleOrder))
                 {
                     TooltipHandler.TipRegion(increaseButtonArea, "MTP.IncreasePrio".Translate());
-                    if (Widgets.ButtonImage(increaseButtonArea, TexButton.ReorderUp))
+                    if (Widgets.ButtonImage(increaseButtonArea, TexButton.ReorderUp,
+                            autoRule.IsOverride ? Color.magenta : Color.white))
                     {
                         autoRule.IncreasePrio();
                     }
                 }
 
-                if (autoRule.RuleOrder != MarkThatPawnMod.instance.Settings.AutoRules.Max(rule => rule.RuleOrder))
+                if (autoRule.RuleOrder != MarkThatPawnMod.instance.Settings.AutoRules
+                        .Where(rule => rule.IsOverride == autoRule.IsOverride).Max(rule => rule.RuleOrder))
                 {
                     TooltipHandler.TipRegion(decreaseButtonArea, "MTP.IncreasePrio".Translate());
-                    if (Widgets.ButtonImage(decreaseButtonArea, TexButton.ReorderDown))
+                    if (Widgets.ButtonImage(decreaseButtonArea, TexButton.ReorderDown,
+                            autoRule.IsOverride ? Color.magenta : Color.white))
                     {
                         autoRule.DecreasePrio();
                     }
@@ -103,6 +114,10 @@ public class Dialog_AutoMarkingRules : Window
                 if (!autoRule.Enabled)
                 {
                     Widgets.DrawBoxSolid(ruleRow.ContractedBy(1f), inactiveColor);
+                }
+                else if (autoRule.IsOverride)
+                {
+                    Widgets.DrawBoxSolid(ruleRow.ContractedBy(1f), overrideColor);
                 }
 
                 GUI.DrawTexture(imageRect, autoRule.GetIconTexture());
@@ -165,6 +180,10 @@ public class Dialog_AutoMarkingRules : Window
             {
                 Widgets.DrawBoxSolid(ruleRow.ContractedBy(1f), inactiveColor);
             }
+            else if (ruleWorkingCopy.IsOverride)
+            {
+                Widgets.DrawBoxSolid(ruleRow.ContractedBy(1f), overrideColor);
+            }
 
             GUI.DrawTexture(imageRect, ruleWorkingCopy.GetIconTexture());
             TooltipHandler.TipRegion(enabledIconRect,
@@ -177,7 +196,7 @@ public class Dialog_AutoMarkingRules : Window
             }
 
             infoRect = workingRect.LeftPart(0.45f).TopHalf().ContractedBy(1f);
-            if (ruleWorkingCopy is not PawnTypeMarkerRule)
+            if (ruleWorkingCopy.ApplicablePawnTypes.Count > 1)
             {
                 var limitationRect = workingRect.LeftPart(0.45f).BottomHalf().ContractedBy(1f);
                 Widgets.Label(limitationRect.LeftHalf(), "MTP.PawnLimitation".Translate());
@@ -297,6 +316,14 @@ public class Dialog_AutoMarkingRules : Window
                 case MarkerRule.AutoRuleType.PawnType:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new PawnTypeMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.Drafted:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new DraftedMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.MentalState:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new MentalStateMarkerRule())));
                     break;
                 default:
                     continue;

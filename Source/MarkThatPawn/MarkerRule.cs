@@ -17,12 +17,17 @@ public abstract class MarkerRule
         Trait,
         Skill,
         Relative,
-        PawnType
+        PawnType,
+        Drafted,
+        MentalState
     }
+
+    public List<PawnType> ApplicablePawnTypes;
 
     public bool ConfigError;
     public bool Enabled;
     public string ErrorMessage;
+    public bool IsOverride;
     public MarkerDef MarkerDef;
     public int MarkerIndex;
     public PawnType PawnLimitation;
@@ -94,6 +99,7 @@ public abstract class MarkerRule
         MarkerIndex = 0;
         MarkerDef = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
         Enabled = false;
+        ApplicablePawnTypes = Enum.GetValues(typeof(PawnType)).Cast<PawnType>().ToList();
         if (MarkThatPawnMod.instance.Settings.AutoRules?.Any() == true)
         {
             RuleOrder = MarkThatPawnMod.instance.Settings.AutoRules.Max(rule => rule.RuleOrder) + 1;
@@ -108,7 +114,7 @@ public abstract class MarkerRule
     {
         SetDefaultValues();
         var rowSplitted = blob.Split(';');
-        if (rowSplitted.Length is < 6 or > 7)
+        if (rowSplitted.Length is < 6 or > 8)
         {
             ErrorMessage = $"Blob is malformed, cannot split into correct parts, got {rowSplitted.Length}";
             ConfigError = true;
@@ -256,12 +262,14 @@ public abstract class MarkerRule
 
     public void IncreasePrio()
     {
-        if (RuleOrder == MarkThatPawnMod.instance.Settings.AutoRules.Min(rule => rule.RuleOrder))
+        if (RuleOrder == MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
+                .Min(rule => rule.RuleOrder))
         {
             return;
         }
 
-        var ruleToSwitchWith = MarkThatPawnMod.instance.Settings.AutoRules.OrderByDescending(rule => rule.RuleOrder)
+        var ruleToSwitchWith = MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
+            .OrderByDescending(rule => rule.RuleOrder)
             .First(rule => rule.RuleOrder < RuleOrder);
 
         (ruleToSwitchWith.RuleOrder, RuleOrder) = (RuleOrder, ruleToSwitchWith.RuleOrder);
@@ -269,12 +277,14 @@ public abstract class MarkerRule
 
     public void DecreasePrio()
     {
-        if (RuleOrder == MarkThatPawnMod.instance.Settings.AutoRules.Max(rule => rule.RuleOrder))
+        if (RuleOrder == MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
+                .Max(rule => rule.RuleOrder))
         {
             return;
         }
 
-        var ruleToSwitchWith = MarkThatPawnMod.instance.Settings.AutoRules.OrderBy(rule => rule.RuleOrder)
+        var ruleToSwitchWith = MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
+            .OrderBy(rule => rule.RuleOrder)
             .First(rule => rule.RuleOrder > RuleOrder);
 
         (ruleToSwitchWith.RuleOrder, RuleOrder) = (RuleOrder, ruleToSwitchWith.RuleOrder);
@@ -284,11 +294,11 @@ public abstract class MarkerRule
     {
         var pawnTypeList = new List<FloatMenuOption>();
 
-        foreach (var typeOfPawn in (PawnType[])Enum.GetValues(typeof(PawnType)))
+        foreach (var typeOfPawn in ApplicablePawnTypes)
         {
             switch (typeOfPawn)
             {
-                case PawnType.Slave when !ModLister.RoyaltyInstalled:
+                case PawnType.Slave when !ModLister.IdeologyInstalled:
                 case PawnType.Vehicle when !VehiclesLoaded:
                     continue;
                 default:

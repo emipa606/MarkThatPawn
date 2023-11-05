@@ -102,6 +102,12 @@ public static class MarkThatPawn
                 case MarkerRule.AutoRuleType.PawnType:
                     rule = new PawnTypeMarkerRule(ruleBlob);
                     break;
+                case MarkerRule.AutoRuleType.Drafted:
+                    rule = new DraftedMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.MentalState:
+                    rule = new MentalStateMarkerRule(ruleBlob);
+                    break;
                 default:
                     continue;
             }
@@ -181,6 +187,20 @@ public static class MarkThatPawn
                 }
 
                 break;
+            case -3:
+                if (!tracker.GlobalMarkingTracker.OverridePawns.TryGetValue(pawn, out var overrideString))
+                {
+                    return;
+                }
+
+                var overrideStringTypeless = overrideString.Split('§')[0];
+
+                if (!TryToConvertStringToMaterial(overrideStringTypeless, out material))
+                {
+                    return;
+                }
+
+                break;
             default:
                 return;
         }
@@ -249,7 +269,7 @@ public static class MarkThatPawn
     }
 
 
-    public static bool TryGetAutoMarkerForPawn(Pawn pawn, out string result)
+    public static bool TryGetAutoMarkerForPawn(Pawn pawn, out string result, Type specificType = null)
     {
         result = null;
         if (MarkThatPawnMod.instance.Settings.AutoRules == null || !MarkThatPawnMod.instance.Settings.AutoRules.Any())
@@ -265,6 +285,11 @@ public static class MarkThatPawn
         foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.Enabled)
                      .OrderBy(rule => rule.RuleOrder))
         {
+            if (specificType != null && markerRule.GetType() != specificType)
+            {
+                continue;
+            }
+
             if (!markerRule.AppliesToPawn(pawn))
             {
                 continue;
@@ -371,10 +396,24 @@ public static class MarkThatPawn
         return pawnMarkerCache[pawn];
     }
 
-    public static void ResetCache()
+    public static void ResetCache(Pawn pawn = null)
     {
-        pawnMeshCache.Clear();
-        pawnMarkerCache.Clear();
+        if (pawn == null)
+        {
+            pawnMeshCache.Clear();
+            pawnMarkerCache.Clear();
+            return;
+        }
+
+        if (pawnMeshCache.ContainsKey(pawn))
+        {
+            pawnMeshCache.Remove(pawn);
+        }
+
+        if (pawnMarkerCache.ContainsKey(pawn))
+        {
+            pawnMarkerCache.Remove(pawn);
+        }
     }
 
     public static PawnType GetPawnType(this Pawn pawn)
