@@ -43,9 +43,12 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 [*]Pawn skill levels
 [*]Pawn traits
 [*]Relations to colonists
+[*]Pawn category
+[*]Pawn is drafted
+[*]Pawn is in a mental state
 [/list]
 
-All applicable rules can also be set to only apply to one type of pawn.
+All applicable rules can also be set to only apply to one category of pawns.
 
 There are default sets of icons for each type of pawn but you can always set any icon for a specific pawn using the custom option. There is also support for vehicles using [url=https://steamcommunity.com/workshop/filedetails/?id=3014915404]Vehicle Framework[/url].
 

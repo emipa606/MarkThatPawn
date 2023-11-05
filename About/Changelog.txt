@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.14 - Forgot to initialize the new override directory when loading a save-game
+
+
 1.4.13 - Added rule for pawns being drafted
 Added rule for pawns being in a mental state
 Added a generic symbol icon-set.

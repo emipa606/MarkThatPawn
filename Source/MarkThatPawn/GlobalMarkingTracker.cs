@@ -122,6 +122,31 @@ public class GlobalMarkingTracker : GameComponent
             ref customPawnsKeys, ref customPawnsValues);
         Scribe_Collections.Look(ref OverridePawns, "OverridePawns", LookMode.Reference, LookMode.Value,
             ref overridePawnsKeys, ref overridePawnsValues);
+
+        if (Scribe.mode != LoadSaveMode.PostLoadInit)
+        {
+            return;
+        }
+
+        if (MarkedPawns == null)
+        {
+            MarkedPawns = new Dictionary<Pawn, int>();
+        }
+
+        if (AutomaticPawns == null)
+        {
+            AutomaticPawns = new Dictionary<Pawn, string>();
+        }
+
+        if (CustomPawns == null)
+        {
+            CustomPawns = new Dictionary<Pawn, string>();
+        }
+
+        if (OverridePawns == null)
+        {
+            OverridePawns = new Dictionary<Pawn, string>();
+        }
     }
 
     public override void GameComponentTick()
