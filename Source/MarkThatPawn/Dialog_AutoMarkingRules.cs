@@ -35,18 +35,21 @@ public class Dialog_AutoMarkingRules : Window
         var labelRect = new Rect(0f, 0f, inRect.width - 150f - 17f, 35f);
         Widgets.Label(labelRect, "MTP.AutomaticRulesTitle".Translate());
         Text.Font = GameFont.Small;
-
-        if (Widgets.ButtonText(labelRect.RightPart(0.35f).LeftHalf().ContractedBy(1f), "MTP.NewRuleButton".Translate()))
+        if (ruleWorkingCopy == null)
         {
-            showNewRuleMenu();
-        }
+            if (Widgets.ButtonText(labelRect.RightPart(0.35f).LeftHalf().ContractedBy(1f),
+                    "MTP.NewRuleButton".Translate()))
+            {
+                showNewRuleMenu();
+            }
 
-        if (MarkThatPawnMod.instance.Settings.AutoRules.Any() &&
-            Widgets.ButtonText(labelRect.RightPart(0.35f).RightHalf().ContractedBy(1f), "MTP.ResetAll".Translate()))
-        {
-            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                "MTP.ResetAllConfirm".Translate(),
-                MarkThatPawnMod.instance.Settings.AutoRules.Clear));
+            if (MarkThatPawnMod.instance.Settings.AutoRules.Any() &&
+                Widgets.ButtonText(labelRect.RightPart(0.35f).RightHalf().ContractedBy(1f), "MTP.ResetAll".Translate()))
+            {
+                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                    "MTP.ResetAllConfirm".Translate(),
+                    MarkThatPawnMod.instance.Settings.AutoRules.Clear));
+            }
         }
 
         var rulesOuterRect = new Rect(0f, 40f, inRect.width, inRect.height - 40f - CloseButSize.y);
