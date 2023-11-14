@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -8,12 +9,14 @@ namespace MarkThatPawn;
 
 public class SkillMarkerRule : MarkerRule
 {
+    private readonly Dictionary<SkillDef, Passion> passionDefs;
     private Dictionary<SkillDef, int> skillDefs;
 
     public SkillMarkerRule()
     {
         RuleType = AutoRuleType.Skill;
         skillDefs = new Dictionary<SkillDef, int>();
+        passionDefs = new Dictionary<SkillDef, Passion>();
         SetDefaultValues();
     }
 
@@ -21,6 +24,7 @@ public class SkillMarkerRule : MarkerRule
     {
         RuleType = AutoRuleType.Skill;
         skillDefs = new Dictionary<SkillDef, int>();
+        passionDefs = new Dictionary<SkillDef, Passion>();
         SetBlob(blob);
     }
 
@@ -50,8 +54,27 @@ public class SkillMarkerRule : MarkerRule
             return;
         }
 
-        Widgets.Label(skillListRect,
-            string.Join(", ", skillDefs.Select(pair => $"{pair.Key.LabelCap}: {pair.Value}")));
+        var labelList = new List<string>();
+        foreach (var skillDef in skillDefs)
+        {
+            var label = $"{skillDef.Key.LabelCap}: {skillDef.Value}";
+            if (passionDefs.TryGetValue(skillDef.Key, out var passionDef))
+            {
+                switch (passionDef)
+                {
+                    case Passion.Minor:
+                        label += "*";
+                        break;
+                    case Passion.Major:
+                        label += "**";
+                        break;
+                }
+            }
+
+            labelList.Add(label);
+        }
+
+        Widgets.Label(skillListRect, string.Join(", ", labelList));
     }
 
     public override MarkerRule GetCopy()
@@ -75,7 +98,8 @@ public class SkillMarkerRule : MarkerRule
 
         foreach (var skillKeyPair in RuleParameters.Split(','))
         {
-            if (!skillKeyPair.Contains("|") || skillKeyPair.Split('|').Length != 2)
+            if (!skillKeyPair.Contains("|") ||
+                skillKeyPair.Split('|').Length != 2 && skillKeyPair.Split('|').Length != 3)
             {
                 ConfigError = true;
                 continue;
@@ -95,6 +119,22 @@ public class SkillMarkerRule : MarkerRule
             }
 
             skillDefs[skillDef] = skillLevel;
+
+            if (skillKeyPair.Split('|').Length == 3)
+            {
+                if (!Enum.TryParse(skillKeyPair.Split('|')[2], out Passion passion))
+                {
+                    passionDefs[skillDef] = Passion.None;
+                    ConfigError = true;
+                    continue;
+                }
+
+                passionDefs[skillDef] = passion;
+            }
+            else
+            {
+                passionDefs[skillDef] = Passion.None;
+            }
         }
 
         if (ConfigError)
@@ -124,7 +164,9 @@ public class SkillMarkerRule : MarkerRule
 
         foreach (var skillDef in skillDefs)
         {
-            if (!pawnSkills.Any(skill => skill.def == skillDef.Key && skill.Level >= skillDef.Value))
+            if (!pawnSkills.Any(skill =>
+                    skill.def == skillDef.Key && skill.Level >= skillDef.Value &&
+                    skill.passion >= passionDefs[skillDef.Key]))
             {
                 return false;
             }
@@ -144,7 +186,9 @@ public class SkillMarkerRule : MarkerRule
                 skillMenu.Add(new FloatMenuOption(skillDef.LabelCap, () =>
                 {
                     skillDefs.Remove(skillDef);
-                    RuleParameters = string.Join(",", skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
+                    passionDefs.Remove(skillDef);
+                    RuleParameters = string.Join(",",
+                        skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|{passionDefs[pair.Key]}"));
                 }, TexButton.Minus, Color.white));
                 continue;
             }
@@ -157,8 +201,31 @@ public class SkillMarkerRule : MarkerRule
                     var level = i;
                     subMenu.Add(new FloatMenuOption($"{skillDef.LabelCap} {i}", () =>
                     {
-                        skillDefs[skillDef] = level;
-                        RuleParameters = string.Join(",", skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
+                        var subSubMenu = new List<FloatMenuOption>
+                        {
+                            new FloatMenuOption("PassionNone".Translate(), () =>
+                            {
+                                skillDefs[skillDef] = level;
+                                passionDefs[skillDef] = Passion.None;
+                                RuleParameters = string.Join(",",
+                                    skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|None"));
+                            }),
+                            new FloatMenuOption("PassionMinor".Translate(), () =>
+                            {
+                                skillDefs[skillDef] = level;
+                                passionDefs[skillDef] = Passion.Minor;
+                                RuleParameters = string.Join(",",
+                                    skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|Minor"));
+                            }, SkillUI.PassionMinorIcon, Color.white),
+                            new FloatMenuOption("PassionMajor".Translate(), () =>
+                            {
+                                skillDefs[skillDef] = level;
+                                passionDefs[skillDef] = Passion.Major;
+                                RuleParameters = string.Join(",",
+                                    skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|Major"));
+                            }, SkillUI.PassionMajorIcon, Color.white)
+                        };
+                        Find.WindowStack.Add(new FloatMenu(subSubMenu));
                     }));
                 }
 

@@ -90,7 +90,7 @@ public class Dialog_AutoMarkingRules : Window
                 if (autoRule.RuleOrder != MarkThatPawnMod.instance.Settings.AutoRules
                         .Where(rule => rule.IsOverride == autoRule.IsOverride).Max(rule => rule.RuleOrder))
                 {
-                    TooltipHandler.TipRegion(decreaseButtonArea, "MTP.IncreasePrio".Translate());
+                    TooltipHandler.TipRegion(decreaseButtonArea, "MTP.DecreasePrio".Translate());
                     if (Widgets.ButtonImage(decreaseButtonArea, TexButton.ReorderDown,
                             autoRule.IsOverride ? Color.magenta : Color.white))
                     {

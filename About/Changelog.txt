@@ -1,5 +1,9 @@
 # Changelog for MarkThatPawn
 
+1.4.16 - Added support for passions for skills
+Fixed prio typo
+
+
 1.4.15 - Removed the option to create new/reset rules when editing a rule.
 
 
