@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.17 - Added another XCOM set, thanks to Lekoda
+
+
 1.4.16 - Added support for passions for skills
 Fixed prio typo
 

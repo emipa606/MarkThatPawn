@@ -57,6 +57,13 @@
     <iconPath>UI/Overlays/XCOM/XCOM_Icon</iconPath>
   </MarkThatPawn.MarkerDef>
   <MarkThatPawn.MarkerDef>
+    <defName>XCOMTwo</defName>
+    <label>XCOM 2</label>
+    <description>Marker based on the game XCOM 2, cutesy of Lekoda</description>
+    <graphicPrefix>UI/Overlays/XCOMTwo/XCOMTwo</graphicPrefix>
+    <iconPath>UI/Overlays/XCOMTwo/XCOMTwo_Icon</iconPath>
+  </MarkThatPawn.MarkerDef>
+  <MarkThatPawn.MarkerDef>
     <defName>Weapons</defName>
     <label>Weapons</label>
     <description>Generic weapon-types, made by max.icons on flaticon.com</description>
