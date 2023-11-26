@@ -85,4 +85,8 @@
   <MTP.MentalState.Passive>Passiver Zustand</MTP.MentalState.Passive>
   <MTP.MentalState.Aggressive>Aggressiver Zustand</MTP.MentalState.Aggressive>
   <MTP.OverrideRule>Dies ist eine Überschreibungsregel. Sie überschreibt das aktuelle Symbol nur während der Zeit, in der die Bedingung für sie erfüllt ist.</MTP.OverrideRule>
+  <MTP.ResetAutoIcon>Auto-Symbol zurücksetzen</MTP.ResetAutoIcon>
+  <MTP.AutomaticType.HediffDynamic>Bauer hat temporären Hediff</MTP.AutomaticType.HediffDynamic>
+  <MTP.AutomaticType.HediffStatic>Pfand hat permanenten hediff</MTP.AutomaticType.HediffStatic>
+  <MTP.AutomaticType.HediffStage>Stufe {0}</MTP.AutomaticType.HediffStage>
 </LanguageData>

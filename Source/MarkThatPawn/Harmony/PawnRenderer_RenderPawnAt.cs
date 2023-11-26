@@ -1,7 +1,7 @@
 using HarmonyLib;
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.Harmony;
 
 [HarmonyPatch(typeof(PawnRenderer), nameof(PawnRenderer.RenderPawnAt))]
 public static class PawnRenderer_RenderPawnAt

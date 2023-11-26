@@ -4,15 +4,10 @@ using Verse;
 
 namespace MarkThatPawn;
 
-public class MarkingTracker : MapComponent
+public class MarkingTracker(Map map) : MapComponent(map)
 {
-    public readonly List<Pawn> PawnsToEvaluate = new List<Pawn>();
-    public GlobalMarkingTracker GlobalMarkingTracker;
-
-    public MarkingTracker(Map map) : base(map)
-    {
-        GlobalMarkingTracker = Current.Game.GetComponent<GlobalMarkingTracker>();
-    }
+    public readonly List<Pawn> PawnsToEvaluate = [];
+    public GlobalMarkingTracker GlobalMarkingTracker = Current.Game.GetComponent<GlobalMarkingTracker>();
 
     public override void MapComponentTick()
     {
@@ -33,6 +28,7 @@ public class MarkingTracker : MapComponent
 
         if (!MarkThatPawn.TryGetAutoMarkerForPawn(firstPawn, out var result))
         {
+            MarkThatPawn.ResetCache(firstPawn);
             return;
         }
 
@@ -42,6 +38,7 @@ public class MarkingTracker : MapComponent
         }
 
         GlobalMarkingTracker.AutomaticPawns[firstPawn] = result;
+        MarkThatPawn.ResetCache(firstPawn);
     }
 
 
@@ -119,14 +116,14 @@ public class MarkingTracker : MapComponent
     }
 
     private Dictionary<Pawn, string> AutomaticPawns = new Dictionary<Pawn, string>();
-    private List<Pawn> automaticPawnsKeys = new List<Pawn>();
-    private List<string> automaticPawnsValues = new List<string>();
+    private List<Pawn> automaticPawnsKeys = [];
+    private List<string> automaticPawnsValues = [];
     private Dictionary<Pawn, string> CustomPawns = new Dictionary<Pawn, string>();
-    private List<Pawn> customPawnsKeys = new List<Pawn>();
-    private List<string> customPawnsValues = new List<string>();
+    private List<Pawn> customPawnsKeys = [];
+    private List<string> customPawnsValues = [];
     private Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
-    private List<Pawn> markedPawnsKeys = new List<Pawn>();
-    private List<int> markedPawnsValues = new List<int>();
+    private List<Pawn> markedPawnsKeys = [];
+    private List<int> markedPawnsValues = [];
 
     #endregion
 }

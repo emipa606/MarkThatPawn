@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MarkThatPawn.MarkerRules;
 using UnityEngine;
 using Verse;
 
@@ -248,6 +249,7 @@ public class Dialog_AutoMarkingRules : Window
             }
 
             TooltipHandler.TipRegion(negativeButtonRect, "MTP.CancelAutomaticType".Translate());
+            // ReSharper disable once InvertIf
             if (Widgets.ButtonImageWithBG(negativeButtonRect, MarkThatPawn.CancelIcon,
                     negativeButtonRect.size * MarkThatPawn.ButtonIconSizeFactor))
             {
@@ -286,7 +288,6 @@ public class Dialog_AutoMarkingRules : Window
 
         return false;
     }
-
 
     private void showNewRuleMenu()
     {
@@ -327,6 +328,14 @@ public class Dialog_AutoMarkingRules : Window
                 case MarkerRule.AutoRuleType.MentalState:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new MentalStateMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.HediffDynamic:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new DynamicHediffMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.HediffStatic:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new StaticHediffMarkerRule())));
                     break;
                 default:
                     continue;

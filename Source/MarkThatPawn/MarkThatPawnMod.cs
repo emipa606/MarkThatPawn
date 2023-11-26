@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Mlie;
 using UnityEngine;
 using Verse;
@@ -28,11 +27,11 @@ internal class MarkThatPawnMod : Mod
         Settings = GetSettings<MarkThatPawnSettings>();
         if (Settings.AutoRuleBlobs == null)
         {
-            Settings.AutoRuleBlobs = new List<string>();
+            Settings.AutoRuleBlobs = [];
         }
 
         currentVersion = VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
-        Settings.AutoRules = new List<MarkerRule>();
+        Settings.AutoRules = [];
     }
 
     /// <summary>
@@ -42,7 +41,7 @@ internal class MarkThatPawnMod : Mod
 
     public override void WriteSettings()
     {
-        Settings.AutoRuleBlobs = new List<string>();
+        Settings.AutoRuleBlobs = [];
         foreach (var rule in Settings.AutoRules)
         {
             Settings.AutoRuleBlobs.Add(rule.GetBlob());

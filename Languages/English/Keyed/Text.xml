@@ -51,6 +51,7 @@
   <MTP.RulesButtonInfo>Automatic rules ({0} active)</MTP.RulesButtonInfo>
   <MTP.RulesButtonText>Edit rules</MTP.RulesButtonText>
   <MTP.UseAutoIcon>Auto-icon</MTP.UseAutoIcon>
+  <MTP.ResetAutoIcon>Reset auto-icon</MTP.ResetAutoIcon>
   <MTP.None>No marker</MTP.None>
   <MTP.Reset>Reset all values</MTP.Reset>
   <MTP.ZOffset>Vertical offset: {0}</MTP.ZOffset>
@@ -79,6 +80,9 @@
   <MTP.AutomaticType.PawnType>Pawn is of type</MTP.AutomaticType.PawnType>
   <MTP.AutomaticType.Drafted>Pawn is drafted</MTP.AutomaticType.Drafted>
   <MTP.AutomaticType.MentalState>Pawn is in mental state</MTP.AutomaticType.MentalState>
+  <MTP.AutomaticType.HediffDynamic>Pawn has temporary hediff</MTP.AutomaticType.HediffDynamic>
+  <MTP.AutomaticType.HediffStatic>Pawn has permanent hediff</MTP.AutomaticType.HediffStatic>
+  <MTP.AutomaticType.HediffStage>stage {0}</MTP.AutomaticType.HediffStage>
   <MTP.PawnLimitation>Only applies to: {0}</MTP.PawnLimitation>
   <MTP.MentalState.Any>Any state</MTP.MentalState.Any>
   <MTP.MentalState.Passive>Passive state</MTP.MentalState.Passive>

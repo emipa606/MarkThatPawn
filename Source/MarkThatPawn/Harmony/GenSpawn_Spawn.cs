@@ -1,7 +1,7 @@
 using HarmonyLib;
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.Harmony;
 
 [HarmonyPatch(typeof(GenSpawn), nameof(GenSpawn.Spawn), typeof(Thing), typeof(IntVec3), typeof(Map), typeof(Rot4),
     typeof(WipeMode), typeof(bool))]

@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.MarkerRules;
 
 public class DraftedMarkerRule : MarkerRule
 {
@@ -11,7 +10,7 @@ public class DraftedMarkerRule : MarkerRule
         RuleType = AutoRuleType.Drafted;
         SetDefaultValues();
         IsOverride = true;
-        ApplicablePawnTypes = new List<MarkThatPawn.PawnType> { MarkThatPawn.PawnType.Colonist };
+        ApplicablePawnTypes = [MarkThatPawn.PawnType.Colonist];
         if (!ModLister.IdeologyInstalled)
         {
             return;
@@ -26,7 +25,7 @@ public class DraftedMarkerRule : MarkerRule
         RuleType = AutoRuleType.Drafted;
         SetBlob(blob);
         IsOverride = true;
-        ApplicablePawnTypes = new List<MarkThatPawn.PawnType> { MarkThatPawn.PawnType.Colonist };
+        ApplicablePawnTypes = [MarkThatPawn.PawnType.Colonist];
         if (!ModLister.IdeologyInstalled)
         {
             return;

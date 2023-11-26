@@ -85,4 +85,8 @@
   <MTP.MentalState.Passive>État passif</MTP.MentalState.Passive>
   <MTP.MentalState.Aggressive>État agressif</MTP.MentalState.Aggressive>
   <MTP.OverrideRule>Il s'agit d'une règle de remplacement. Elle ne remplace l'icône actuelle que pendant la période où la condition est remplie.</MTP.OverrideRule>
+  <MTP.ResetAutoIcon>Réinitialiser l'auto-icône</MTP.ResetAutoIcon>
+  <MTP.AutomaticType.HediffDynamic>Le pion a un hediff temporaire</MTP.AutomaticType.HediffDynamic>
+  <MTP.AutomaticType.HediffStatic>Le pion a un hediff permanent</MTP.AutomaticType.HediffStatic>
+  <MTP.AutomaticType.HediffStage>étape {0}</MTP.AutomaticType.HediffStage>
 </LanguageData>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.MarkerRules;
 
 public class PawnTypeMarkerRule : MarkerRule
 {
@@ -14,7 +14,7 @@ public class PawnTypeMarkerRule : MarkerRule
         RuleType = AutoRuleType.PawnType;
         pawnType = MarkThatPawn.PawnType.Default;
         SetDefaultValues();
-        ApplicablePawnTypes = new List<MarkThatPawn.PawnType> { MarkThatPawn.PawnType.Default };
+        ApplicablePawnTypes = [MarkThatPawn.PawnType.Default];
     }
 
     public PawnTypeMarkerRule(string blob)
@@ -22,7 +22,7 @@ public class PawnTypeMarkerRule : MarkerRule
         RuleType = AutoRuleType.PawnType;
         pawnType = MarkThatPawn.PawnType.Default;
         SetBlob(blob);
-        ApplicablePawnTypes = new List<MarkThatPawn.PawnType> { MarkThatPawn.PawnType.Default };
+        ApplicablePawnTypes = [MarkThatPawn.PawnType.Default];
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)

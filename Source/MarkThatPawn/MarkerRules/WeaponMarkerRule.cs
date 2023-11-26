@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.MarkerRules;
 
 public class WeaponMarkerRule : MarkerRule
 {
@@ -105,11 +105,10 @@ public class WeaponMarkerRule : MarkerRule
         foreach (var weapon in MarkThatPawn.AllValidWeapons)
         {
             weaponList.Add(new FloatMenuOption(weapon.LabelCap, () =>
-                {
-                    RuleParameters = weapon.defName;
-                    weaponThingDef = weapon;
-                },
-                Widgets.GetIconFor(weapon), Color.white));
+            {
+                RuleParameters = weapon.defName;
+                weaponThingDef = weapon;
+            }, weapon));
         }
 
         Find.WindowStack.Add(new FloatMenu(weaponList));

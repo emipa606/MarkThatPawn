@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -6,18 +7,19 @@ namespace MarkThatPawn;
 
 public class GlobalMarkingTracker : GameComponent
 {
+    public readonly List<Pawn> PawnsToEvaluate = [];
     public Dictionary<Pawn, string> AutomaticPawns = new Dictionary<Pawn, string>();
-    private List<Pawn> automaticPawnsKeys = new List<Pawn>();
-    private List<string> automaticPawnsValues = new List<string>();
+    private List<Pawn> automaticPawnsKeys = [];
+    private List<string> automaticPawnsValues = [];
     public Dictionary<Pawn, string> CustomPawns = new Dictionary<Pawn, string>();
-    private List<Pawn> customPawnsKeys = new List<Pawn>();
-    private List<string> customPawnsValues = new List<string>();
+    private List<Pawn> customPawnsKeys = [];
+    private List<string> customPawnsValues = [];
     public Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
-    private List<Pawn> markedPawnsKeys = new List<Pawn>();
-    private List<int> markedPawnsValues = new List<int>();
+    private List<Pawn> markedPawnsKeys = [];
+    private List<int> markedPawnsValues = [];
     public Dictionary<Pawn, string> OverridePawns = new Dictionary<Pawn, string>();
-    private List<Pawn> overridePawnsKeys = new List<Pawn>();
-    private List<string> overridePawnsValues = new List<string>();
+    private List<Pawn> overridePawnsKeys = [];
+    private List<string> overridePawnsValues = [];
 
     public GlobalMarkingTracker(Game game)
     {
@@ -25,7 +27,7 @@ public class GlobalMarkingTracker : GameComponent
 
     public int GetPawnMarking(Pawn pawn)
     {
-        return MarkedPawns.TryGetValue(pawn, out var result) ? result : 0;
+        return MarkedPawns.GetValueOrDefault(pawn, 0);
     }
 
     public bool HasAnyDefinedMarking(Pawn pawn)
@@ -153,14 +155,47 @@ public class GlobalMarkingTracker : GameComponent
     {
         base.GameComponentTick();
 
-        if (Find.TickManager.TicksGame % GenDate.TicksPerDay != 0)
+        if (Find.TickManager.TicksGame % GenDate.TicksPerDay == 0)
+        {
+            MarkedPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+            AutomaticPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+            CustomPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+            OverridePawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+        }
+
+        if (PawnsToEvaluate?.Any() != true)
         {
             return;
         }
 
-        MarkedPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
-        AutomaticPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
-        CustomPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
-        OverridePawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+        var firstPawn = PawnsToEvaluate.First();
+        PawnsToEvaluate.Remove(firstPawn);
+
+        if (MarkThatPawnMod.instance.Settings.AutoRules == null || !MarkThatPawnMod.instance.Settings.AutoRules.Any())
+        {
+            return;
+        }
+
+        if (OverridePawns == null)
+        {
+            OverridePawns = [];
+        }
+
+        foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules
+                     .Where(rule => rule.Enabled && rule.IsOverride && rule.AppliesToPawn(firstPawn))
+                     .OrderBy(rule => rule.RuleOrder))
+        {
+            OverridePawns[firstPawn] = markerRule.GetMarkerBlob();
+            MarkThatPawn.ResetCache(firstPawn);
+            return;
+        }
+
+        if (!OverridePawns.ContainsKey(firstPawn))
+        {
+            return;
+        }
+
+        OverridePawns.Remove(firstPawn);
+        MarkThatPawn.ResetCache(firstPawn);
     }
 }

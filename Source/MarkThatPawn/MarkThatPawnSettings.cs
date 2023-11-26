@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MarkThatPawn.MarkerRules;
 using Verse;
 
 namespace MarkThatPawn;
@@ -8,8 +9,8 @@ namespace MarkThatPawn;
 /// </summary>
 internal class MarkThatPawnSettings : ModSettings
 {
-    public List<string> AutoRuleBlobs = new List<string>();
-    public List<MarkerRule> AutoRules = new List<MarkerRule>();
+    public List<string> AutoRuleBlobs = [];
+    public List<MarkerRule> AutoRules = [];
     public bool ColonistDiffer;
     private string colonistMarkerSet = "WowStyle";
     private MarkerDef colonistMarkerSetDef;

@@ -4,7 +4,7 @@ using System.Reflection;
 using HarmonyLib;
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.Harmony;
 
 [HarmonyPatch]
 public static class Pawn_GetGizmos

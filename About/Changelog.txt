@@ -1,5 +1,14 @@
 # Changelog for MarkThatPawn
 
+1.4.18 - Added support for hediffs, temporary as priority rule and permanent as a normal rule
+Fixed scaled icons for large dropdown lists since vanilla does not support scaling icons
+Added option to reset the auto-icon, to recalculate the icon when removing a permanent hediff like a bionic limb for example
+Added indicator for sub-menu in dropdowns
+Simplified the priority-rules handling
+Restructured the files in the solution.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.17 - Added another XCOM set, thanks to Lekoda
 
 

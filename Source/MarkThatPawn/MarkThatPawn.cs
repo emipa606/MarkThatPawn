@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using MarkThatPawn.Harmony;
+using MarkThatPawn.MarkerRules;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -26,11 +28,16 @@ public static class MarkThatPawn
     public const float ButtonIconSizeFactor = 0.8f;
     public static readonly List<TraitDef> AllTraits;
     public static readonly List<SkillDef> AllSkills;
+    public static readonly List<HediffDef> AllDynamicHediffs;
+    public static readonly List<HediffDef> AllStaticHediffs;
     public static readonly List<ThingDef> AllValidWeapons;
     public static readonly List<ThingDef> AllExplosiveRangedWeapons;
     public static readonly List<ThingDef> AllThrownWeapons;
     public static readonly Texture2D MarkerIcon;
     public static readonly Texture2D CancelIcon;
+    public static readonly Texture2D AddIcon;
+    public static readonly Texture2D RemoveIcon;
+    public static readonly Texture2D ExpandIcon;
     public static readonly List<Mesh> SizeMesh;
     public static readonly List<MarkerDef> MarkerDefs;
     private static readonly Dictionary<Pawn, MarkerDef> pawnMarkerCache;
@@ -39,14 +46,22 @@ public static class MarkThatPawn
     private static CameraZoomRange lastCameraZoomRange = CameraZoomRange.Far;
     private static readonly int standardSize;
     private static readonly Texture2D autoIcon;
+    private static readonly Texture2D resetIcon;
 
     static MarkThatPawn()
     {
-        var harmony = new Harmony("Mlie.MarkThatPawn");
+        var harmony = new HarmonyLib.Harmony("Mlie.MarkThatPawn");
         harmony.PatchAll(Assembly.GetExecutingAssembly());
 
         AllTraits = DefDatabase<TraitDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
         AllSkills = DefDatabase<SkillDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+        AllDynamicHediffs = DefDatabase<HediffDef>.AllDefsListForReading
+            .Where(def => def.stages != null && def.stages.Any() && def.spawnThingOnRemoved == null ||
+                          def.injuryProps != null)
+            .OrderBy(def => def.label).ToList();
+        AllStaticHediffs = DefDatabase<HediffDef>.AllDefsListForReading
+            .Where(def => !AllDynamicHediffs.Contains(def))
+            .OrderBy(def => def.label).ToList();
         MarkerDefs = DefDatabase<MarkerDef>.AllDefsListForReading.Where(def => def.Enabled).OrderBy(def => def.label)
             .ToList();
         pawnMarkerCache = new Dictionary<Pawn, MarkerDef>();
@@ -55,7 +70,11 @@ public static class MarkThatPawn
         MarkerIcon = ContentFinder<Texture2D>.Get("UI/Marker_Icon");
         CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
         autoIcon = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Scheduled");
-        SizeMesh = new List<Mesh>();
+        resetIcon = ContentFinder<Texture2D>.Get("UI/Widgets/RotLeft");
+        AddIcon = ContentFinder<Texture2D>.Get("ScaledIcons/Add");
+        ExpandIcon = ContentFinder<Texture2D>.Get("ScaledIcons/ArrowRight");
+        RemoveIcon = ContentFinder<Texture2D>.Get("ScaledIcons/Empty");
+        SizeMesh = [];
         for (var i = 1; i <= 50; i++)
         {
             SizeMesh.Add(MeshMakerPlanes.NewPlaneMesh(i / 10f));
@@ -108,6 +127,12 @@ public static class MarkThatPawn
                 case MarkerRule.AutoRuleType.MentalState:
                     rule = new MentalStateMarkerRule(ruleBlob);
                     break;
+                case MarkerRule.AutoRuleType.HediffDynamic:
+                    rule = new DynamicHediffMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.HediffStatic:
+                    rule = new StaticHediffMarkerRule(ruleBlob);
+                    break;
                 default:
                     continue;
             }
@@ -136,7 +161,6 @@ public static class MarkThatPawn
         var postfix = typeof(VehicleRenderer_RenderPawnAt).GetMethod(nameof(VehicleRenderer_RenderPawnAt.Postfix));
         harmony.Patch(original, postfix: new HarmonyMethod(postfix));
     }
-
 
     public static void RenderMarkingOverlay(Pawn pawn, int marker, MarkingTracker tracker)
     {
@@ -268,8 +292,7 @@ public static class MarkThatPawn
         Graphics.DrawMesh(mesh, drawPos, Quaternion.identity, fadedMaterial, 0);
     }
 
-
-    public static bool TryGetAutoMarkerForPawn(Pawn pawn, out string result, Type specificType = null)
+    public static bool TryGetAutoMarkerForPawn(Pawn pawn, out string result)
     {
         result = null;
         if (MarkThatPawnMod.instance.Settings.AutoRules == null || !MarkThatPawnMod.instance.Settings.AutoRules.Any())
@@ -282,26 +305,16 @@ public static class MarkThatPawn
             return false;
         }
 
-        foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.Enabled)
+        foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules
+                     .Where(rule => rule.Enabled && !rule.IsOverride && rule.AppliesToPawn(pawn))
                      .OrderBy(rule => rule.RuleOrder))
         {
-            if (specificType != null && markerRule.GetType() != specificType)
-            {
-                continue;
-            }
-
-            if (!markerRule.AppliesToPawn(pawn))
-            {
-                continue;
-            }
-
             result = markerRule.GetMarkerBlob();
             return true;
         }
 
         return false;
     }
-
 
     public static bool TryToConvertStringToMaterial(string markerString, out Material result)
     {
@@ -358,7 +371,6 @@ public static class MarkThatPawn
         result = markerSet.MarkerTextures[number - 1];
         return true;
     }
-
 
     public static MarkerDef GetMarkerDefForPawn(Pawn pawn)
     {
@@ -477,6 +489,16 @@ public static class MarkThatPawn
         }
     }
 
+    public static TaggedString GetDistinctHediffName(HediffDef original, List<HediffDef> hediffList)
+    {
+        if (hediffList.Count(def => def.label == original.label) == 1)
+        {
+            return original.LabelCap;
+        }
+
+        return (TaggedString)$"{original.LabelCap} ({original.defName})";
+    }
+
     public static bool TryGetMarkerDef(string markerDefName, out MarkerDef result)
     {
         result = null;
@@ -503,35 +525,6 @@ public static class MarkThatPawn
             tracker.GlobalMarkingTracker.CustomPawns = new Dictionary<Pawn, string>();
         }
 
-        void CustomAction()
-        {
-            var markerMenu = new List<FloatMenuOption>();
-            foreach (var markerDef in MarkerDefs)
-            {
-                markerMenu.Add(new FloatMenuOption(markerDef.LabelCap, () =>
-                {
-                    var markerNumber = new List<FloatMenuOption>();
-                    for (var i = 0; i < markerDef.MarkerTextures.Count; i++)
-                    {
-                        var mark = i + 1;
-
-                        void Action()
-                        {
-                            tracker.GlobalMarkingTracker.SetPawnMarking(pawn, -2, currentMarking,
-                                customMarkerString: $"{markerDef.defName};{mark}");
-                        }
-
-                        markerNumber.Add(new FloatMenuOption("MTP.MarkerNumber".Translate(mark), Action,
-                            markerDef.MarkerTextures[i], Color.white));
-                    }
-
-                    Find.WindowStack.Add(new FloatMenu(markerNumber));
-                }, markerDef.Icon, Color.white));
-            }
-
-            Find.WindowStack.Add(new FloatMenu(markerMenu));
-        }
-
         returnList.Add(new FloatMenuOption("MTP.CustomIcon".Translate(), CustomAction, TexButton.NewItem,
             Color.white));
 
@@ -542,17 +535,30 @@ public static class MarkThatPawn
                 tracker.GlobalMarkingTracker.SetPawnMarking(pawn, -1, currentMarking);
             }
 
+            void ResetAction()
+            {
+                tracker.GlobalMarkingTracker.AutomaticPawns.Remove(pawn);
+                if (tracker.GlobalMarkingTracker.MarkedPawns.TryGetValue(pawn, out var marking) && marking == -1)
+                {
+                    tracker.GlobalMarkingTracker.MarkedPawns.Remove(pawn);
+                }
+
+                var mapTracker = pawn.Map.GetComponent<MarkingTracker>();
+                if (mapTracker?.PawnsToEvaluate.Contains(pawn) == true)
+                {
+                    return;
+                }
+
+                mapTracker?.PawnsToEvaluate.Add(pawn);
+            }
+
             returnList.Add(new FloatMenuOption("MTP.UseAutoIcon".Translate(), AutoAction, autoIcon, Color.white));
+            returnList.Add(new FloatMenuOption("MTP.ResetAutoIcon".Translate(), ResetAction, resetIcon, Color.white));
         }
 
         for (var i = 0; i <= markerSet.MarkerTextures.Count; i++)
         {
             var mark = i;
-
-            void Action()
-            {
-                tracker.GlobalMarkingTracker.SetPawnMarking(pawn, mark, currentMarking);
-            }
 
             Texture2D icon;
             TaggedString title;
@@ -568,9 +574,45 @@ public static class MarkThatPawn
             }
 
             returnList.Add(new FloatMenuOption(title, Action, icon, Color.white));
+            continue;
+
+            void Action()
+            {
+                tracker.GlobalMarkingTracker.SetPawnMarking(pawn, mark, currentMarking);
+            }
         }
 
         return returnList;
+
+        void CustomAction()
+        {
+            var markerMenu = new List<FloatMenuOption>();
+            foreach (var markerDef in MarkerDefs)
+            {
+                markerMenu.Add(new FloatMenuOption(markerDef.LabelCap, () =>
+                {
+                    var markerNumber = new List<FloatMenuOption>();
+                    for (var i = 0; i < markerDef.MarkerTextures.Count; i++)
+                    {
+                        var mark = i + 1;
+
+                        markerNumber.Add(new FloatMenuOption("MTP.MarkerNumber".Translate(mark), Action,
+                            markerDef.MarkerTextures[i], Color.white));
+                        continue;
+
+                        void Action()
+                        {
+                            tracker.GlobalMarkingTracker.SetPawnMarking(pawn, -2, currentMarking,
+                                customMarkerString: $"{markerDef.defName};{mark}");
+                        }
+                    }
+
+                    Find.WindowStack.Add(new FloatMenu(markerNumber));
+                }, markerDef.Icon, Color.white));
+            }
+
+            Find.WindowStack.Add(new FloatMenu(markerMenu));
+        }
     }
 
     public static List<FloatMenuOption> GetMarkingSetOptions(PawnType type)

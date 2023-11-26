@@ -5,7 +5,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.MarkerRules;
 
 public class SkillMarkerRule : MarkerRule
 {
@@ -189,7 +189,7 @@ public class SkillMarkerRule : MarkerRule
                     passionDefs.Remove(skillDef);
                     RuleParameters = string.Join(",",
                         skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|{passionDefs[pair.Key]}"));
-                }, TexButton.Minus, Color.white));
+                }, TexButton.Empty, Color.white));
                 continue;
             }
 
@@ -226,11 +226,11 @@ public class SkillMarkerRule : MarkerRule
                             }, SkillUI.PassionMajorIcon, Color.white)
                         };
                         Find.WindowStack.Add(new FloatMenu(subSubMenu));
-                    }));
+                    }, TexUI.ArrowTexRight, Color.white, iconJustification: HorizontalJustification.Right));
                 }
 
                 Find.WindowStack.Add(new FloatMenu(subMenu));
-            }));
+            }, TexUI.ArrowTexRight, Color.white, iconJustification: HorizontalJustification.Right));
         }
 
         Find.WindowStack.Add(new FloatMenu(skillMenu));

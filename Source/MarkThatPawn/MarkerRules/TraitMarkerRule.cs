@@ -4,7 +4,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.MarkerRules;
 
 public class TraitMarkerRule : MarkerRule
 {
@@ -153,7 +153,7 @@ public class TraitMarkerRule : MarkerRule
                     {
                         traitDefs.Remove(traitDef);
                         RuleParameters = string.Join(",", traitDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
-                    }, TexButton.Empty, Color.white));
+                    }, MarkThatPawn.RemoveIcon, Color.white));
                     continue;
                 }
 
@@ -161,7 +161,7 @@ public class TraitMarkerRule : MarkerRule
                 {
                     traitDefs[traitDef] = traitDefDegree.degree;
                     RuleParameters = string.Join(",", traitDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
-                }, TexButton.Add, Color.white));
+                }));
             }
         }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 using Verse;
 using static MarkThatPawn.MarkThatPawn;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.MarkerRules;
 
 public abstract class MarkerRule
 {
@@ -19,7 +19,9 @@ public abstract class MarkerRule
         Relative,
         PawnType,
         Drafted,
-        MentalState
+        MentalState,
+        HediffDynamic,
+        HediffStatic
     }
 
     public List<PawnType> ApplicablePawnTypes;

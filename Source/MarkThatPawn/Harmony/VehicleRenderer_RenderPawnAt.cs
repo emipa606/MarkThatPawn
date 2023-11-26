@@ -1,6 +1,6 @@
 using Verse;
 
-namespace MarkThatPawn;
+namespace MarkThatPawn.Harmony;
 
 public static class VehicleRenderer_RenderPawnAt
 {

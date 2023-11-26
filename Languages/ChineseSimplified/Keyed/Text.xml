@@ -85,4 +85,8 @@
   <MTP.MentalState.Passive>被动状态</MTP.MentalState.Passive>
   <MTP.MentalState.Aggressive>侵略状态</MTP.MentalState.Aggressive>
   <MTP.OverrideRule>这是一个覆盖规则。它只会在满足条件时覆盖当前图标。</MTP.OverrideRule>
+  <MTP.ResetAutoIcon>重置自动图标</MTP.ResetAutoIcon>
+  <MTP.AutomaticType.HediffDynamic>卒有临时对冲差</MTP.AutomaticType.HediffDynamic>
+  <MTP.AutomaticType.HediffStatic>棋子有永久的对冲力</MTP.AutomaticType.HediffStatic>
+  <MTP.AutomaticType.HediffStage>第{0}阶段</MTP.AutomaticType.HediffStage>
 </LanguageData>
