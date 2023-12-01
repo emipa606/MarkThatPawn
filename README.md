@@ -29,8 +29,16 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 - Pawn traits
 - Relations to colonists
 - Pawn category
+- Pawn has one or more permanent hediffs, like a bionic limb
+
+
+
+There are also priority rules that get applied based on events
+
+
 - Pawn is drafted
 - Pawn is in a mental state
+- Pawn has one or more temporary hediffs, like an injury
 
 
 

@@ -89,8 +89,8 @@ public class MarkerDef : Def
     private void loadTextures()
     {
         icon = ContentFinder<Texture2D>.Get(iconPath, false);
-        markerTextures = new List<Texture2D>();
-        markerMaterials = new List<Material>();
+        markerTextures = [];
+        markerMaterials = [];
 
         var counter = 0;
         for (var i = 0; i < 100; i++)

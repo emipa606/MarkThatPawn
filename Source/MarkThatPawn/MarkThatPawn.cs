@@ -28,6 +28,7 @@ public static class MarkThatPawn
     public const float ButtonIconSizeFactor = 0.8f;
     public static readonly List<TraitDef> AllTraits;
     public static readonly List<SkillDef> AllSkills;
+    public static readonly List<ThingDef> AllAnimals;
     public static readonly List<HediffDef> AllDynamicHediffs;
     public static readonly List<HediffDef> AllStaticHediffs;
     public static readonly List<ThingDef> AllValidWeapons;
@@ -55,6 +56,8 @@ public static class MarkThatPawn
 
         AllTraits = DefDatabase<TraitDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
         AllSkills = DefDatabase<SkillDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+        AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading.Where(def => def.race?.Animal == true)
+            .OrderBy(def => def.label).ToList();
         AllDynamicHediffs = DefDatabase<HediffDef>.AllDefsListForReading
             .Where(def => def.stages != null && def.stages.Any() && def.spawnThingOnRemoved == null ||
                           def.injuryProps != null)
@@ -132,6 +135,9 @@ public static class MarkThatPawn
                     break;
                 case MarkerRule.AutoRuleType.HediffStatic:
                     rule = new StaticHediffMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Animal:
+                    rule = new AnimalMarkerRule(ruleBlob);
                     break;
                 default:
                     continue;
@@ -440,14 +446,14 @@ public static class MarkThatPawn
             return PawnType.Slave;
         }
 
-        if (pawn.IsColonist)
-        {
-            return PawnType.Colonist;
-        }
-
         if (pawn.IsPrisonerOfColony)
         {
             return PawnType.Prisoner;
+        }
+
+        if (pawn.IsColonist || pawn.Faction == Faction.OfPlayer)
+        {
+            return PawnType.Colonist;
         }
 
         return pawn.HostileTo(Faction.OfPlayer) ? PawnType.Enemy : PawnType.Neutral;

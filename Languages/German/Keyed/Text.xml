@@ -89,4 +89,5 @@
   <MTP.AutomaticType.HediffDynamic>Bauer hat temporären Hediff</MTP.AutomaticType.HediffDynamic>
   <MTP.AutomaticType.HediffStatic>Pfand hat permanenten hediff</MTP.AutomaticType.HediffStatic>
   <MTP.AutomaticType.HediffStage>Stufe {0}</MTP.AutomaticType.HediffStage>
+  <MTP.AutomaticType.Animal>Pfand ist ein bestimmtes Tier</MTP.AutomaticType.Animal>
 </LanguageData>

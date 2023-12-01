@@ -89,4 +89,5 @@
   <MTP.AutomaticType.HediffDynamic>卒有临时对冲差</MTP.AutomaticType.HediffDynamic>
   <MTP.AutomaticType.HediffStatic>棋子有永久的对冲力</MTP.AutomaticType.HediffStatic>
   <MTP.AutomaticType.HediffStage>第{0}阶段</MTP.AutomaticType.HediffStage>
+  <MTP.AutomaticType.Animal>卒是一种特定的动物</MTP.AutomaticType.Animal>
 </LanguageData>

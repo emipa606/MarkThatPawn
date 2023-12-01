@@ -70,6 +70,11 @@ public class PawnTypeMarkerRule : MarkerRule
 
     public override bool AppliesToPawn(Pawn pawn)
     {
+        if (!base.AppliesToPawn(pawn))
+        {
+            return false;
+        }
+
         if (pawn == null || pawn.Destroyed || !pawn.Spawned)
         {
             return false;

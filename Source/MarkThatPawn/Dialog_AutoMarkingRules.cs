@@ -337,6 +337,10 @@ public class Dialog_AutoMarkingRules : Window
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new StaticHediffMarkerRule())));
                     break;
+                case MarkerRule.AutoRuleType.Animal:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AnimalMarkerRule())));
+                    break;
                 default:
                     continue;
             }

@@ -89,4 +89,5 @@
   <MTP.AutomaticType.HediffDynamic>Le pion a un hediff temporaire</MTP.AutomaticType.HediffDynamic>
   <MTP.AutomaticType.HediffStatic>Le pion a un hediff permanent</MTP.AutomaticType.HediffStatic>
   <MTP.AutomaticType.HediffStage>étape {0}</MTP.AutomaticType.HediffStage>
+  <MTP.AutomaticType.Animal>Le pion est un animal spécifique</MTP.AutomaticType.Animal>
 </LanguageData>

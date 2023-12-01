@@ -21,7 +21,8 @@ public abstract class MarkerRule
         Drafted,
         MentalState,
         HediffDynamic,
-        HediffStatic
+        HediffStatic,
+        Animal
     }
 
     public List<PawnType> ApplicablePawnTypes;
