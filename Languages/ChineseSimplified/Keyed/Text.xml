@@ -90,4 +90,15 @@
   <MTP.AutomaticType.HediffStatic>棋子有永久的对冲力</MTP.AutomaticType.HediffStatic>
   <MTP.AutomaticType.HediffStage>第{0}阶段</MTP.AutomaticType.HediffStage>
   <MTP.AutomaticType.Animal>卒是一种特定的动物</MTP.AutomaticType.Animal>
+  <MTP.DuplicateRule>重复规则</MTP.DuplicateRule>
+  <MTP.Male>男</MTP.Male>
+  <MTP.Female>女性</MTP.Female>
+  <MTP.Animal>动物</MTP.Animal>
+  <MTP.OnlyAnimal>只有动物</MTP.OnlyAnimal>
+  <MTP.NotAnimal>不是动物</MTP.NotAnimal>
+  <MTP.LowAgeLimit>低年龄限制：{0}</MTP.LowAgeLimit>
+  <MTP.HighAgeLimit>高年龄限制：{0}</MTP.HighAgeLimit>
+  <MTP.Unlimited>高年龄限制：无限制</MTP.Unlimited>
+  <MTP.AutomaticType.Gender>当物为特定性别</MTP.AutomaticType.Gender>
+  <MTP.AutomaticType.Age>棋子在指定年龄范围内</MTP.AutomaticType.Age>
 </LanguageData>

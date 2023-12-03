@@ -90,4 +90,15 @@
   <MTP.AutomaticType.HediffStatic>Le pion a un hediff permanent</MTP.AutomaticType.HediffStatic>
   <MTP.AutomaticType.HediffStage>étape {0}</MTP.AutomaticType.HediffStage>
   <MTP.AutomaticType.Animal>Le pion est un animal spécifique</MTP.AutomaticType.Animal>
+  <MTP.DuplicateRule>Règle de duplication</MTP.DuplicateRule>
+  <MTP.Male>Homme</MTP.Male>
+  <MTP.Female>Femme</MTP.Female>
+  <MTP.Animal>Animaux</MTP.Animal>
+  <MTP.OnlyAnimal>Seulement les animaux</MTP.OnlyAnimal>
+  <MTP.NotAnimal>Pas les animaux</MTP.NotAnimal>
+  <MTP.LowAgeLimit>Limite d'âge basse : {0}</MTP.LowAgeLimit>
+  <MTP.HighAgeLimit>Limite d'âge élevée : {0}</MTP.HighAgeLimit>
+  <MTP.Unlimited>Limite d'âge élevée : Aucune limite</MTP.Unlimited>
+  <MTP.AutomaticType.Gender>Le pion est du sexe spécifié</MTP.AutomaticType.Gender>
+  <MTP.AutomaticType.Age>Le pion est dans la tranche d'âge spécifiée</MTP.AutomaticType.Age>
 </LanguageData>

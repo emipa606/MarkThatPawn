@@ -22,7 +22,9 @@ public abstract class MarkerRule
         MentalState,
         HediffDynamic,
         HediffStatic,
-        Animal
+        Animal,
+        Gender,
+        Age
     }
 
     public List<PawnType> ApplicablePawnTypes;

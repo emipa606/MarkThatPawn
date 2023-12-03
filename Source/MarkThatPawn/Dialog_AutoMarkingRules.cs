@@ -12,6 +12,7 @@ public class Dialog_AutoMarkingRules : Window
     private static readonly Color inactiveColor = new Color(0.3f, 0.3f, 0.3f, 0.6f);
     private static readonly Color overrideColor = new Color(0.1f, 0.3f, 0.3f, 0.6f);
     private static readonly float rowHeight = 62f;
+    private readonly Texture2D copyIcon;
 
     private MarkerRule originalRule;
     private MarkerRule ruleWorkingCopy;
@@ -26,6 +27,7 @@ public class Dialog_AutoMarkingRules : Window
         closeOnClickedOutside = true;
         absorbInputAroundWindow = true;
         ruleWorkingCopy = null;
+        copyIcon = ContentFinder<Texture2D>.Get("UI/Commands/CopySettings");
     }
 
     public override Vector2 InitialSize => new Vector2(900f, 800f);
@@ -103,6 +105,7 @@ public class Dialog_AutoMarkingRules : Window
             var rowLeftArea = ruleRow.LeftPart(0.68f);
             var imageRect = rowRightArea.RightPartPixels(rowRightArea.height);
             imageRect.x -= prioButtonsArea.width;
+            var fullButtonArea = rowLeftArea.LeftPart(0.04f).TopHalf().CenteredOnYIn(rowLeftArea);
             var positiveButtonRect = rowLeftArea.LeftPart(0.04f).TopHalf().ContractedBy(1f);
             var negativeButtonRect = rowLeftArea.LeftPart(0.04f).BottomHalf().ContractedBy(1f);
 
@@ -132,23 +135,35 @@ public class Dialog_AutoMarkingRules : Window
 
                 if (ruleWorkingCopy == null)
                 {
-                    TooltipHandler.TipRegion(positiveButtonRect, "MTP.EditAutomaticType".Translate());
-                    if (Widgets.ButtonImageWithBG(positiveButtonRect, TexButton.Info,
-                            positiveButtonRect.size * MarkThatPawn.ButtonIconSizeFactor))
+                    if (Widgets.ButtonImageWithBG(fullButtonArea, TexButton.Info,
+                            fullButtonArea.size * MarkThatPawn.ButtonIconSizeFactor))
                     {
-                        ruleWorkingCopy = autoRule.GetCopy();
-                        originalRule = autoRule;
-                        continue;
-                    }
+                        var editFloatMenu = new List<FloatMenuOption>
+                        {
+                            new FloatMenuOption("MTP.EditAutomaticType".Translate(),
+                                () =>
+                                {
+                                    ruleWorkingCopy = autoRule.GetCopy();
+                                    originalRule = autoRule;
+                                }, TexButton.OpenStatsReport, Color.white),
+                            new FloatMenuOption("MTP.DuplicateRule".Translate(),
+                                () =>
+                                {
+                                    var ruleCopy = autoRule.GetCopy();
+                                    ruleCopy.RuleOrder = MarkThatPawnMod.instance.Settings.AutoRules
+                                        .OrderByDescending(rule => rule.RuleOrder).First().RuleOrder + 1;
+                                    MarkThatPawnMod.instance.Settings.AutoRules.Add(ruleCopy);
+                                }, copyIcon, Color.white),
+                            new FloatMenuOption("MTP.DeleteAutomaticType".Translate(),
+                                () =>
+                                {
+                                    Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                                        "MTP.DeleteAutomaticTypeConfirm".Translate(),
+                                        delegate { MarkThatPawnMod.instance.Settings.AutoRules.Remove(autoRule); }));
+                                }, TexButton.DeleteX, Color.white)
+                        };
 
-                    TooltipHandler.TipRegion(negativeButtonRect, "MTP.DeleteAutomaticType".Translate());
-                    if (Widgets.ButtonImageWithBG(negativeButtonRect, TexButton.DeleteX,
-                            negativeButtonRect.size * MarkThatPawn.ButtonIconSizeFactor))
-                    {
-                        Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                            "MTP.DeleteAutomaticTypeConfirm".Translate(),
-                            delegate { MarkThatPawnMod.instance.Settings.AutoRules.Remove(autoRule); }));
-                        continue;
+                        Find.WindowStack.Add(new FloatMenu(editFloatMenu));
                     }
                 }
 
@@ -293,6 +308,7 @@ public class Dialog_AutoMarkingRules : Window
     {
         var ruleTypeList = new List<FloatMenuOption>();
 
+        //TODO: try to generate this based on AutoRuleTypes
         foreach (var ruleType in (MarkerRule.AutoRuleType[])Enum.GetValues(typeof(MarkerRule.AutoRuleType)))
         {
             switch (ruleType)
@@ -340,6 +356,14 @@ public class Dialog_AutoMarkingRules : Window
                 case MarkerRule.AutoRuleType.Animal:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AnimalMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.Gender:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new GenderMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.Age:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AgeMarkerRule())));
                     break;
                 default:
                     continue;

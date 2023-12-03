@@ -90,4 +90,15 @@
   <MTP.AutomaticType.HediffStatic>Pfand hat permanenten hediff</MTP.AutomaticType.HediffStatic>
   <MTP.AutomaticType.HediffStage>Stufe {0}</MTP.AutomaticType.HediffStage>
   <MTP.AutomaticType.Animal>Pfand ist ein bestimmtes Tier</MTP.AutomaticType.Animal>
+  <MTP.DuplicateRule>Regel duplizieren</MTP.DuplicateRule>
+  <MTP.Male>Männlich</MTP.Male>
+  <MTP.Female>Weiblich</MTP.Female>
+  <MTP.Animal>Tiere</MTP.Animal>
+  <MTP.OnlyAnimal>Nur Tiere</MTP.OnlyAnimal>
+  <MTP.NotAnimal>Keine Tiere</MTP.NotAnimal>
+  <MTP.LowAgeLimit>Niedrige Altersgrenze: {0}</MTP.LowAgeLimit>
+  <MTP.HighAgeLimit>Hohe Altersgrenze: {0}</MTP.HighAgeLimit>
+  <MTP.Unlimited>Hohe Altersgrenze: Keine Grenze</MTP.Unlimited>
+  <MTP.AutomaticType.Gender>Pfand ist von bestimmtem Geschlecht</MTP.AutomaticType.Gender>
+  <MTP.AutomaticType.Age>Pfand ist in der angegebenen Altersgruppe</MTP.AutomaticType.Age>
 </LanguageData>

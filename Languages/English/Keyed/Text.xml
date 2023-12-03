@@ -53,7 +53,16 @@
   <MTP.UseAutoIcon>Auto-icon</MTP.UseAutoIcon>
   <MTP.ResetAutoIcon>Reset auto-icon</MTP.ResetAutoIcon>
   <MTP.None>No marker</MTP.None>
+  <MTP.DuplicateRule>Duplicate rule</MTP.DuplicateRule>
   <MTP.Reset>Reset all values</MTP.Reset>
+  <MTP.Male>Male</MTP.Male>
+  <MTP.Female>Female</MTP.Female>
+  <MTP.Animal>Animals</MTP.Animal>
+  <MTP.OnlyAnimal>Only animals</MTP.OnlyAnimal>
+  <MTP.NotAnimal>Not animals</MTP.NotAnimal>
+  <MTP.LowAgeLimit>Low age-limit: {0}</MTP.LowAgeLimit>
+  <MTP.HighAgeLimit>High age-limit: {0}</MTP.HighAgeLimit>
+  <MTP.Unlimited>High age-limit: No limit</MTP.Unlimited>
   <MTP.ZOffset>Vertical offset: {0}</MTP.ZOffset>
   <MTP.XOffset>Horizontal offset: {0}</MTP.XOffset>
   <MTP.MarkerNumber>Marker {0}</MTP.MarkerNumber>
@@ -83,10 +92,12 @@
   <MTP.AutomaticType.HediffDynamic>Pawn has temporary hediff</MTP.AutomaticType.HediffDynamic>
   <MTP.AutomaticType.HediffStatic>Pawn has permanent hediff</MTP.AutomaticType.HediffStatic>
   <MTP.AutomaticType.Animal>Pawn is a specific animal</MTP.AutomaticType.Animal>
+  <MTP.AutomaticType.Gender>Pawn is of specified gender</MTP.AutomaticType.Gender>
+  <MTP.AutomaticType.Age>Pawn is in specified age-range</MTP.AutomaticType.Age>
   <MTP.AutomaticType.HediffStage>stage {0}</MTP.AutomaticType.HediffStage>
   <MTP.PawnLimitation>Only applies to: {0}</MTP.PawnLimitation>
   <MTP.MentalState.Any>Any state</MTP.MentalState.Any>
   <MTP.MentalState.Passive>Passive state</MTP.MentalState.Passive>
   <MTP.MentalState.Aggressive>Aggressive state</MTP.MentalState.Aggressive>
-  <MTP.OverrideRule>This is an override-rule. It will only override the current icon during the time the condition for it is fulfilled.</MTP.OverrideRule>
+  <MTP.OverrideRule>This is an temporary-rule. It will only be shown during the time the condition for it is fulfilled.</MTP.OverrideRule>
 </LanguageData>

@@ -104,6 +104,7 @@ public static class MarkThatPawn
                 continue;
             }
 
+            //TODO: try to generate this based on AutoRuleTypes
             switch (type)
             {
                 case MarkerRule.AutoRuleType.Weapon:
@@ -138,6 +139,12 @@ public static class MarkThatPawn
                     break;
                 case MarkerRule.AutoRuleType.Animal:
                     rule = new AnimalMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Gender:
+                    rule = new GenderMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Age:
+                    rule = new AgeMarkerRule(ruleBlob);
                     break;
                 default:
                     continue;

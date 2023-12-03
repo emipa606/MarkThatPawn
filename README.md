@@ -30,6 +30,7 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 - Relations to colonists
 - Pawn category
 - Pawn has one or more permanent hediffs, like a bionic limb
+- Animal type
 
 
 
