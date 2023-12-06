@@ -101,4 +101,7 @@
   <MTP.Unlimited>高年龄限制：无限制</MTP.Unlimited>
   <MTP.AutomaticType.Gender>当物为特定性别</MTP.AutomaticType.Gender>
   <MTP.AutomaticType.Age>棋子在指定年龄范围内</MTP.AutomaticType.Age>
+  <MTP.AutomaticType.Xenotype>棋子是特定的异型</MTP.AutomaticType.Xenotype>
+  <MTP.AutomaticType.Gene>棋子具有特定基因</MTP.AutomaticType.Gene>
+  <MTP.AutomaticType.GeneUndefinedCategory>未定义</MTP.AutomaticType.GeneUndefinedCategory>
 </LanguageData>

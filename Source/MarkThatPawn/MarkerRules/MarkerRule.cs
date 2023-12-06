@@ -24,7 +24,9 @@ public abstract class MarkerRule
         HediffStatic,
         Animal,
         Gender,
-        Age
+        Age,
+        Xenotype,
+        Gene
     }
 
     public List<PawnType> ApplicablePawnTypes;

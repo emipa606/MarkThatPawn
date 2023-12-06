@@ -101,4 +101,7 @@
   <MTP.Unlimited>Hohe Altersgrenze: Keine Grenze</MTP.Unlimited>
   <MTP.AutomaticType.Gender>Pfand ist von bestimmtem Geschlecht</MTP.AutomaticType.Gender>
   <MTP.AutomaticType.Age>Pfand ist in der angegebenen Altersgruppe</MTP.AutomaticType.Age>
+  <MTP.AutomaticType.Xenotype>Pfand ist spezifischer Xenotyp</MTP.AutomaticType.Xenotype>
+  <MTP.AutomaticType.Gene>Bauer hat ein bestimmtes Gen</MTP.AutomaticType.Gene>
+  <MTP.AutomaticType.GeneUndefinedCategory>Unbestimmt</MTP.AutomaticType.GeneUndefinedCategory>
 </LanguageData>

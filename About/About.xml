@@ -42,6 +42,8 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 [*]Weapon type equipped
 [*]Pawn skill levels
 [*]Pawn traits
+[*]Pawn age
+[*]Pawn gender
 [*]Relations to colonists
 [*]Pawn category
 [*]Pawn has one or more permanent hediffs, like a bionic limb

@@ -365,6 +365,14 @@ public class Dialog_AutoMarkingRules : Window
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AgeMarkerRule())));
                     break;
+                case MarkerRule.AutoRuleType.Xenotype when ModLister.BiotechInstalled:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new XenotypeMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.Gene when ModLister.BiotechInstalled:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new GeneMarkerRule())));
+                    break;
                 default:
                     continue;
             }

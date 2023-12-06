@@ -101,4 +101,7 @@
   <MTP.Unlimited>Limite d'âge élevée : Aucune limite</MTP.Unlimited>
   <MTP.AutomaticType.Gender>Le pion est du sexe spécifié</MTP.AutomaticType.Gender>
   <MTP.AutomaticType.Age>Le pion est dans la tranche d'âge spécifiée</MTP.AutomaticType.Age>
+  <MTP.AutomaticType.Xenotype>Le pion est un xénotype spécifique</MTP.AutomaticType.Xenotype>
+  <MTP.AutomaticType.Gene>Le pion a un gène spécifique</MTP.AutomaticType.Gene>
+  <MTP.AutomaticType.GeneUndefinedCategory>Non défini</MTP.AutomaticType.GeneUndefinedCategory>
 </LanguageData>

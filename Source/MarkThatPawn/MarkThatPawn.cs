@@ -48,6 +48,9 @@ public static class MarkThatPawn
     private static readonly int standardSize;
     private static readonly Texture2D autoIcon;
     private static readonly Texture2D resetIcon;
+    public static readonly List<XenotypeDef> AllValidXenotypes;
+    public static readonly List<GeneDef> AllValidGenes;
+    public static readonly List<GeneCategoryDef> AllValidGeneCategories;
 
     static MarkThatPawn()
     {
@@ -56,6 +59,20 @@ public static class MarkThatPawn
 
         AllTraits = DefDatabase<TraitDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
         AllSkills = DefDatabase<SkillDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+        if (ModLister.BiotechInstalled)
+        {
+            AllValidXenotypes = DefDatabase<XenotypeDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+            AllValidGenes = DefDatabase<GeneDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+            AllValidGeneCategories =
+                DefDatabase<GeneCategoryDef>.AllDefsListForReading.OrderBy(def => def.label).ToList();
+        }
+        else
+        {
+            AllValidXenotypes = [];
+            AllValidGenes = [];
+            AllValidGeneCategories = [];
+        }
+
         AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading.Where(def => def.race?.Animal == true)
             .OrderBy(def => def.label).ToList();
         AllDynamicHediffs = DefDatabase<HediffDef>.AllDefsListForReading
@@ -145,6 +162,12 @@ public static class MarkThatPawn
                     break;
                 case MarkerRule.AutoRuleType.Age:
                     rule = new AgeMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Xenotype when ModLister.BiotechInstalled:
+                    rule = new XenotypeMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Gene when ModLister.BiotechInstalled:
+                    rule = new GeneMarkerRule(ruleBlob);
                     break;
                 default:
                     continue;

@@ -94,6 +94,9 @@
   <MTP.AutomaticType.Animal>Pawn is a specific animal</MTP.AutomaticType.Animal>
   <MTP.AutomaticType.Gender>Pawn is of specified gender</MTP.AutomaticType.Gender>
   <MTP.AutomaticType.Age>Pawn is in specified age-range</MTP.AutomaticType.Age>
+  <MTP.AutomaticType.Xenotype>Pawn is specific xenotype</MTP.AutomaticType.Xenotype>
+  <MTP.AutomaticType.Gene>Pawn has a specific gene</MTP.AutomaticType.Gene>
+  <MTP.AutomaticType.GeneUndefinedCategory>Undefined</MTP.AutomaticType.GeneUndefinedCategory>
   <MTP.AutomaticType.HediffStage>stage {0}</MTP.AutomaticType.HediffStage>
   <MTP.PawnLimitation>Only applies to: {0}</MTP.PawnLimitation>
   <MTP.MentalState.Any>Any state</MTP.MentalState.Any>
