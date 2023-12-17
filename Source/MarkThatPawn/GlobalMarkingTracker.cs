@@ -181,6 +181,12 @@ public class GlobalMarkingTracker : GameComponent
             OverridePawns = [];
         }
 
+        var mapTracker = firstPawn.Map?.GetComponent<MarkingTracker>();
+        if (mapTracker?.PawnsToEvaluate != null && !mapTracker.PawnsToEvaluate.Contains(firstPawn))
+        {
+            mapTracker.PawnsToEvaluate.Add(firstPawn);
+        }
+
         foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules
                      .Where(rule => rule.Enabled && rule.IsOverride && rule.AppliesToPawn(firstPawn))
                      .OrderBy(rule => rule.RuleOrder))

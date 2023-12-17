@@ -104,4 +104,14 @@
   <MTP.AutomaticType.Xenotype>Le pion est un xénotype spécifique</MTP.AutomaticType.Xenotype>
   <MTP.AutomaticType.Gene>Le pion a un gène spécifique</MTP.AutomaticType.Gene>
   <MTP.AutomaticType.GeneUndefinedCategory>Non défini</MTP.AutomaticType.GeneUndefinedCategory>
+  <MTP.RefreshRules>Actualiser régulièrement les règles relatives aux gages</MTP.RefreshRules>
+  <MTP.RefreshRulesTT>Les règles seront réévaluées régulièrement afin de refléter les changements qui affecteront l'icône sélectionnée.</MTP.RefreshRulesTT>
+  <MTP.EquippedApparelType.Royal>Vêtements royaux</MTP.EquippedApparelType.Royal>
+  <MTP.EquippedApparelType.Psycast>Vêtements Psycast</MTP.EquippedApparelType.Psycast>
+  <MTP.EquippedApparelType.Mechanator>Vêtements de mécanicien</MTP.EquippedApparelType.Mechanator>
+  <MTP.EquippedApparelType.Armored>Vêtements blindés</MTP.EquippedApparelType.Armored>
+  <MTP.EquippedApparelType.EnviromentalProtection>Vêtements de protection de l'environnement</MTP.EquippedApparelType.EnviromentalProtection>
+  <MTP.EquippedApparelType.Basic>Vêtements de base</MTP.EquippedApparelType.Basic>
+  <MTP.AutomaticType.Apparel>Vêtements équipés</MTP.AutomaticType.Apparel>
+  <MTP.AutomaticType.ApparelType>Type de vêtement équipé</MTP.AutomaticType.ApparelType>
 </LanguageData>

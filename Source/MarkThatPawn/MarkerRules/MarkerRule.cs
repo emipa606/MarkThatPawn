@@ -14,6 +14,8 @@ public abstract class MarkerRule
     {
         Weapon,
         WeaponType,
+        Apparel,
+        ApparelType,
         Trait,
         Skill,
         Relative,
@@ -25,8 +27,8 @@ public abstract class MarkerRule
         Animal,
         Gender,
         Age,
-        Xenotype,
-        Gene
+        Gene,
+        Xenotype
     }
 
     public List<PawnType> ApplicablePawnTypes;

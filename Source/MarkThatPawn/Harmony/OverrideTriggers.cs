@@ -18,7 +18,9 @@ public static class OverrideTriggers
     public static void Postfix(Pawn ___pawn)
     {
         var globalMarkingTracker = Current.Game.GetComponent<GlobalMarkingTracker>();
-
-        globalMarkingTracker?.PawnsToEvaluate.Add(___pawn);
+        if (globalMarkingTracker?.PawnsToEvaluate != null && !globalMarkingTracker.PawnsToEvaluate.Contains(___pawn))
+        {
+            globalMarkingTracker.PawnsToEvaluate.Add(___pawn);
+        }
     }
 }

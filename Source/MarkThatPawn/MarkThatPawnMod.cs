@@ -76,6 +76,8 @@ internal class MarkThatPawnMod : Mod
         listing_Standard.Begin(viewingRect);
 
         listing_Standard.Gap();
+        listing_Standard.CheckboxLabeled("MTP.RefreshRules".Translate(), ref Settings.RefreshRules,
+            "MTP.RefreshRulesTT".Translate());
         listing_Standard.CheckboxLabeled("MTP.PulsatingIcons".Translate(), ref Settings.PulsatingIcons,
             "MTP.PulsatingIconsTT".Translate());
         listing_Standard.CheckboxLabeled("MTP.RelativeIconSize".Translate(), ref Settings.RelativeIconSize,

@@ -32,8 +32,15 @@ public static class MarkThatPawn
     public static readonly List<HediffDef> AllDynamicHediffs;
     public static readonly List<HediffDef> AllStaticHediffs;
     public static readonly List<ThingDef> AllValidWeapons;
+    public static readonly List<ThingDef> AllValidApparels;
     public static readonly List<ThingDef> AllExplosiveRangedWeapons;
     public static readonly List<ThingDef> AllThrownWeapons;
+    public static readonly List<ThingDef> AllArmoredApparel;
+    public static readonly List<ThingDef> AllPsycastApparel;
+    public static readonly List<ThingDef> AllMechanatorApparel;
+    public static readonly List<ThingDef> AllRoyalApparel;
+    public static readonly List<ThingDef> AllEnviromentalProtectionApparel;
+    public static readonly List<ThingDef> AllBasicApparel;
     public static readonly Texture2D MarkerIcon;
     public static readonly Texture2D CancelIcon;
     public static readonly Texture2D AddIcon;
@@ -107,11 +114,51 @@ public static class MarkThatPawn
         AllExplosiveRangedWeapons = AllValidWeapons
             .Where(def => def.IsRangedWeapon && def.Verbs.Any(properties =>
                 properties.CausesExplosion && properties.defaultProjectile?.projectile.arcHeightFactor == 0)).ToList();
+
         AllThrownWeapons = AllValidWeapons.Where(def =>
             def.Verbs.Any(properties => properties.defaultProjectile?.projectile.arcHeightFactor > 0)).ToList();
 
         Log.Message(
             $"[MarkThatPawn]: Found {AllValidWeapons.Count} loaded weapons, {AllExplosiveRangedWeapons.Count} explosive weapons and {AllThrownWeapons.Count} thrown projectiles");
+
+        AllValidApparels = DefDatabase<ThingDef>.AllDefsListForReading
+            .Where(def => !string.IsNullOrEmpty(def.label) && def.IsApparel)
+            .OrderBy(def => def.label).ToList();
+
+        AllArmoredApparel = AllValidApparels.Where(def =>
+            def.StatBaseDefined(StatDefOf.ArmorRating_Blunt) ||
+            def.StatBaseDefined(StatDefOf.ArmorRating_Sharp) ||
+            def.StatBaseDefined(StatDefOf.ArmorRating_Heat)).ToList();
+
+        AllRoyalApparel = ModLister.RoyaltyInstalled
+            ? AllValidApparels.Where(def => def.apparel.tags?.Contains("Royal") == true).ToList()
+            : [];
+
+        AllPsycastApparel = ModLister.RoyaltyInstalled
+            ? AllValidApparels.Where(def =>
+                def.equippedStatOffsets?.Any(modifier =>
+                    modifier.stat == StatDefOf.PsychicEntropyRecoveryRate && modifier.value > 0) == true).ToList()
+            : [];
+
+        AllEnviromentalProtectionApparel = AllValidApparels.Where(def =>
+            def.equippedStatOffsets?.Any(modifier =>
+                (modifier.stat == StatDefOf.ToxicEnvironmentResistance || modifier.stat == StatDefOf.ToxicResistance) &&
+                modifier.value > 0) == true).ToList();
+
+        AllMechanatorApparel = ModLister.BiotechInstalled
+            ? AllValidApparels.Where(def => def.apparel.mechanitorApparel).ToList()
+            : [];
+
+        AllBasicApparel = AllValidApparels.Except(AllRoyalApparel)
+            .Except(AllMechanatorApparel)
+            .Except(AllArmoredApparel)
+            .Except(AllEnviromentalProtectionApparel)
+            .Except(AllPsycastApparel).ToList();
+
+        Log.Message(
+            $"[MarkThatPawn]: Found {AllValidApparels.Count} loaded apparel, {AllArmoredApparel.Count} armored apparel, {AllRoyalApparel.Count} royal apparel, " +
+            $"{AllPsycastApparel.Count} psycast apparel, {AllEnviromentalProtectionApparel.Count} enviromental protection apparel, " +
+            $"{AllMechanatorApparel.Count} mechanator apparel and {AllBasicApparel.Count} basic apparel ");
 
         foreach (var ruleBlob in MarkThatPawnMod.instance.Settings.AutoRuleBlobs)
         {
@@ -168,6 +215,12 @@ public static class MarkThatPawn
                     break;
                 case MarkerRule.AutoRuleType.Gene when ModLister.BiotechInstalled:
                     rule = new GeneMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Apparel:
+                    rule = new ApparelMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.ApparelType:
+                    rule = new ApparelTypeMarkerRule(ruleBlob);
                     break;
                 default:
                     continue;

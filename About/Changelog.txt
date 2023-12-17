@@ -1,5 +1,11 @@
 # Changelog for MarkThatPawn
 
+1.4.22 - Added apparel rule
+Added apparel type rule
+Added regular reevaluation of non-temporary rules.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.21 - Added xenotype rule
 Added gene rule.
 Used DeepL to update translations for ChineseSimplified, French, German

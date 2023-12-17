@@ -104,4 +104,14 @@
   <MTP.AutomaticType.Xenotype>Pfand ist spezifischer Xenotyp</MTP.AutomaticType.Xenotype>
   <MTP.AutomaticType.Gene>Bauer hat ein bestimmtes Gen</MTP.AutomaticType.Gene>
   <MTP.AutomaticType.GeneUndefinedCategory>Unbestimmt</MTP.AutomaticType.GeneUndefinedCategory>
+  <MTP.RefreshRules>Pfandregeln regelmäßig aktualisieren</MTP.RefreshRules>
+  <MTP.RefreshRulesTT>wird die Regeln regelmäßig neu bewerten, um Änderungen zu berücksichtigen, die sich auf das ausgewählte Symbol auswirken</MTP.RefreshRulesTT>
+  <MTP.EquippedApparelType.Royal>Königliche Kleidung</MTP.EquippedApparelType.Royal>
+  <MTP.EquippedApparelType.Psycast>Psycast-Kleidung</MTP.EquippedApparelType.Psycast>
+  <MTP.EquippedApparelType.Mechanator>Mechaniker-Kleidung</MTP.EquippedApparelType.Mechanator>
+  <MTP.EquippedApparelType.Armored>Gepanzerte Kleidung</MTP.EquippedApparelType.Armored>
+  <MTP.EquippedApparelType.EnviromentalProtection>Kleidung für den Umweltschutz</MTP.EquippedApparelType.EnviromentalProtection>
+  <MTP.EquippedApparelType.Basic>Basic-Bekleidung</MTP.EquippedApparelType.Basic>
+  <MTP.AutomaticType.Apparel>Ausgestattete Kleidung</MTP.AutomaticType.Apparel>
+  <MTP.AutomaticType.ApparelType>Ausgestattete Kleidungsart</MTP.AutomaticType.ApparelType>
 </LanguageData>

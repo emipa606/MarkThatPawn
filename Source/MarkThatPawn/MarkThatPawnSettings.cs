@@ -29,6 +29,7 @@ internal class MarkThatPawnSettings : ModSettings
     private string prisonerMarkerSet = "WowStyle";
     private MarkerDef prisonerMarkerSetDef;
     public bool PulsatingIcons;
+    public bool RefreshRules = true;
     public bool RelativeIconSize;
     public bool RelativeToZoom = true;
     public bool ShowForColonist = true;
@@ -162,6 +163,7 @@ internal class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref ShowForEnemy, "ShowForEnemy", true);
         Scribe_Values.Look(ref ShowForNeutral, "ShowForNeutral", true);
         Scribe_Values.Look(ref ShowForVehicles, "ShowForVehicles", true);
+        Scribe_Values.Look(ref RefreshRules, "RefreshRules", true);
         Scribe_Values.Look(ref ColonistDiffer, "ColonistDiffer");
         Scribe_Values.Look(ref PrisonerDiffer, "PrisonerDiffer");
         Scribe_Values.Look(ref RelativeIconSize, "RelativeIconSize");
@@ -187,6 +189,7 @@ internal class MarkThatPawnSettings : ModSettings
         RelativeIconSize = false;
         RelativeToZoom = true;
         IconScalingFactor = 1f;
+        RefreshRules = true;
         ShowForColonist = true;
         ShowForPrisoner = true;
         ShowForSlave = true;

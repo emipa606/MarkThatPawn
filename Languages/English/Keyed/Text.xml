@@ -70,10 +70,18 @@
   <MTP.IconScalingFactor>    Icon zoom scaling factor: {0}</MTP.IconScalingFactor>
   <MTP.PulsatingIcons>Use pulsating icons</MTP.PulsatingIcons>
   <MTP.PulsatingIconsTT>Icons will pulsate the same way the trader question-mark does</MTP.PulsatingIconsTT>
+  <MTP.RefreshRules>Refresh pawn-rules regularly</MTP.RefreshRules>
+  <MTP.RefreshRulesTT>Will reevaluate the rules regularly, to reflect changes that will affect the icon selected</MTP.RefreshRulesTT>
   <MTP.EquippedWeaponType.Melee>Melee weapon</MTP.EquippedWeaponType.Melee>
   <MTP.EquippedWeaponType.Ranged>Ranged projectile weapon</MTP.EquippedWeaponType.Ranged>
   <MTP.EquippedWeaponType.RangedExplosive>Ranged explosive weapon</MTP.EquippedWeaponType.RangedExplosive>
   <MTP.EquippedWeaponType.Thrown>Thrown</MTP.EquippedWeaponType.Thrown>
+  <MTP.EquippedApparelType.Royal>Royal apparel</MTP.EquippedApparelType.Royal>
+  <MTP.EquippedApparelType.Psycast>Psycast apparel</MTP.EquippedApparelType.Psycast>
+  <MTP.EquippedApparelType.Mechanator>Mechanator apparel</MTP.EquippedApparelType.Mechanator>
+  <MTP.EquippedApparelType.Armored>Armored apparel</MTP.EquippedApparelType.Armored>
+  <MTP.EquippedApparelType.EnviromentalProtection>Environmental protection apparel</MTP.EquippedApparelType.EnviromentalProtection>
+  <MTP.EquippedApparelType.Basic>Basic apparel</MTP.EquippedApparelType.Basic>
   <MTP.PawnType.Colonist>Colonist</MTP.PawnType.Colonist>
   <MTP.PawnType.Slave>Slave</MTP.PawnType.Slave>
   <MTP.PawnType.Prisoner>Prisoner</MTP.PawnType.Prisoner>
@@ -82,7 +90,9 @@
   <MTP.PawnType.Neutral>Neutral</MTP.PawnType.Neutral>
   <MTP.PawnType.Default>Any</MTP.PawnType.Default>
   <MTP.AutomaticType.Weapon>Equipped weapon</MTP.AutomaticType.Weapon>
+  <MTP.AutomaticType.Apparel>Equipped apparel</MTP.AutomaticType.Apparel>
   <MTP.AutomaticType.WeaponType>Equipped weapon-type</MTP.AutomaticType.WeaponType>
+  <MTP.AutomaticType.ApparelType>Equipped apparel-type</MTP.AutomaticType.ApparelType>
   <MTP.AutomaticType.Trait>Has traits</MTP.AutomaticType.Trait>
   <MTP.AutomaticType.Skill>Skill at least</MTP.AutomaticType.Skill>
   <MTP.AutomaticType.Relative>Has relation to colonist</MTP.AutomaticType.Relative>

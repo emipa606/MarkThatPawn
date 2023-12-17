@@ -3,7 +3,7 @@
 ![Image](https://i.imgur.com/iCj5o7O.png)
 
 
-You get a large raid and looking through the pawns you find one that would be excellent to capture, but sadly you loose them in the action. You later find their corpse blown up by one of your rockets.
+You get a large raid and looking through the pawns you find one that would be excellent to capture, but sadly you lose them in the action. You later find their corpse blown up by one of your rockets.
 
 With this mod you can mark any pawn with a selection of icons to make them easier to keep track of.
 
@@ -33,6 +33,8 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 - Pawn category
 - Pawn has one or more permanent hediffs, like a bionic limb
 - Animal type
+- Xenotype (Biotech)
+- Gene (Biotech)
 
 
 

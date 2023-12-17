@@ -104,4 +104,14 @@
   <MTP.AutomaticType.Xenotype>棋子是特定的异型</MTP.AutomaticType.Xenotype>
   <MTP.AutomaticType.Gene>棋子具有特定基因</MTP.AutomaticType.Gene>
   <MTP.AutomaticType.GeneUndefinedCategory>未定义</MTP.AutomaticType.GeneUndefinedCategory>
+  <MTP.RefreshRules>定期刷新典当规则</MTP.RefreshRules>
+  <MTP.RefreshRulesTT>将定期重新评估规则，以反映会影响所选图标的变化</MTP.RefreshRulesTT>
+  <MTP.EquippedApparelType.Royal>皇家服装</MTP.EquippedApparelType.Royal>
+  <MTP.EquippedApparelType.Psycast>Psycast 服装</MTP.EquippedApparelType.Psycast>
+  <MTP.EquippedApparelType.Mechanator>机械师服装</MTP.EquippedApparelType.Mechanator>
+  <MTP.EquippedApparelType.Armored>装甲服装</MTP.EquippedApparelType.Armored>
+  <MTP.EquippedApparelType.EnviromentalProtection>环保服装</MTP.EquippedApparelType.EnviromentalProtection>
+  <MTP.EquippedApparelType.Basic>基本服装</MTP.EquippedApparelType.Basic>
+  <MTP.AutomaticType.Apparel>装备服装</MTP.AutomaticType.Apparel>
+  <MTP.AutomaticType.ApparelType>装备类型</MTP.AutomaticType.ApparelType>
 </LanguageData>

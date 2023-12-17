@@ -373,6 +373,14 @@ public class Dialog_AutoMarkingRules : Window
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new GeneMarkerRule())));
                     break;
+                case MarkerRule.AutoRuleType.Apparel:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new ApparelMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.ApparelType:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new ApparelTypeMarkerRule())));
+                    break;
                 default:
                     continue;
             }
