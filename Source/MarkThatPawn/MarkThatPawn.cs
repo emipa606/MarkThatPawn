@@ -58,6 +58,7 @@ public static class MarkThatPawn
     public static readonly List<XenotypeDef> AllValidXenotypes;
     public static readonly List<GeneDef> AllValidGenes;
     public static readonly List<GeneCategoryDef> AllValidGeneCategories;
+    public static readonly Material MultiIconOverlay;
 
     static MarkThatPawn()
     {
@@ -236,6 +237,8 @@ public static class MarkThatPawn
             MarkThatPawnMod.instance.Settings.AutoRules.Add(rule);
         }
 
+        MultiIconOverlay = MaterialPool.MatFrom("UI/MultipleImageOverlay", ShaderDatabase.MetaOverlay);
+
         Log.Message(
             $"[MarkThatPawn]: Found {MarkThatPawnMod.instance.Settings.AutoRules.Count} automatic rules defined");
 
@@ -251,15 +254,17 @@ public static class MarkThatPawn
         harmony.Patch(original, postfix: new HarmonyMethod(postfix));
     }
 
-    public static void RenderMarkingOverlay(Pawn pawn, int marker, MarkingTracker tracker)
+    public static void RenderMarkingOverlay(Pawn pawn, MarkingTracker tracker)
     {
         if (!pawn.Spawned)
         {
             return;
         }
 
-        Material material;
+        var baseMaterials = new List<Material>();
+        var overrideMaterials = new List<Material>();
 
+        var marker = tracker.GlobalMarkingTracker.GetPawnMarking(pawn);
         switch (marker)
         {
             case > 0:
@@ -274,7 +279,7 @@ public static class MarkThatPawn
                     return;
                 }
 
-                material = markerSet.MarkerMaterials[marker - 1];
+                baseMaterials.Add(markerSet.MarkerMaterials[marker - 1]);
                 break;
             case -1:
                 if (!tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(pawn, out var autoString))
@@ -282,9 +287,19 @@ public static class MarkThatPawn
                     return;
                 }
 
-                if (!TryToConvertStringToMaterial(autoString, out material))
+                foreach (var autoRuleString in autoString.Split('£'))
                 {
-                    return;
+                    if (!TryToConvertStringToMaterial(autoRuleString, out var autoMaterial))
+                    {
+                        continue;
+                    }
+
+                    baseMaterials.Add(autoMaterial);
+
+                    if (!MarkThatPawnMod.instance.Settings.NormalShowAll)
+                    {
+                        break;
+                    }
                 }
 
                 break;
@@ -294,28 +309,37 @@ public static class MarkThatPawn
                     return;
                 }
 
-                if (!TryToConvertStringToMaterial(customString, out material))
+                if (!TryToConvertStringToMaterial(customString, out var customMaterial))
                 {
                     return;
                 }
 
+                baseMaterials.Add(customMaterial);
                 break;
-            case -3:
-                if (!tracker.GlobalMarkingTracker.OverridePawns.TryGetValue(pawn, out var overrideString))
+        }
+
+
+        if (tracker.GlobalMarkingTracker.OverridePawns.TryGetValue(pawn, out var overrideString))
+        {
+            foreach (var overrideRuleString in overrideString.Split('£'))
+            {
+                var overrideStringTypeless = overrideRuleString.Split('§')[0];
+                if (!TryToConvertStringToMaterial(overrideStringTypeless, out var material))
                 {
-                    return;
+                    continue;
                 }
 
-                var overrideStringTypeless = overrideString.Split('§')[0];
-
-                if (!TryToConvertStringToMaterial(overrideStringTypeless, out material))
+                overrideMaterials.Add(material);
+                if (!MarkThatPawnMod.instance.Settings.SeparateShowAll)
                 {
-                    return;
+                    break;
                 }
+            }
+        }
 
-                break;
-            default:
-                return;
+        if (!baseMaterials.Any() && !overrideMaterials.Any())
+        {
+            return;
         }
 
         var pawnHeight = pawn.def.size.z;
@@ -329,7 +353,82 @@ public static class MarkThatPawn
         drawPos.y = AltitudeLayer.MetaOverlays.AltitudeFor() + 0.28125f;
         drawPos.z += pawnHeight + (MarkThatPawnMod.instance.Settings.IconSize / 3);
         drawPos.z += MarkThatPawnMod.instance.Settings.ZOffset;
-        renderMarker(pawn, material, drawPos, getRightSizeMesh(pawn));
+        var mesh = getRightSizeMesh(pawn);
+
+        if (tracker.GlobalMarkingTracker.ShouldShowMultiMarking(pawn))
+        {
+            var iconWidth = mesh.vertices[2].x / 0.5f;
+            var icons = overrideMaterials.Count + baseMaterials.Count - 1;
+            var shouldExpand = MarkThatPawnMod.instance.Settings.ShowWhenSelected &&
+                               Find.Selector.SelectedPawns.Contains(pawn);
+
+            if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowWhenHover)
+            {
+                var tempWidth = iconWidth;
+                if (!MarkThatPawnMod.instance.Settings.RotateIcons)
+                {
+                    tempWidth *= (1f + MarkThatPawnMod.instance.Settings.IconSpacingFactor) * icons;
+                }
+
+                var mouseOverRect = new Rect(drawPos.x - (tempWidth / 2), drawPos.z - mesh.vertices[2].z, tempWidth,
+                    mesh.vertices[2].z / 0.5f);
+                var mousePositionVector = new Vector2(UI.MouseMapPosition().x, UI.MouseMapPosition().z);
+                shouldExpand = mouseOverRect.Contains(mousePositionVector);
+            }
+
+            baseMaterials.AddRange(overrideMaterials);
+
+            if (MarkThatPawnMod.instance.Settings.InvertOrder)
+            {
+                baseMaterials.Reverse();
+            }
+
+            if (!shouldExpand && MarkThatPawnMod.instance.Settings.RotateIcons)
+            {
+                var tickInterval = 250;
+                if (Find.TickManager.CurTimeSpeed != TimeSpeed.Paused)
+                {
+                    tickInterval *= (int)Find.TickManager.TickRateMultiplier;
+                }
+
+                var amountOfTickGroups = GenTicks.TicksGame / tickInterval;
+                var material = baseMaterials[amountOfTickGroups % baseMaterials.Count];
+                renderMarker(pawn, material, drawPos, mesh);
+                if (baseMaterials.Count <= 1)
+                {
+                    return;
+                }
+
+                drawPos.y += 0.00001f;
+                renderMarker(pawn, MultiIconOverlay, drawPos, mesh);
+
+                return;
+            }
+
+            if (!shouldExpand)
+            {
+                iconWidth *= 1f + MarkThatPawnMod.instance.Settings.IconSpacingFactor;
+            }
+
+            var totalWidth = iconWidth * icons;
+            drawPos.x -= totalWidth / 2;
+            foreach (var material in baseMaterials)
+            {
+                renderMarker(pawn, material, drawPos, mesh);
+                drawPos.x += iconWidth;
+                drawPos.y += 0.00001f;
+            }
+
+            return;
+        }
+
+        if (overrideMaterials.Any())
+        {
+            renderMarker(pawn, overrideMaterials[0], drawPos, mesh);
+            return;
+        }
+
+        renderMarker(pawn, baseMaterials[0], drawPos, mesh);
     }
 
     private static Mesh getRightSizeMesh(Pawn pawn)
@@ -394,15 +493,26 @@ public static class MarkThatPawn
             return false;
         }
 
+        var validRules = new List<string>();
+
         foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules
                      .Where(rule => rule.Enabled && !rule.IsOverride && rule.AppliesToPawn(pawn))
                      .OrderBy(rule => rule.RuleOrder))
         {
-            result = markerRule.GetMarkerBlob();
-            return true;
+            validRules.Add(markerRule.GetMarkerBlob());
+            if (!MarkThatPawnMod.instance.Settings.NormalShowAll)
+            {
+                break;
+            }
         }
 
-        return false;
+        if (!validRules.Any())
+        {
+            return false;
+        }
+
+        result = string.Join("£", validRules);
+        return true;
     }
 
     public static bool TryToConvertStringToMaterial(string markerString, out Material result)

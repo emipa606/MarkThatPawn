@@ -25,6 +25,8 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 
 - Weapon equipped
 - Weapon type equipped
+- Apparel equipped
+- Apparel type equipped
 - Pawn skill levels
 - Pawn traits
 - Pawn age

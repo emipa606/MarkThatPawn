@@ -22,9 +22,12 @@ internal class MarkThatPawnSettings : ModSettings
 
     public float IconScalingFactor = 1f;
     public float IconSize = 0.7f;
+    public float IconSpacingFactor;
+    public bool InvertOrder;
     public bool NeutralDiffer;
     private string neutralMarkerSet = "WowStyle";
     private MarkerDef neutralMarkerSetDef;
+    public bool NormalShowAll = true;
     public bool PrisonerDiffer;
     private string prisonerMarkerSet = "WowStyle";
     private MarkerDef prisonerMarkerSetDef;
@@ -32,6 +35,9 @@ internal class MarkThatPawnSettings : ModSettings
     public bool RefreshRules = true;
     public bool RelativeIconSize;
     public bool RelativeToZoom = true;
+    public bool RotateIcons;
+    public bool SeparateShowAll = true;
+    public bool SeparateTemporary = true;
     public bool ShowForColonist = true;
 
     public bool ShowForEnemy = true;
@@ -42,6 +48,8 @@ internal class MarkThatPawnSettings : ModSettings
     public bool ShowForSlave = true;
 
     public bool ShowForVehicles = true;
+    public bool ShowWhenHover;
+    public bool ShowWhenSelected;
     public bool SlaveDiffer;
     private string slaveMarkerSet = "WowStyle";
     private MarkerDef slaveMarkerSetDef;
@@ -160,11 +168,18 @@ internal class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref ShowForColonist, "ShowForColonist", true);
         Scribe_Values.Look(ref ShowForPrisoner, "ShowForPrisoner", true);
         Scribe_Values.Look(ref ShowForSlave, "ShowForSlave", true);
+        Scribe_Values.Look(ref SeparateShowAll, "SeparateShowAll", true);
+        Scribe_Values.Look(ref NormalShowAll, "NormalShowAll", true);
         Scribe_Values.Look(ref ShowForEnemy, "ShowForEnemy", true);
         Scribe_Values.Look(ref ShowForNeutral, "ShowForNeutral", true);
+        Scribe_Values.Look(ref SeparateTemporary, "SeparateTemporary", true);
         Scribe_Values.Look(ref ShowForVehicles, "ShowForVehicles", true);
         Scribe_Values.Look(ref RefreshRules, "RefreshRules", true);
         Scribe_Values.Look(ref ColonistDiffer, "ColonistDiffer");
+        Scribe_Values.Look(ref RotateIcons, "RotateIcons");
+        Scribe_Values.Look(ref InvertOrder, "InvertOrder");
+        Scribe_Values.Look(ref ShowWhenSelected, "ShowWhenSelected");
+        Scribe_Values.Look(ref ShowWhenHover, "ShowWhenHover");
         Scribe_Values.Look(ref PrisonerDiffer, "PrisonerDiffer");
         Scribe_Values.Look(ref RelativeIconSize, "RelativeIconSize");
         Scribe_Values.Look(ref SlaveDiffer, "SlaveDiffer");
@@ -173,6 +188,7 @@ internal class MarkThatPawnSettings : ModSettings
         Scribe_Collections.Look(ref AutoRuleBlobs, "AutoRuleBlobs");
         Scribe_Values.Look(ref VehiclesDiffer, "VehiclesDiffer");
         Scribe_Values.Look(ref IconSize, "IconSize", 0.7f);
+        Scribe_Values.Look(ref IconSpacingFactor, "IconSpacingFactor");
         Scribe_Values.Look(ref XOffset, "XOffset");
         Scribe_Values.Look(ref ZOffset, "ZOffset");
     }
@@ -187,12 +203,17 @@ internal class MarkThatPawnSettings : ModSettings
         NeutralMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
         VehiclesMarkerSet = DefDatabase<MarkerDef>.GetNamedSilentFail("WowStyle");
         RelativeIconSize = false;
+        RotateIcons = false;
         RelativeToZoom = true;
         IconScalingFactor = 1f;
+        IconSpacingFactor = 0f;
         RefreshRules = true;
         ShowForColonist = true;
         ShowForPrisoner = true;
+        SeparateTemporary = true;
         ShowForSlave = true;
+        SeparateShowAll = true;
+        NormalShowAll = true;
         ShowForEnemy = true;
         ShowForNeutral = true;
         ShowForVehicles = true;
@@ -200,9 +221,12 @@ internal class MarkThatPawnSettings : ModSettings
         ColonistDiffer = false;
         PrisonerDiffer = false;
         SlaveDiffer = false;
+        ShowWhenSelected = false;
+        ShowWhenHover = false;
         EnemyDiffer = false;
         NeutralDiffer = false;
         VehiclesDiffer = false;
+        InvertOrder = false;
         IconSize = 0.7f;
         XOffset = 0f;
         ZOffset = 0f;

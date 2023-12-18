@@ -114,4 +114,18 @@
   <MTP.EquippedApparelType.Basic>基本服装</MTP.EquippedApparelType.Basic>
   <MTP.AutomaticType.Apparel>装备服装</MTP.AutomaticType.Apparel>
   <MTP.AutomaticType.ApparelType>装备类型</MTP.AutomaticType.ApparelType>
+  <MTP.SeparateTemporary>显示多个图标</MTP.SeparateTemporary>
+  <MTP.SeparateTemporaryTT>图标将显示在旁边，而不是替换图标</MTP.SeparateTemporaryTT>
+  <MTP.SeparateShowAll>- 显示所有临时图标</MTP.SeparateShowAll>
+  <MTP.SeparateShowAllTT>将显示所有临时图标，而不是只显示优先级最高的图标</MTP.SeparateShowAllTT>
+  <MTP.NormalShowAll>- 显示所有普通图标</MTP.NormalShowAll>
+  <MTP.NormalShowAllTT>将显示所有正常图标，而不是只显示优先级最高的图标</MTP.NormalShowAllTT>
+  <MTP.IconSpacingFactor>- 额外的图标间距：{0}</MTP.IconSpacingFactor>
+  <MTP.InvertOrder>- 颠倒顺序</MTP.InvertOrder>
+  <MTP.InvertOrderTT>图标将根据优先级从右到左排序</MTP.InvertOrderTT>
+  <MTP.ShowWhenSelected>- 选中棋子时展开</MTP.ShowWhenSelected>
+  <MTP.ShowWhenHover>- 鼠标移至图标时展开</MTP.ShowWhenHover>
+  <MTP.ShowWhenHoverTT>当鼠标放在图标上时，图标将按默认间距展开</MTP.ShowWhenHoverTT>
+  <MTP.RotateIcons>- 旋转活动图标</MTP.RotateIcons>
+  <MTP.RotateIconsTT>图标将在可能的图标之间旋转，而不是同时显示多个图标</MTP.RotateIconsTT>
 </LanguageData>

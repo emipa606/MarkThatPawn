@@ -35,6 +35,18 @@ public class GlobalMarkingTracker : GameComponent
         return MarkedPawns.ContainsKey(pawn) || CustomPawns.ContainsKey(pawn) || AutomaticPawns.ContainsKey(pawn);
     }
 
+    public bool ShouldShowMultiMarking(Pawn pawn)
+    {
+        if (!MarkThatPawnMod.instance.Settings.SeparateTemporary)
+        {
+            return false;
+        }
+
+        var currentMarking = GetPawnMarking(pawn);
+        return currentMarking != 0 && OverridePawns.ContainsKey(pawn) ||
+               OverridePawns.TryGetValue(pawn, out var overrideValue) && overrideValue.Split('£').Length > 1;
+    }
+
     public void SetPawnMarking(Pawn pawn, int mark, int currentMarking, bool onlySelectedPawn = false,
         string customMarkerString = null)
     {
@@ -187,21 +199,24 @@ public class GlobalMarkingTracker : GameComponent
             mapTracker.PawnsToEvaluate.Add(firstPawn);
         }
 
+        var overrideRules = new List<string>();
         foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules
                      .Where(rule => rule.Enabled && rule.IsOverride && rule.AppliesToPawn(firstPawn))
                      .OrderBy(rule => rule.RuleOrder))
         {
-            OverridePawns[firstPawn] = markerRule.GetMarkerBlob();
-            MarkThatPawn.ResetCache(firstPawn);
-            return;
+            overrideRules.Add(markerRule.GetMarkerBlob());
+        }
+
+        if (overrideRules.Any())
+        {
+            OverridePawns[firstPawn] = string.Join("£", overrideRules);
         }
 
         if (!OverridePawns.ContainsKey(firstPawn))
         {
-            return;
+            OverridePawns.Remove(firstPawn);
         }
 
-        OverridePawns.Remove(firstPawn);
         MarkThatPawn.ResetCache(firstPawn);
     }
 }

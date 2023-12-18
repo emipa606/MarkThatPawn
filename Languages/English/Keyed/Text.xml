@@ -3,22 +3,22 @@
   <MTP.CurrentModVersion>Installed mod-version: {0}</MTP.CurrentModVersion>
   <MTP.DefaultMarkerSet>Default marker-set: {0}</MTP.DefaultMarkerSet>
   <MTP.ColonistMarkerSet>Colonist marker-set: {0}</MTP.ColonistMarkerSet>
-  <MTP.ColonistDiffer>    Different set for colonists</MTP.ColonistDiffer>
+  <MTP.ColonistDiffer>Different set for colonists</MTP.ColonistDiffer>
   <MTP.ShowForColonist>Show gizmo on colonists</MTP.ShowForColonist>
   <MTP.PrisonerMarkerSet>Prisoner marker-set: {0}</MTP.PrisonerMarkerSet>
-  <MTP.PrisonerDiffer>    Different set for prisoners</MTP.PrisonerDiffer>
+  <MTP.PrisonerDiffer>Different set for prisoners</MTP.PrisonerDiffer>
   <MTP.ShowForPrisoner>Show gizmo on prisoners</MTP.ShowForPrisoner>
   <MTP.SlaveMarkerSet>Slave marker-set: {0}</MTP.SlaveMarkerSet>
-  <MTP.SlaveDiffer>    Different set for slaves</MTP.SlaveDiffer>
+  <MTP.SlaveDiffer>Different set for slaves</MTP.SlaveDiffer>
   <MTP.ShowForSlave>Show gizmo on slaves</MTP.ShowForSlave>
   <MTP.EnemyMarkerSet>Enemy marker-set: {0}</MTP.EnemyMarkerSet>
-  <MTP.EnemyDiffer>    Different set for enemies</MTP.EnemyDiffer>
+  <MTP.EnemyDiffer>Different set for enemies</MTP.EnemyDiffer>
   <MTP.ShowForEnemy>Show gizmo on enemies</MTP.ShowForEnemy>
   <MTP.NeutralMarkerSet>Neutral marker-set: {0}</MTP.NeutralMarkerSet>
-  <MTP.NeutralDiffer>    Different set for non-enemies</MTP.NeutralDiffer>
+  <MTP.NeutralDiffer>Different set for neutrals</MTP.NeutralDiffer>
   <MTP.ShowForNeutral>Show gizmo on neutrals</MTP.ShowForNeutral>
   <MTP.VehiclesMarkerSet>Vehicle marker-set: {0}</MTP.VehiclesMarkerSet>
-  <MTP.VehiclesDiffer>    Different set for vehicles</MTP.VehiclesDiffer>
+  <MTP.VehiclesDiffer>Different set for vehicles</MTP.VehiclesDiffer>
   <MTP.ShowForVehicles>Show gizmo on vehicles</MTP.ShowForVehicles>
   <MTP.SelectMarker>Select marker</MTP.SelectMarker>
   <MTP.SelectMarkerTT>Add a marker to this pawn</MTP.SelectMarkerTT>
@@ -65,9 +65,23 @@
   <MTP.Unlimited>High age-limit: No limit</MTP.Unlimited>
   <MTP.ZOffset>Vertical offset: {0}</MTP.ZOffset>
   <MTP.XOffset>Horizontal offset: {0}</MTP.XOffset>
+  <MTP.SeparateTemporary>Show multiple icons</MTP.SeparateTemporary>
+  <MTP.SeparateTemporaryTT>Instead of replacing the icon, icons will be shown next to each other</MTP.SeparateTemporaryTT>
+  <MTP.SeparateShowAll>- Show all temporary icons</MTP.SeparateShowAll>
+  <MTP.SeparateShowAllTT>Will show all temporary icons instead of just the top in priority</MTP.SeparateShowAllTT>
+  <MTP.NormalShowAll>- Show all normal icons</MTP.NormalShowAll>
+  <MTP.NormalShowAllTT>Will show all normal icons instead of just the top in priority</MTP.NormalShowAllTT>
+  <MTP.IconSpacingFactor>- Extra icon spacing: {0}</MTP.IconSpacingFactor>
+  <MTP.InvertOrder>- Invert order</MTP.InvertOrder>
+  <MTP.InvertOrderTT>Icons will be ordered from right to left based on priority</MTP.InvertOrderTT>
+  <MTP.ShowWhenSelected>- Expand when pawn selected</MTP.ShowWhenSelected>
+  <MTP.ShowWhenHover>- Expand when mouse over icons</MTP.ShowWhenHover>
+  <MTP.ShowWhenHoverTT>Icons will expand to default spacing when mouse is over the icons</MTP.ShowWhenHoverTT>
+  <MTP.RotateIcons>- Rotate active icon</MTP.RotateIcons>
+  <MTP.RotateIconsTT>Icons will rotate between possible icons instead of showing multiple at the same time</MTP.RotateIconsTT>
   <MTP.MarkerNumber>Marker {0}</MTP.MarkerNumber>
   <MTP.IconSize>Icon size: {0}</MTP.IconSize>
-  <MTP.IconScalingFactor>    Icon zoom scaling factor: {0}</MTP.IconScalingFactor>
+  <MTP.IconScalingFactor>Zoom scaling factor: {0}</MTP.IconScalingFactor>
   <MTP.PulsatingIcons>Use pulsating icons</MTP.PulsatingIcons>
   <MTP.PulsatingIconsTT>Icons will pulsate the same way the trader question-mark does</MTP.PulsatingIconsTT>
   <MTP.RefreshRules>Refresh pawn-rules regularly</MTP.RefreshRules>
@@ -97,9 +111,9 @@
   <MTP.AutomaticType.Skill>Skill at least</MTP.AutomaticType.Skill>
   <MTP.AutomaticType.Relative>Has relation to colonist</MTP.AutomaticType.Relative>
   <MTP.AutomaticType.PawnType>Pawn is of type</MTP.AutomaticType.PawnType>
-  <MTP.AutomaticType.Drafted>Pawn is drafted</MTP.AutomaticType.Drafted>
-  <MTP.AutomaticType.MentalState>Pawn is in mental state</MTP.AutomaticType.MentalState>
-  <MTP.AutomaticType.HediffDynamic>Pawn has temporary hediff</MTP.AutomaticType.HediffDynamic>
+  <MTP.AutomaticType.Drafted>^ Pawn is drafted</MTP.AutomaticType.Drafted>
+  <MTP.AutomaticType.MentalState>^ Pawn is in mental state</MTP.AutomaticType.MentalState>
+  <MTP.AutomaticType.HediffDynamic>^ Pawn has temporary hediff</MTP.AutomaticType.HediffDynamic>
   <MTP.AutomaticType.HediffStatic>Pawn has permanent hediff</MTP.AutomaticType.HediffStatic>
   <MTP.AutomaticType.Animal>Pawn is a specific animal</MTP.AutomaticType.Animal>
   <MTP.AutomaticType.Gender>Pawn is of specified gender</MTP.AutomaticType.Gender>

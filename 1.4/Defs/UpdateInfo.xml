@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <TabulaRasa.UpdateDef Abstract="true" Name="MarkThatPawn_UpdateInfoBase">
     <linkUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=3056996662</linkUrl>
@@ -24,4 +24,11 @@ If you have suggestions for new rule-types, please leave a comment on the mod-pa
 
 I also added a few more icon-packs; Ideology icons by Yoann, Weapon-types by max.icons, XCOM-icons by Botoxalim, Job-icons by Survivalmaster.</content>
   </TabulaRasa.UpdateDef>
+	<TabulaRasa.UpdateDef ParentName="MarkThatPawn_UpdateInfoBase">
+		<defName>MarkThatPawn_1_4_23</defName>
+		<date>2023/12/18</date>
+		<content>There are now options to show all applicable icons for pawns. This can be turned off in the settings if you still want to show only the highest priority icon.
+You can also choose to rotate the current icon of all applicable icons for the pawn.
+Hopefully this will be usable!</content>
+	</TabulaRasa.UpdateDef>
 </Defs>

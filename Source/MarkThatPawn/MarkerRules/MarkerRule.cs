@@ -12,6 +12,9 @@ public abstract class MarkerRule
 {
     public enum AutoRuleType
     {
+        Drafted,
+        MentalState,
+        HediffDynamic,
         Weapon,
         WeaponType,
         Apparel,
@@ -20,9 +23,6 @@ public abstract class MarkerRule
         Skill,
         Relative,
         PawnType,
-        Drafted,
-        MentalState,
-        HediffDynamic,
         HediffStatic,
         Animal,
         Gender,

@@ -66,8 +66,14 @@ public static class Pawn_GetGizmos
 
                 break;
             case -1:
-                if (!tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(__instance, out var autoString) ||
-                    !MarkThatPawn.TryToConvertStringToTexture2D(autoString, out icon))
+                if (!tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(__instance, out var autoString))
+                {
+                    icon = BaseContent.BadTex;
+                    break;
+                }
+
+                var firstAutoString = autoString.Split('£')[0];
+                if (!MarkThatPawn.TryToConvertStringToTexture2D(firstAutoString, out icon))
                 {
                     icon = BaseContent.BadTex;
                 }

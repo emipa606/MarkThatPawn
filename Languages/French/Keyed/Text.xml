@@ -114,4 +114,18 @@
   <MTP.EquippedApparelType.Basic>Vêtements de base</MTP.EquippedApparelType.Basic>
   <MTP.AutomaticType.Apparel>Vêtements équipés</MTP.AutomaticType.Apparel>
   <MTP.AutomaticType.ApparelType>Type de vêtement équipé</MTP.AutomaticType.ApparelType>
+  <MTP.SeparateTemporary>Afficher plusieurs icônes</MTP.SeparateTemporary>
+  <MTP.SeparateTemporaryTT>Au lieu de remplacer l'icône, les icônes seront affichées l'une à côté de l'autre.</MTP.SeparateTemporaryTT>
+  <MTP.SeparateShowAll>- Afficher toutes les icônes temporaires</MTP.SeparateShowAll>
+  <MTP.SeparateShowAllTT>Affiche toutes les icônes temporaires au lieu de celles qui sont les plus prioritaires.</MTP.SeparateShowAllTT>
+  <MTP.NormalShowAll>- Afficher toutes les icônes normales</MTP.NormalShowAll>
+  <MTP.NormalShowAllTT>Affiche toutes les icônes normales au lieu de celles qui sont prioritaires.</MTP.NormalShowAllTT>
+  <MTP.IconSpacingFactor>- Espacement supplémentaire des icônes : {0}</MTP.IconSpacingFactor>
+  <MTP.InvertOrder>- Inverser l'ordre</MTP.InvertOrder>
+  <MTP.InvertOrderTT>Les icônes sont classées de droite à gauche en fonction de leur priorité.</MTP.InvertOrderTT>
+  <MTP.ShowWhenSelected>- S'agrandit lorsque le pion est sélectionné</MTP.ShowWhenSelected>
+  <MTP.ShowWhenHover>- Agrandissement au passage de la souris sur les icônes</MTP.ShowWhenHover>
+  <MTP.ShowWhenHoverTT>Les icônes s'étendent à l'espacement par défaut lorsque la souris passe sur les icônes.</MTP.ShowWhenHoverTT>
+  <MTP.RotateIcons>- Rotation de l'icône active</MTP.RotateIcons>
+  <MTP.RotateIconsTT>Les icônes tournent entre les icônes possibles au lieu d'en afficher plusieurs en même temps.</MTP.RotateIconsTT>
 </LanguageData>

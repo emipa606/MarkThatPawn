@@ -114,4 +114,18 @@
   <MTP.EquippedApparelType.Basic>Basic-Bekleidung</MTP.EquippedApparelType.Basic>
   <MTP.AutomaticType.Apparel>Ausgestattete Kleidung</MTP.AutomaticType.Apparel>
   <MTP.AutomaticType.ApparelType>Ausgestattete Kleidungsart</MTP.AutomaticType.ApparelType>
+  <MTP.SeparateTemporary>Mehrere Icons anzeigen</MTP.SeparateTemporary>
+  <MTP.SeparateTemporaryTT>Anstatt das Symbol zu ersetzen, werden die Symbole nebeneinander angezeigt</MTP.SeparateTemporaryTT>
+  <MTP.SeparateShowAll>- Alle temporären Icons anzeigen</MTP.SeparateShowAll>
+  <MTP.SeparateShowAllTT>Zeigt alle temporären Icons an, statt nur die wichtigsten.</MTP.SeparateShowAllTT>
+  <MTP.NormalShowAll>- Alle normalen Icons anzeigen</MTP.NormalShowAll>
+  <MTP.NormalShowAllTT>Zeigt alle normalen Icons an, statt nur die obersten in der Priorität</MTP.NormalShowAllTT>
+  <MTP.IconSpacingFactor>- Zusätzlicher Abstand zwischen den Symbolen: {0}</MTP.IconSpacingFactor>
+  <MTP.InvertOrder>- Umgekehrte Reihenfolge</MTP.InvertOrder>
+  <MTP.InvertOrderTT>Die Symbole werden von rechts nach links nach ihrer Priorität geordnet</MTP.InvertOrderTT>
+  <MTP.ShowWhenSelected>- Erweitern, wenn Bauer ausgewählt</MTP.ShowWhenSelected>
+  <MTP.ShowWhenHover>- Erweitern beim Überfahren von Symbolen mit der Maus</MTP.ShowWhenHover>
+  <MTP.ShowWhenHoverTT>Die Symbole werden auf die Standardabstände erweitert, wenn die Maus über den Symbolen steht.</MTP.ShowWhenHoverTT>
+  <MTP.RotateIcons>- Aktives Symbol rotieren</MTP.RotateIcons>
+  <MTP.RotateIconsTT>Die Symbole werden zwischen den möglichen Symbolen rotieren, anstatt mehrere gleichzeitig anzuzeigen</MTP.RotateIconsTT>
 </LanguageData>

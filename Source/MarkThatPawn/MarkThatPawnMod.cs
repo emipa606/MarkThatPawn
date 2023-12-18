@@ -8,6 +8,8 @@ namespace MarkThatPawn;
 [StaticConstructorOnStartup]
 internal class MarkThatPawnMod : Mod
 {
+    private const float selectorHeight = 50f;
+
     /// <summary>
     ///     The instance of the settings to be read by the mod
     /// </summary>
@@ -15,7 +17,7 @@ internal class MarkThatPawnMod : Mod
 
     private static string currentVersion;
 
-    private static Vector2 optionsScrollPosition;
+    //private static Vector2 optionsScrollPosition;
 
     /// <summary>
     ///     Constructor
@@ -67,17 +69,51 @@ internal class MarkThatPawnMod : Mod
     /// <param name="rect"></param>
     public override void DoSettingsWindowContents(Rect rect)
     {
-        var containingRect = rect.ContractedBy(100, 0).CenteredOnXIn(rect);
-        var viewingRect = containingRect.ContractedBy(10f);
-        viewingRect.height *= 1.85f;
-        Widgets.BeginScrollView(containingRect, ref optionsScrollPosition, viewingRect);
+        //var viewingRect = rect.ContractedBy(10f);
+        //viewingRect.height = selectorHeight * 20f;
+        //Widgets.BeginScrollView(rect, ref optionsScrollPosition, viewingRect);
         var listing_Standard = new Listing_Standard();
 
-        listing_Standard.Begin(viewingRect);
-
+        listing_Standard.Begin(rect);
+        listing_Standard.ColumnWidth = rect.width * 0.48f;
         listing_Standard.Gap();
         listing_Standard.CheckboxLabeled("MTP.RefreshRules".Translate(), ref Settings.RefreshRules,
             "MTP.RefreshRulesTT".Translate());
+        listing_Standard.CheckboxLabeled("MTP.SeparateTemporary".Translate(), ref Settings.SeparateTemporary,
+            "MTP.SeparateTemporaryTT".Translate());
+        if (Settings.SeparateTemporary)
+        {
+            listing_Standard.CheckboxLabeled("MTP.RotateIcons".Translate(), ref Settings.RotateIcons,
+                "MTP.RotateIconsTT".Translate());
+            listing_Standard.CheckboxLabeled("MTP.SeparateShowAll".Translate(), ref Settings.SeparateShowAll,
+                "MTP.SeparateShowAllTT".Translate());
+            listing_Standard.CheckboxLabeled("MTP.NormalShowAll".Translate(), ref Settings.NormalShowAll,
+                "MTP.NormalShowAllTT".Translate());
+            listing_Standard.CheckboxLabeled("MTP.InvertOrder".Translate(), ref Settings.InvertOrder,
+                "MTP.InvertOrderTT".Translate());
+            if (!Settings.RotateIcons)
+            {
+                Settings.IconSpacingFactor =
+                    listing_Standard.SliderLabeled(
+                        "MTP.IconSpacingFactor".Translate(Settings.IconSpacingFactor.ToStringPercent()),
+                        Settings.IconSpacingFactor, -1f, 1f);
+            }
+
+            if (Settings.IconSpacingFactor < 0f || Settings.RotateIcons)
+            {
+                listing_Standard.CheckboxLabeled("MTP.ShowWhenSelected".Translate(), ref Settings.ShowWhenSelected,
+                    "MTP.ShowWhenSelectedTT".Translate());
+                listing_Standard.CheckboxLabeled("MTP.ShowWhenHover".Translate(), ref Settings.ShowWhenHover,
+                    "MTP.ShowWhenHoverTT".Translate());
+            }
+            else
+            {
+                Settings.ShowWhenSelected = false;
+            }
+
+            listing_Standard.Gap();
+        }
+
         listing_Standard.CheckboxLabeled("MTP.PulsatingIcons".Translate(), ref Settings.PulsatingIcons,
             "MTP.PulsatingIconsTT".Translate());
         listing_Standard.CheckboxLabeled("MTP.RelativeIconSize".Translate(), ref Settings.RelativeIconSize,
@@ -112,8 +148,9 @@ internal class MarkThatPawnMod : Mod
             Find.WindowStack.Add(new Dialog_AutoMarkingRules());
         }
 
-        listing_Standard.GapLine();
-        var selectorRect = listing_Standard.GetRect(64f);
+        listing_Standard.NewColumn();
+
+        var selectorRect = listing_Standard.GetRect(selectorHeight);
         Widgets.Label(selectorRect.LeftHalf(),
             "MTP.DefaultMarkerSet".Translate(Settings.DefaultMarkerSet.LabelCap));
         if (MarkerSelector(selectorRect.RightHalf(), Settings.DefaultMarkerSet))
@@ -126,7 +163,7 @@ internal class MarkThatPawnMod : Mod
         listing_Standard.CheckboxLabeled("MTP.ShowForColonist".Translate(), ref Settings.ShowForColonist);
         if (Settings.ShowForColonist)
         {
-            selectorRect = listing_Standard.GetRect(64f);
+            selectorRect = listing_Standard.GetRect(selectorHeight);
             Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                 "MTP.ColonistDiffer".Translate(Settings.ColonistMarkerSet.LabelCap), ref Settings.ColonistDiffer);
             if (Settings.ColonistDiffer)
@@ -143,7 +180,7 @@ internal class MarkThatPawnMod : Mod
         listing_Standard.CheckboxLabeled("MTP.ShowForPrisoner".Translate(), ref Settings.ShowForPrisoner);
         if (Settings.ShowForPrisoner)
         {
-            selectorRect = listing_Standard.GetRect(64f);
+            selectorRect = listing_Standard.GetRect(selectorHeight);
             Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                 "MTP.PrisonerDiffer".Translate(Settings.PrisonerMarkerSet.LabelCap), ref Settings.PrisonerDiffer);
             if (Settings.PrisonerDiffer)
@@ -162,7 +199,7 @@ internal class MarkThatPawnMod : Mod
             listing_Standard.CheckboxLabeled("MTP.ShowForSlave".Translate(), ref Settings.ShowForSlave);
             if (Settings.ShowForSlave)
             {
-                selectorRect = listing_Standard.GetRect(64f);
+                selectorRect = listing_Standard.GetRect(selectorHeight);
                 Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                     "MTP.SlaveDiffer".Translate(Settings.SlaveMarkerSet.LabelCap), ref Settings.SlaveDiffer);
                 if (Settings.SlaveDiffer)
@@ -180,7 +217,7 @@ internal class MarkThatPawnMod : Mod
         listing_Standard.CheckboxLabeled("MTP.ShowForEnemy".Translate(), ref Settings.ShowForEnemy);
         if (Settings.ShowForEnemy)
         {
-            selectorRect = listing_Standard.GetRect(64f);
+            selectorRect = listing_Standard.GetRect(selectorHeight);
             Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                 "MTP.EnemyDiffer".Translate(Settings.EnemyMarkerSet.LabelCap), ref Settings.EnemyDiffer);
             if (Settings.EnemyDiffer)
@@ -197,7 +234,7 @@ internal class MarkThatPawnMod : Mod
         listing_Standard.CheckboxLabeled("MTP.ShowForNeutral".Translate(), ref Settings.ShowForNeutral);
         if (Settings.ShowForNeutral)
         {
-            selectorRect = listing_Standard.GetRect(64f);
+            selectorRect = listing_Standard.GetRect(selectorHeight);
             Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                 "MTP.NeutralDiffer".Translate(Settings.NeutralMarkerSet.LabelCap), ref Settings.NeutralDiffer);
             if (Settings.NeutralDiffer)
@@ -216,7 +253,7 @@ internal class MarkThatPawnMod : Mod
             listing_Standard.CheckboxLabeled("MTP.ShowForVehicles".Translate(), ref Settings.ShowForVehicles);
             if (Settings.ShowForVehicles)
             {
-                selectorRect = listing_Standard.GetRect(64f);
+                selectorRect = listing_Standard.GetRect(selectorHeight);
                 Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                     "MTP.VehiclesDiffer".Translate(Settings.VehiclesMarkerSet.LabelCap), ref Settings.VehiclesDiffer);
                 if (Settings.VehiclesDiffer)
@@ -244,14 +281,14 @@ internal class MarkThatPawnMod : Mod
         }
 
         listing_Standard.End();
-        Widgets.EndScrollView();
+        //Widgets.EndScrollView();
         MarkThatPawn.ResetCache();
     }
 
     public static bool MarkerSelector(Rect rowRect, MarkerDef marker)
     {
         var imageRect = rowRect;
-        var buttonRect = rowRect.LeftHalf().RightPart(0.75f);
+        var buttonRect = rowRect.LeftPart(0.75f).RightPart(0.95f);
         buttonRect.height = 25f;
         buttonRect = buttonRect.CenteredOnYIn(rowRect);
         imageRect.x = imageRect.xMax - imageRect.height;

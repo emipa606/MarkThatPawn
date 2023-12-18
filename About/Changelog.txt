@@ -1,5 +1,15 @@
 # Changelog for MarkThatPawn
 
+1.4.23 - Added option to show multiple icons
+Added option for showing all temporary icons
+Added option for showing all normal icons
+Added option for the icon-spacing when showing mutliple icons
+Added option to rotate the active icon instead of showing all
+Added option to show all icons when selecting pawn
+Added option to show all icons when having mouse over the icon.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.22 - Added apparel rule
 Added apparel type rule
 Added regular reevaluation of non-temporary rules.
