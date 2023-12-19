@@ -24,6 +24,7 @@ public abstract class MarkerRule
         Relative,
         PawnType,
         HediffStatic,
+        AnyHediffStatic,
         Animal,
         Gender,
         Age,

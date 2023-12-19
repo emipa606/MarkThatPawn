@@ -381,6 +381,10 @@ public class Dialog_AutoMarkingRules : Window
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new ApparelTypeMarkerRule())));
                     break;
+                case MarkerRule.AutoRuleType.AnyHediffStatic:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AnyStaticHediffMarkerRule())));
+                    break;
                 default:
                     continue;
             }

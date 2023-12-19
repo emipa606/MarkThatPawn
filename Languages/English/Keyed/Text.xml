@@ -58,6 +58,7 @@
   <MTP.Male>Male</MTP.Male>
   <MTP.Female>Female</MTP.Female>
   <MTP.Animal>Animals</MTP.Animal>
+  <MTP.OnlyWhenDrafted>Only when drafted</MTP.OnlyWhenDrafted>
   <MTP.OnlyAnimal>Only animals</MTP.OnlyAnimal>
   <MTP.NotAnimal>Not animals</MTP.NotAnimal>
   <MTP.LowAgeLimit>Low age-limit: {0}</MTP.LowAgeLimit>
@@ -115,6 +116,7 @@
   <MTP.AutomaticType.MentalState>^ Pawn is in mental state</MTP.AutomaticType.MentalState>
   <MTP.AutomaticType.HediffDynamic>^ Pawn has temporary hediff</MTP.AutomaticType.HediffDynamic>
   <MTP.AutomaticType.HediffStatic>Pawn has permanent hediff</MTP.AutomaticType.HediffStatic>
+  <MTP.AutomaticType.AnyHediffStatic>Pawn has any permanent bad hediff</MTP.AutomaticType.AnyHediffStatic>
   <MTP.AutomaticType.Animal>Pawn is a specific animal</MTP.AutomaticType.Animal>
   <MTP.AutomaticType.Gender>Pawn is of specified gender</MTP.AutomaticType.Gender>
   <MTP.AutomaticType.Age>Pawn is in specified age-range</MTP.AutomaticType.Age>

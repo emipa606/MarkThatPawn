@@ -128,4 +128,6 @@
   <MTP.ShowWhenHoverTT>Les icônes s'étendent à l'espacement par défaut lorsque la souris passe sur les icônes.</MTP.ShowWhenHoverTT>
   <MTP.RotateIcons>- Rotation de l'icône active</MTP.RotateIcons>
   <MTP.RotateIconsTT>Les icônes tournent entre les icônes possibles au lieu d'en afficher plusieurs en même temps.</MTP.RotateIconsTT>
+  <MTP.OnlyWhenDrafted>Uniquement en cas de rédaction</MTP.OnlyWhenDrafted>
+  <MTP.AutomaticType.AnyHediffStatic>Le pion a un mauvais hediff permanent</MTP.AutomaticType.AnyHediffStatic>
 </LanguageData>

@@ -128,4 +128,6 @@
   <MTP.ShowWhenHoverTT>Die Symbole werden auf die Standardabstände erweitert, wenn die Maus über den Symbolen steht.</MTP.ShowWhenHoverTT>
   <MTP.RotateIcons>- Aktives Symbol rotieren</MTP.RotateIcons>
   <MTP.RotateIconsTT>Die Symbole werden zwischen den möglichen Symbolen rotieren, anstatt mehrere gleichzeitig anzuzeigen</MTP.RotateIconsTT>
+  <MTP.OnlyWhenDrafted>Nur bei Einberufung</MTP.OnlyWhenDrafted>
+  <MTP.AutomaticType.AnyHediffStatic>Der Bauer hat eine dauerhafte schlechte Absicherung</MTP.AutomaticType.AnyHediffStatic>
 </LanguageData>

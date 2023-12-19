@@ -34,6 +34,9 @@ Mod-options:
 [*]Have different icon-sets based on the pawn type
 [*]Disable the gizmos based on the pawn type
 [*]Have the icons pulse like the question mark over traders in a caravan
+[*]Show all applicable icons
+[*]Rotating the active icon between the applicable icons
+[*]Show all icons when hovering the icons or selecting the pawn
 [/list]
 
 You can define rules to make spawning pawns get marked automatically. The rules are defined based on:
@@ -49,6 +52,7 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 [*]Relations to colonists
 [*]Pawn category
 [*]Pawn has one or more permanent hediffs, like a bionic limb
+[*]Pawn has any bad permanent hediff, like a scar
 [*]Animal type
 [*]Xenotype (Biotech)
 [*]Gene (Biotech)

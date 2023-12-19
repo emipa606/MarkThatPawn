@@ -6,6 +6,7 @@ namespace MarkThatPawn.MarkerRules;
 
 public class WeaponMarkerRule : MarkerRule
 {
+    private bool onlyWhenDrafted;
     private ThingDef weaponThingDef;
 
     public WeaponMarkerRule()
@@ -27,17 +28,32 @@ public class WeaponMarkerRule : MarkerRule
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var weaponArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
+        var weaponArea = rect.LeftPart(0.75f);
         if (edit)
         {
-            if (Widgets.ButtonText(weaponArea, weaponThingDef?.LabelCap ?? "MTP.NoneSelected".Translate()))
+            if (Widgets.ButtonText(weaponArea.TopHalf(), weaponThingDef?.LabelCap ?? "MTP.NoneSelected".Translate()))
             {
                 showWeaponSelectorMenu();
+            }
+
+            if (weaponThingDef != null)
+            {
+                var originalValue = onlyWhenDrafted;
+                Widgets.CheckboxLabeled(weaponArea.BottomHalf(), "MTP.OnlyWhenDrafted".Translate(),
+                    ref onlyWhenDrafted);
+                if (originalValue != onlyWhenDrafted)
+                {
+                    RuleParameters = $"{weaponThingDef.defName}|{onlyWhenDrafted}";
+                }
             }
         }
         else
         {
-            Widgets.Label(weaponArea, weaponThingDef?.LabelCap ?? "MTP.NoneSelected".Translate());
+            Widgets.Label(weaponArea.TopHalf(), weaponThingDef?.LabelCap ?? "MTP.NoneSelected".Translate());
+            if (onlyWhenDrafted)
+            {
+                Widgets.Label(weaponArea.BottomHalf(), "MTP.OnlyWhenDrafted".Translate());
+            }
         }
 
         if (weaponThingDef == null)
@@ -67,13 +83,27 @@ public class WeaponMarkerRule : MarkerRule
             return;
         }
 
-        weaponThingDef = DefDatabase<ThingDef>.GetNamedSilentFail(RuleParameters);
-        if (weaponThingDef != null)
+        var weaponPart = RuleParameters.Split('|')[0];
+
+        weaponThingDef = DefDatabase<ThingDef>.GetNamedSilentFail(weaponPart);
+        if (weaponThingDef == null)
+        {
+            ErrorMessage = $"Could not find weapon with defname {weaponPart}, disabling rule";
+            ConfigError = true;
+            return;
+        }
+
+        if (!RuleParameters.Contains("|"))
         {
             return;
         }
 
-        ErrorMessage = $"Could not find weapon with defname {RuleParameters}, disabling rule";
+        if (bool.TryParse(RuleParameters.Split('|')[1], out onlyWhenDrafted))
+        {
+            return;
+        }
+
+        ErrorMessage = $"Could not parse bool in {RuleParameters}, disabling rule";
         ConfigError = true;
     }
 
@@ -94,6 +124,11 @@ public class WeaponMarkerRule : MarkerRule
             return false;
         }
 
+        if (onlyWhenDrafted && !pawn.Drafted)
+        {
+            return false;
+        }
+
         return pawn.equipment.AllEquipmentListForReading.Any(thing => thing.def == weaponThingDef);
     }
 
@@ -106,7 +141,7 @@ public class WeaponMarkerRule : MarkerRule
         {
             weaponList.Add(new FloatMenuOption(weapon.LabelCap, () =>
             {
-                RuleParameters = weapon.defName;
+                RuleParameters = $"{weapon.defName}|{onlyWhenDrafted}";
                 weaponThingDef = weapon;
             }, weapon));
         }

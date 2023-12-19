@@ -1,5 +1,11 @@
 # Changelog for MarkThatPawn
 
+1.4.24 - Added drafted only-option on the weapon-rule
+Added any permanent bad hediff, like scars
+Fixed a bug with multi view of basic icons.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.23 - Added option to show multiple icons
 Added option for showing all temporary icons
 Added option for showing all normal icons

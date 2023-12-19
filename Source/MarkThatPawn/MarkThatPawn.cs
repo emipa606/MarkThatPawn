@@ -223,6 +223,9 @@ public static class MarkThatPawn
                 case MarkerRule.AutoRuleType.ApparelType:
                     rule = new ApparelTypeMarkerRule(ruleBlob);
                     break;
+                case MarkerRule.AutoRuleType.AnyHediffStatic:
+                    rule = new AnyStaticHediffMarkerRule(ruleBlob);
+                    break;
                 default:
                     continue;
             }
@@ -376,11 +379,11 @@ public static class MarkThatPawn
                 shouldExpand = mouseOverRect.Contains(mousePositionVector);
             }
 
-            baseMaterials.AddRange(overrideMaterials);
+            overrideMaterials.AddRange(baseMaterials);
 
-            if (MarkThatPawnMod.instance.Settings.InvertOrder)
+            if (!MarkThatPawnMod.instance.Settings.InvertOrder)
             {
-                baseMaterials.Reverse();
+                overrideMaterials.Reverse();
             }
 
             if (!shouldExpand && MarkThatPawnMod.instance.Settings.RotateIcons)
@@ -392,9 +395,9 @@ public static class MarkThatPawn
                 }
 
                 var amountOfTickGroups = GenTicks.TicksGame / tickInterval;
-                var material = baseMaterials[amountOfTickGroups % baseMaterials.Count];
+                var material = overrideMaterials[amountOfTickGroups % overrideMaterials.Count];
                 renderMarker(pawn, material, drawPos, mesh);
-                if (baseMaterials.Count <= 1)
+                if (overrideMaterials.Count <= 1)
                 {
                     return;
                 }
@@ -412,7 +415,7 @@ public static class MarkThatPawn
 
             var totalWidth = iconWidth * icons;
             drawPos.x -= totalWidth / 2;
-            foreach (var material in baseMaterials)
+            foreach (var material in overrideMaterials)
             {
                 renderMarker(pawn, material, drawPos, mesh);
                 drawPos.x += iconWidth;

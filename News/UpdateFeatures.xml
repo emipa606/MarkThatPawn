@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <HugsLib.UpdateFeatureDef Abstract="true" Name="MarkThatPawn_UpdateFeatureBase">
     <modNameReadable>MarkThatPawn</modNameReadable>
@@ -24,11 +24,11 @@ If you have suggestions for new rule-types, please leave a comment on the mod-pa
 
 I also added a few more icon-packs; Ideology icons by Yoann, Weapon-types by max.icons, XCOM-icons by Botoxalim, Job-icons by Survivalmaster.</content>
   </HugsLib.UpdateFeatureDef>
-	<HugsLib.UpdateFeatureDef ParentName="MarkThatPawn_UpdateFeatureBase">
-		<defName>MarkThatPawn_1_4_23</defName>
-		<assemblyVersion>1.4.23</assemblyVersion>
-		<content>There are now options to show all applicable icons for pawns. This can be turned off in the settings if you still want to show only the highest priority icon.
+  <HugsLib.UpdateFeatureDef ParentName="MarkThatPawn_UpdateFeatureBase">
+    <defName>MarkThatPawn_1_4_23</defName>
+    <assemblyVersion>1.4.23</assemblyVersion>
+    <content>There are now options to show all applicable icons for pawns. This can be turned off in the settings if you still want to show only the highest priority icon.
 You can also choose to rotate the current icon of all applicable icons for the pawn.
 Hopefully this will be usable!</content>
-	</HugsLib.UpdateFeatureDef>
+  </HugsLib.UpdateFeatureDef>
 </Defs>

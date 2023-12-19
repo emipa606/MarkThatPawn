@@ -44,7 +44,8 @@ public class GlobalMarkingTracker : GameComponent
 
         var currentMarking = GetPawnMarking(pawn);
         return currentMarking != 0 && OverridePawns.ContainsKey(pawn) ||
-               OverridePawns.TryGetValue(pawn, out var overrideValue) && overrideValue.Split('£').Length > 1;
+               OverridePawns.TryGetValue(pawn, out var overrideValue) && overrideValue.Split('£').Length > 1 ||
+               AutomaticPawns.TryGetValue(pawn, out var automaticValue) && automaticValue.Split('£').Length > 1;
     }
 
     public void SetPawnMarking(Pawn pawn, int mark, int currentMarking, bool onlySelectedPawn = false,
@@ -211,10 +212,12 @@ public class GlobalMarkingTracker : GameComponent
         {
             OverridePawns[firstPawn] = string.Join("£", overrideRules);
         }
-
-        if (!OverridePawns.ContainsKey(firstPawn))
+        else
         {
-            OverridePawns.Remove(firstPawn);
+            if (OverridePawns.ContainsKey(firstPawn))
+            {
+                OverridePawns.Remove(firstPawn);
+            }
         }
 
         MarkThatPawn.ResetCache(firstPawn);
