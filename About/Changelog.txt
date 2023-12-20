@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.25 - Fix for broken gizmo icon when auto-icon is removed
+
+
 1.4.24 - Added drafted only-option on the weapon-rule
 Added any permanent bad hediff, like scars
 Fixed a bug with multi view of basic icons.

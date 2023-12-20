@@ -33,6 +33,11 @@ public class MarkingTracker(Map map) : MapComponent(map)
                 GlobalMarkingTracker.AutomaticPawns.Remove(firstPawn);
             }
 
+            if (GlobalMarkingTracker.MarkedPawns.TryGetValue(firstPawn, out var currentValue) && currentValue == -1)
+            {
+                GlobalMarkingTracker.MarkedPawns[firstPawn] = 0;
+            }
+
             MarkThatPawn.ResetCache(firstPawn);
             return;
         }
