@@ -42,7 +42,8 @@ public class MarkingTracker(Map map) : MapComponent(map)
             return;
         }
 
-        if (!GlobalMarkingTracker.HasAnyDefinedMarking(firstPawn))
+        if (!GlobalMarkingTracker.HasAnyDefinedMarking(firstPawn) ||
+            GlobalMarkingTracker.MarkedPawns.TryGetValue(firstPawn, out var currentMarkValue) && currentMarkValue == 0)
         {
             GlobalMarkingTracker.MarkedPawns[firstPawn] = -1;
         }

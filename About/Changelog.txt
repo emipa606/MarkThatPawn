@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.26 - Auto-rules will now always apply even if only one is applicable.
+
+
 1.4.25 - Fix for broken gizmo icon when auto-icon is removed
 
 
