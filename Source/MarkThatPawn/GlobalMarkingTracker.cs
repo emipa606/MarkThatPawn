@@ -32,7 +32,8 @@ public class GlobalMarkingTracker : GameComponent
 
     public bool HasAnyDefinedMarking(Pawn pawn)
     {
-        return MarkedPawns.ContainsKey(pawn) || CustomPawns.ContainsKey(pawn) || AutomaticPawns.ContainsKey(pawn);
+        return MarkedPawns.ContainsKey(pawn) || CustomPawns.ContainsKey(pawn) || AutomaticPawns.ContainsKey(pawn) ||
+               OverridePawns.ContainsKey(pawn);
     }
 
     public bool ShouldShowMultiMarking(Pawn pawn)

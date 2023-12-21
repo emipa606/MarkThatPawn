@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.4.27 - Fixed temporary icons not showing when alone. Also added a smoother for the expanding of the icons
+
+
 1.4.26 - Auto-rules will now always apply even if only one is applicable.
 
 

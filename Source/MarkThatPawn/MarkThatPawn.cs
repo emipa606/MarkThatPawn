@@ -26,6 +26,8 @@ public static class MarkThatPawn
     }
 
     public const float ButtonIconSizeFactor = 0.8f;
+
+    private static float iconSmoother;
     public static readonly List<TraitDef> AllTraits;
     public static readonly List<SkillDef> AllSkills;
     public static readonly List<ThingDef> AllAnimals;
@@ -274,12 +276,14 @@ public static class MarkThatPawn
                 var markerSet = GetMarkerDefForPawn(pawn);
                 if (markerSet == null)
                 {
-                    return;
+                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    break;
                 }
 
                 if (markerSet.MarkerMaterials.Count < marker)
                 {
-                    return;
+                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    break;
                 }
 
                 baseMaterials.Add(markerSet.MarkerMaterials[marker - 1]);
@@ -287,7 +291,8 @@ public static class MarkThatPawn
             case -1:
                 if (!tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(pawn, out var autoString))
                 {
-                    return;
+                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    break;
                 }
 
                 foreach (var autoRuleString in autoString.Split('£'))
@@ -309,18 +314,19 @@ public static class MarkThatPawn
             case -2:
                 if (!tracker.GlobalMarkingTracker.CustomPawns.TryGetValue(pawn, out var customString))
                 {
-                    return;
+                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    break;
                 }
 
                 if (!TryToConvertStringToMaterial(customString, out var customMaterial))
                 {
-                    return;
+                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    break;
                 }
 
                 baseMaterials.Add(customMaterial);
                 break;
         }
-
 
         if (tracker.GlobalMarkingTracker.OverridePawns.TryGetValue(pawn, out var overrideString))
         {
@@ -388,6 +394,7 @@ public static class MarkThatPawn
 
             if (!shouldExpand && MarkThatPawnMod.instance.Settings.RotateIcons)
             {
+                iconSmoother = 1f;
                 var tickInterval = 250;
                 if (Find.TickManager.CurTimeSpeed != TimeSpeed.Paused)
                 {
@@ -411,6 +418,23 @@ public static class MarkThatPawn
             if (!shouldExpand)
             {
                 iconWidth *= 1f + MarkThatPawnMod.instance.Settings.IconSpacingFactor;
+                iconSmoother = 1f;
+            }
+            else
+            {
+                if (iconSmoother > 0)
+                {
+                    iconSmoother -= 0.1f;
+                }
+
+                if (MarkThatPawnMod.instance.Settings.RotateIcons)
+                {
+                    iconWidth *= 1f - iconSmoother;
+                }
+                else
+                {
+                    iconWidth *= 1f + (iconSmoother * MarkThatPawnMod.instance.Settings.IconSpacingFactor);
+                }
             }
 
             var totalWidth = iconWidth * icons;
