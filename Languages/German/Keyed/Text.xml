@@ -130,4 +130,15 @@
   <MTP.RotateIconsTT>Die Symbole werden zwischen den möglichen Symbolen rotieren, anstatt mehrere gleichzeitig anzuzeigen</MTP.RotateIconsTT>
   <MTP.OnlyWhenDrafted>Nur bei Einberufung</MTP.OnlyWhenDrafted>
   <MTP.AutomaticType.AnyHediffStatic>Der Bauer hat eine dauerhafte schlechte Absicherung</MTP.AutomaticType.AnyHediffStatic>
+  <MTP.ShowWhenSelectedTT>Die Symbole werden auf die Standardabstände erweitert, wenn die Spielfigur ausgewählt wird.</MTP.ShowWhenSelectedTT>
+  <MTP.ShowOnShift>- Erweitern, wenn SHIFT gedrückt wird</MTP.ShowOnShift>
+  <MTP.ShowOnShiftTT>Die Symbole werden auf den Standardabstand erweitert, wenn die SHIFT-Taste gedrückt wird.</MTP.ShowOnShiftTT>
+  <MTP.ShowOnPaused>- Erweitern, wenn das Spiel pausiert wird</MTP.ShowOnPaused>
+  <MTP.ShowOnPausedTT>Symbole werden auf den Standardabstand erweitert, wenn das Spiel pausiert wird</MTP.ShowOnPausedTT>
+  <MTP.HideIcons>Icons ausblenden, außer wenn</MTP.HideIcons>
+  <MTP.GameIsPaused>- Spiel ist pausiert</MTP.GameIsPaused>
+  <MTP.ShiftIsPressed>- SHIFT wird gedrückt</MTP.ShiftIsPressed>
+  <MTP.PawnIsSelected>- Bauer ist ausgewählt</MTP.PawnIsSelected>
+  <MTP.AutomaticType.FactionIcon>Fraktionssymbol für Spielfigur anzeigen</MTP.AutomaticType.FactionIcon>
+  <MTP.AutomaticType.IdeologyIcon>Ideologie-Symbol für Pfand anzeigen</MTP.AutomaticType.IdeologyIcon>
 </LanguageData>

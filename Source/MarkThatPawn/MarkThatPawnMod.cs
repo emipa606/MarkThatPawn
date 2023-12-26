@@ -105,14 +105,21 @@ internal class MarkThatPawnMod : Mod
                     "MTP.ShowWhenSelectedTT".Translate());
                 listing_Standard.CheckboxLabeled("MTP.ShowWhenHover".Translate(), ref Settings.ShowWhenHover,
                     "MTP.ShowWhenHoverTT".Translate());
+                listing_Standard.CheckboxLabeled("MTP.ShowOnShift".Translate(), ref Settings.ShowOnShift,
+                    "MTP.ShowOnShiftTT".Translate());
+                listing_Standard.CheckboxLabeled("MTP.ShowOnPaused".Translate(), ref Settings.ShowOnPaused,
+                    "MTP.ShowOnPausedTT".Translate());
             }
             else
             {
                 Settings.ShowWhenSelected = false;
             }
-
-            listing_Standard.Gap();
         }
+
+        listing_Standard.Label("MTP.HideIcons".Translate());
+        listing_Standard.CheckboxLabeled("MTP.PawnIsSelected".Translate(), ref Settings.PawnIsSelected);
+        listing_Standard.CheckboxLabeled("MTP.ShiftIsPressed".Translate(), ref Settings.ShiftIsPressed);
+        listing_Standard.CheckboxLabeled("MTP.GameIsPaused".Translate(), ref Settings.GameIsPaused);
 
         listing_Standard.CheckboxLabeled("MTP.PulsatingIcons".Translate(), ref Settings.PulsatingIcons,
             "MTP.PulsatingIconsTT".Translate());
@@ -141,14 +148,13 @@ internal class MarkThatPawnMod : Mod
                 "MTP.ZOffset".Translate(Math.Round(Settings.ZOffset, 2)),
                 Settings.ZOffset, -1f, 1f);
 
+        listing_Standard.NewColumn();
         var activeRules = Settings.AutoRules.Count(rule => rule.Enabled);
         if (listing_Standard.ButtonTextLabeled("MTP.RulesButtonInfo".Translate(activeRules),
                 "MTP.RulesButtonText".Translate()))
         {
             Find.WindowStack.Add(new Dialog_AutoMarkingRules());
         }
-
-        listing_Standard.NewColumn();
 
         var selectorRect = listing_Standard.GetRect(selectorHeight);
         Widgets.Label(selectorRect.LeftHalf(),
@@ -274,7 +280,6 @@ internal class MarkThatPawnMod : Mod
 
         if (currentVersion != null)
         {
-            listing_Standard.Gap();
             GUI.contentColor = Color.gray;
             listing_Standard.Label("MTP.CurrentModVersion".Translate(currentVersion));
             GUI.contentColor = Color.white;

@@ -1,4 +1,3 @@
-using UnityEngine;
 using Verse;
 
 namespace MarkThatPawn.MarkerRules;
@@ -35,17 +34,9 @@ public class DraftedMarkerRule : MarkerRule
         ApplicablePawnTypes.Add(MarkThatPawn.PawnType.Default);
     }
 
-    public override void ShowTypeParametersRect(Rect rect, bool edit)
-    {
-    }
-
     public override MarkerRule GetCopy()
     {
         return new DraftedMarkerRule(GetBlob());
-    }
-
-    protected override void PopulateRuleParameterObjects()
-    {
     }
 
     public override bool AppliesToPawn(Pawn pawn)

@@ -76,8 +76,13 @@
   <MTP.InvertOrder>- Invert order</MTP.InvertOrder>
   <MTP.InvertOrderTT>Icons will be ordered from right to left based on priority</MTP.InvertOrderTT>
   <MTP.ShowWhenSelected>- Expand when pawn selected</MTP.ShowWhenSelected>
+  <MTP.ShowWhenSelectedTT>Icons will expand to default spacing when the pawn is selected</MTP.ShowWhenSelectedTT>
   <MTP.ShowWhenHover>- Expand when mouse over icons</MTP.ShowWhenHover>
   <MTP.ShowWhenHoverTT>Icons will expand to default spacing when mouse is over the icons</MTP.ShowWhenHoverTT>
+  <MTP.ShowOnShift>- Expand when SHIFT is pressed</MTP.ShowOnShift>
+  <MTP.ShowOnShiftTT>Icons will expand to default spacing when the SHIFT key is pressed</MTP.ShowOnShiftTT>
+  <MTP.ShowOnPaused>- Expand when game is paused</MTP.ShowOnPaused>
+  <MTP.ShowOnPausedTT>Icons will expand to default spacing when the game is paused</MTP.ShowOnPausedTT>
   <MTP.RotateIcons>- Rotate active icon</MTP.RotateIcons>
   <MTP.RotateIconsTT>Icons will rotate between possible icons instead of showing multiple at the same time</MTP.RotateIconsTT>
   <MTP.MarkerNumber>Marker {0}</MTP.MarkerNumber>
@@ -87,6 +92,10 @@
   <MTP.PulsatingIconsTT>Icons will pulsate the same way the trader question-mark does</MTP.PulsatingIconsTT>
   <MTP.RefreshRules>Refresh pawn-rules regularly</MTP.RefreshRules>
   <MTP.RefreshRulesTT>Will reevaluate the rules regularly, to reflect changes that will affect the icon selected</MTP.RefreshRulesTT>
+  <MTP.HideIcons>Hide icons unless</MTP.HideIcons>
+  <MTP.GameIsPaused>- Game is paused</MTP.GameIsPaused>
+  <MTP.ShiftIsPressed>- SHIFT is pressed</MTP.ShiftIsPressed>
+  <MTP.PawnIsSelected>- Pawn is selected</MTP.PawnIsSelected>
   <MTP.EquippedWeaponType.Melee>Melee weapon</MTP.EquippedWeaponType.Melee>
   <MTP.EquippedWeaponType.Ranged>Ranged projectile weapon</MTP.EquippedWeaponType.Ranged>
   <MTP.EquippedWeaponType.RangedExplosive>Ranged explosive weapon</MTP.EquippedWeaponType.RangedExplosive>
@@ -124,6 +133,8 @@
   <MTP.AutomaticType.Gene>Pawn has a specific gene</MTP.AutomaticType.Gene>
   <MTP.AutomaticType.GeneUndefinedCategory>Undefined</MTP.AutomaticType.GeneUndefinedCategory>
   <MTP.AutomaticType.HediffStage>stage {0}</MTP.AutomaticType.HediffStage>
+  <MTP.AutomaticType.FactionIcon>Show faction icon for pawn</MTP.AutomaticType.FactionIcon>
+  <MTP.AutomaticType.IdeologyIcon>Show ideology icon for pawn</MTP.AutomaticType.IdeologyIcon>
   <MTP.PawnLimitation>Only applies to: {0}</MTP.PawnLimitation>
   <MTP.MentalState.Any>Any state</MTP.MentalState.Any>
   <MTP.MentalState.Passive>Passive state</MTP.MentalState.Passive>

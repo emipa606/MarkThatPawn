@@ -73,7 +73,7 @@ public static class Pawn_GetGizmos
                 }
 
                 var firstAutoString = autoString.Split('£')[0];
-                if (!MarkThatPawn.TryToConvertStringToTexture2D(firstAutoString, out icon))
+                if (!MarkThatPawn.TryToConvertStringToTexture2D(firstAutoString, out icon, __instance))
                 {
                     icon = BaseContent.BadTex;
                 }

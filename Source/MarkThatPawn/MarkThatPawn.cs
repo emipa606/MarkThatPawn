@@ -27,7 +27,8 @@ public static class MarkThatPawn
 
     public const float ButtonIconSizeFactor = 0.8f;
 
-    private static float iconSmoother;
+    private const int rotationInterval = 250;
+
     public static readonly List<TraitDef> AllTraits;
     public static readonly List<SkillDef> AllSkills;
     public static readonly List<ThingDef> AllAnimals;
@@ -52,6 +53,9 @@ public static class MarkThatPawn
     public static readonly List<MarkerDef> MarkerDefs;
     private static readonly Dictionary<Pawn, MarkerDef> pawnMarkerCache;
     private static readonly Dictionary<Pawn, Mesh> pawnMeshCache;
+    private static readonly Dictionary<Pawn, float> pawnExpandCache;
+    public static readonly Dictionary<Faction, Material> FactionMaterialCache;
+    public static readonly Dictionary<Ideo, Material> IdeoMaterialCache;
     public static readonly bool VehiclesLoaded;
     private static CameraZoomRange lastCameraZoomRange = CameraZoomRange.Far;
     private static readonly int standardSize;
@@ -96,6 +100,9 @@ public static class MarkThatPawn
             .ToList();
         pawnMarkerCache = new Dictionary<Pawn, MarkerDef>();
         pawnMeshCache = new Dictionary<Pawn, Mesh>();
+        pawnExpandCache = new Dictionary<Pawn, float>();
+        FactionMaterialCache = new Dictionary<Faction, Material>();
+        IdeoMaterialCache = new Dictionary<Ideo, Material>();
         standardSize = ThingDefOf.Human.size.z;
         MarkerIcon = ContentFinder<Texture2D>.Get("UI/Marker_Icon");
         CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
@@ -228,6 +235,12 @@ public static class MarkThatPawn
                 case MarkerRule.AutoRuleType.AnyHediffStatic:
                     rule = new AnyStaticHediffMarkerRule(ruleBlob);
                     break;
+                case MarkerRule.AutoRuleType.FactionIcon:
+                    rule = new FactionIconMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
+                    rule = new IdeologyIconMarkerRule(ruleBlob);
+                    break;
                 default:
                     continue;
             }
@@ -263,6 +276,37 @@ public static class MarkThatPawn
     {
         if (!pawn.Spawned)
         {
+            if (pawnExpandCache.ContainsKey(pawn))
+            {
+                pawnExpandCache.Remove(pawn);
+            }
+
+            return;
+        }
+
+        pawnExpandCache.TryAdd(pawn, 1f);
+
+        var passedTest = !(MarkThatPawnMod.instance.Settings.ShiftIsPressed ||
+                           MarkThatPawnMod.instance.Settings.GameIsPaused ||
+                           MarkThatPawnMod.instance.Settings.PawnIsSelected);
+
+        if (!passedTest && MarkThatPawnMod.instance.Settings.ShiftIsPressed)
+        {
+            passedTest = Event.current.shift;
+        }
+
+        if (!passedTest && MarkThatPawnMod.instance.Settings.GameIsPaused)
+        {
+            passedTest = Find.TickManager.Paused;
+        }
+
+        if (!passedTest && MarkThatPawnMod.instance.Settings.PawnIsSelected)
+        {
+            passedTest = Find.Selector.SelectedPawns.Contains(pawn);
+        }
+
+        if (!passedTest)
+        {
             return;
         }
 
@@ -297,7 +341,7 @@ public static class MarkThatPawn
 
                 foreach (var autoRuleString in autoString.Split('£'))
                 {
-                    if (!TryToConvertStringToMaterial(autoRuleString, out var autoMaterial))
+                    if (!TryToConvertStringToMaterial(autoRuleString, out var autoMaterial, pawn))
                     {
                         continue;
                     }
@@ -364,20 +408,31 @@ public static class MarkThatPawn
         drawPos.z += MarkThatPawnMod.instance.Settings.ZOffset;
         var mesh = getRightSizeMesh(pawn);
 
-        if (tracker.GlobalMarkingTracker.ShouldShowMultiMarking(pawn))
+        var icons = overrideMaterials.Count + baseMaterials.Count;
+        var iconSpaces = icons - 1;
+
+        if (icons > 1 && tracker.GlobalMarkingTracker.ShouldShowMultiMarking(pawn))
         {
             var iconWidth = mesh.vertices[2].x / 0.5f;
-            var icons = overrideMaterials.Count + baseMaterials.Count - 1;
             var shouldExpand = MarkThatPawnMod.instance.Settings.ShowWhenSelected &&
                                Find.Selector.SelectedPawns.Contains(pawn);
 
+            if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowOnShift &&
+                Event.current.shift)
+            {
+                shouldExpand = true;
+            }
+
+            if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowOnPaused &&
+                Find.TickManager.Paused)
+            {
+                shouldExpand = true;
+            }
+
             if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowWhenHover)
             {
-                var tempWidth = iconWidth;
-                if (!MarkThatPawnMod.instance.Settings.RotateIcons)
-                {
-                    tempWidth *= (1f + MarkThatPawnMod.instance.Settings.IconSpacingFactor) * icons;
-                }
+                var tempWidth = (2f + (pawnExpandCache[pawn] * MarkThatPawnMod.instance.Settings.IconSpacingFactor)) *
+                                iconWidth * iconSpaces;
 
                 var mouseOverRect = new Rect(drawPos.x - (tempWidth / 2), drawPos.z - mesh.vertices[2].z, tempWidth,
                     mesh.vertices[2].z / 0.5f);
@@ -392,11 +447,10 @@ public static class MarkThatPawn
                 overrideMaterials.Reverse();
             }
 
-            if (!shouldExpand && MarkThatPawnMod.instance.Settings.RotateIcons)
+            if (!shouldExpand && MarkThatPawnMod.instance.Settings.RotateIcons && pawnExpandCache[pawn] == 1f)
             {
-                iconSmoother = 1f;
-                var tickInterval = 250;
-                if (Find.TickManager.CurTimeSpeed != TimeSpeed.Paused)
+                var tickInterval = rotationInterval;
+                if (!Find.TickManager.Paused)
                 {
                     tickInterval *= (int)Find.TickManager.TickRateMultiplier;
                 }
@@ -417,27 +471,22 @@ public static class MarkThatPawn
 
             if (!shouldExpand)
             {
-                iconWidth *= 1f + MarkThatPawnMod.instance.Settings.IconSpacingFactor;
-                iconSmoother = 1f;
+                if (pawnExpandCache[pawn] < 1f)
+                {
+                    pawnExpandCache[pawn] += 0.1f;
+                }
             }
             else
             {
-                if (iconSmoother > 0)
+                if (pawnExpandCache[pawn] > 0)
                 {
-                    iconSmoother -= 0.1f;
-                }
-
-                if (MarkThatPawnMod.instance.Settings.RotateIcons)
-                {
-                    iconWidth *= 1f - iconSmoother;
-                }
-                else
-                {
-                    iconWidth *= 1f + (iconSmoother * MarkThatPawnMod.instance.Settings.IconSpacingFactor);
+                    pawnExpandCache[pawn] -= 0.1f;
                 }
             }
 
-            var totalWidth = iconWidth * icons;
+            iconWidth *= 1f + (pawnExpandCache[pawn] * MarkThatPawnMod.instance.Settings.IconSpacingFactor);
+
+            var totalWidth = iconWidth * iconSpaces;
             drawPos.x -= totalWidth / 2;
             foreach (var material in overrideMaterials)
             {
@@ -542,11 +591,51 @@ public static class MarkThatPawn
         return true;
     }
 
-    public static bool TryToConvertStringToMaterial(string markerString, out Material result)
+    public static bool TryToConvertStringToMaterial(string markerString, out Material result, Pawn pawn = null)
     {
         result = null;
         if (markerString == null || !markerString.Contains(";"))
         {
+            return false;
+        }
+
+        if (markerString.Split(';')[0] == "__custom__")
+        {
+            switch (markerString.Split(';')[1])
+            {
+                case "FactionIcon":
+
+                    if (pawn?.Faction?.def?.FactionIcon == null)
+                    {
+                        return false;
+                    }
+
+                    if (FactionMaterialCache.TryGetValue(pawn.Faction, out result))
+                    {
+                        return true;
+                    }
+
+                    result = MaterialPool.MatFrom(pawn.Faction.def.factionIconPath, ShaderDatabase.MetaOverlay,
+                        pawn.Faction.Color);
+                    FactionMaterialCache[pawn.Faction] = result;
+                    return true;
+                case "IdeologyIcon":
+                    if (pawn?.Ideo?.Icon == null)
+                    {
+                        return false;
+                    }
+
+                    if (IdeoMaterialCache.TryGetValue(pawn.Ideo, out result))
+                    {
+                        return true;
+                    }
+
+                    result = MaterialPool.MatFrom(pawn.Ideo.iconDef.iconPath, ShaderDatabase.MetaOverlay,
+                        pawn.Ideo.Color);
+                    IdeoMaterialCache[pawn.Ideo] = result;
+                    return true;
+            }
+
             return false;
         }
 
@@ -570,11 +659,37 @@ public static class MarkThatPawn
         return true;
     }
 
-    public static bool TryToConvertStringToTexture2D(string markerString, out Texture2D result)
+    public static bool TryToConvertStringToTexture2D(string markerString, out Texture2D result, Pawn pawn = null)
     {
         result = null;
         if (markerString == null || !markerString.Contains(";"))
         {
+            return false;
+        }
+
+        if (markerString.Split(';')[0] == "__custom__")
+        {
+            switch (markerString.Split(';')[1])
+            {
+                case "FactionIcon":
+
+                    if (pawn?.Faction?.def?.FactionIcon == null)
+                    {
+                        return false;
+                    }
+
+                    result = pawn.Faction.def.FactionIcon;
+                    return false;
+                case "IdeologyIcon":
+                    if (pawn?.Ideo?.Icon == null)
+                    {
+                        return false;
+                    }
+
+                    result = pawn.Ideo.Icon;
+                    return false;
+            }
+
             return false;
         }
 

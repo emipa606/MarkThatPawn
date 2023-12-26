@@ -130,4 +130,15 @@
   <MTP.RotateIconsTT>Les icônes tournent entre les icônes possibles au lieu d'en afficher plusieurs en même temps.</MTP.RotateIconsTT>
   <MTP.OnlyWhenDrafted>Uniquement en cas de rédaction</MTP.OnlyWhenDrafted>
   <MTP.AutomaticType.AnyHediffStatic>Le pion a un mauvais hediff permanent</MTP.AutomaticType.AnyHediffStatic>
+  <MTP.ShowWhenSelectedTT>Les icônes s'étendent à l'espacement par défaut lorsque le pion est sélectionné.</MTP.ShowWhenSelectedTT>
+  <MTP.ShowOnShift>- Expansion lorsque l'on appuie sur la touche SHIFT</MTP.ShowOnShift>
+  <MTP.ShowOnShiftTT>Les icônes s'étendent à l'espacement par défaut lorsque la touche SHIFT est enfoncée.</MTP.ShowOnShiftTT>
+  <MTP.ShowOnPaused>- S'étendre lorsque le jeu est en pause</MTP.ShowOnPaused>
+  <MTP.ShowOnPausedTT>Les icônes s'étendent à l'espacement par défaut lorsque le jeu est en pause.</MTP.ShowOnPausedTT>
+  <MTP.HideIcons>Cacher les icônes sauf si</MTP.HideIcons>
+  <MTP.GameIsPaused>- Le jeu est en pause</MTP.GameIsPaused>
+  <MTP.ShiftIsPressed>- La touche SHIFT est enfoncée</MTP.ShiftIsPressed>
+  <MTP.PawnIsSelected>- Le pion est sélectionné</MTP.PawnIsSelected>
+  <MTP.AutomaticType.FactionIcon>Afficher l'icône de la faction pour le pion</MTP.AutomaticType.FactionIcon>
+  <MTP.AutomaticType.IdeologyIcon>Afficher l'icône d'idéologie pour le pion</MTP.AutomaticType.IdeologyIcon>
 </LanguageData>

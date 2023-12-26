@@ -19,6 +19,7 @@ internal class MarkThatPawnSettings : ModSettings
     public bool EnemyDiffer;
     private string enemyMarkerSet = "WowStyle";
     private MarkerDef enemyMarkerSetDef;
+    public bool GameIsPaused;
 
     public float IconScalingFactor = 1f;
     public float IconSize = 0.7f;
@@ -28,6 +29,7 @@ internal class MarkThatPawnSettings : ModSettings
     private string neutralMarkerSet = "WowStyle";
     private MarkerDef neutralMarkerSetDef;
     public bool NormalShowAll = true;
+    public bool PawnIsSelected;
     public bool PrisonerDiffer;
     private string prisonerMarkerSet = "WowStyle";
     private MarkerDef prisonerMarkerSetDef;
@@ -38,6 +40,7 @@ internal class MarkThatPawnSettings : ModSettings
     public bool RotateIcons;
     public bool SeparateShowAll = true;
     public bool SeparateTemporary = true;
+    public bool ShiftIsPressed;
     public bool ShowForColonist = true;
 
     public bool ShowForEnemy = true;
@@ -48,6 +51,8 @@ internal class MarkThatPawnSettings : ModSettings
     public bool ShowForSlave = true;
 
     public bool ShowForVehicles = true;
+    public bool ShowOnPaused;
+    public bool ShowOnShift;
     public bool ShowWhenHover;
     public bool ShowWhenSelected;
     public bool SlaveDiffer;
@@ -180,6 +185,11 @@ internal class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref InvertOrder, "InvertOrder");
         Scribe_Values.Look(ref ShowWhenSelected, "ShowWhenSelected");
         Scribe_Values.Look(ref ShowWhenHover, "ShowWhenHover");
+        Scribe_Values.Look(ref ShowOnShift, "ShowOnShift");
+        Scribe_Values.Look(ref ShowOnPaused, "ShowOnPaused");
+        Scribe_Values.Look(ref ShiftIsPressed, "ShiftIsPressed");
+        Scribe_Values.Look(ref PawnIsSelected, "PawnIsSelected");
+        Scribe_Values.Look(ref GameIsPaused, "GameIsPaused");
         Scribe_Values.Look(ref PrisonerDiffer, "PrisonerDiffer");
         Scribe_Values.Look(ref RelativeIconSize, "RelativeIconSize");
         Scribe_Values.Look(ref SlaveDiffer, "SlaveDiffer");
@@ -223,6 +233,11 @@ internal class MarkThatPawnSettings : ModSettings
         SlaveDiffer = false;
         ShowWhenSelected = false;
         ShowWhenHover = false;
+        ShowOnShift = false;
+        ShowOnPaused = false;
+        GameIsPaused = false;
+        ShiftIsPressed = false;
+        PawnIsSelected = false;
         EnemyDiffer = false;
         NeutralDiffer = false;
         VehiclesDiffer = false;

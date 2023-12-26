@@ -1,4 +1,3 @@
-using UnityEngine;
 using Verse;
 
 namespace MarkThatPawn.MarkerRules;
@@ -17,18 +16,9 @@ public class AnyStaticHediffMarkerRule : MarkerRule
         SetBlob(blob);
     }
 
-    public override void ShowTypeParametersRect(Rect rect, bool edit)
-    {
-    }
-
     public override MarkerRule GetCopy()
     {
         return new AnyStaticHediffMarkerRule(GetBlob());
-    }
-
-
-    protected override void PopulateRuleParameterObjects()
-    {
     }
 
     public override bool AppliesToPawn(Pawn pawn)

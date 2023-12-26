@@ -127,7 +127,11 @@ public class Dialog_AutoMarkingRules : Window
                     Widgets.DrawBoxSolid(ruleRow.ContractedBy(1f), overrideColor);
                 }
 
-                GUI.DrawTexture(imageRect, autoRule.GetIconTexture());
+                if (!autoRule.UsesDynamicIcons)
+                {
+                    GUI.DrawTexture(imageRect, autoRule.GetIconTexture());
+                }
+
                 TooltipHandler.TipRegion(enabledIconRect,
                     autoRule.Enabled ? "MTP.Enabled".Translate() : "MTP.Disabled".Translate());
                 GUI.DrawTexture(enabledIconRect,
@@ -185,6 +189,11 @@ public class Dialog_AutoMarkingRules : Window
 
                 autoRule.ShowTypeParametersRect(workingRect.RightPart(0.53f), false);
 
+                if (autoRule.UsesDynamicIcons)
+                {
+                    continue;
+                }
+
                 Widgets.Label(rowRightArea.LeftHalf().TopHalf(), autoRule.MarkerDef.LabelCap);
                 Widgets.Label(rowRightArea.LeftHalf().BottomHalf(), autoRule.GetTranslatedMarkerIndex());
                 continue;
@@ -204,7 +213,11 @@ public class Dialog_AutoMarkingRules : Window
                 Widgets.DrawBoxSolid(ruleRow.ContractedBy(1f), overrideColor);
             }
 
-            GUI.DrawTexture(imageRect, ruleWorkingCopy.GetIconTexture());
+            if (!ruleWorkingCopy.UsesDynamicIcons)
+            {
+                GUI.DrawTexture(imageRect, ruleWorkingCopy.GetIconTexture());
+            }
+
             TooltipHandler.TipRegion(enabledIconRect,
                 ruleWorkingCopy.Enabled ? "MTP.EnabledChange".Translate() : "MTP.DisabledChange".Translate());
             if (Widgets.ButtonImageWithBG(enabledIconRect,
@@ -241,17 +254,20 @@ public class Dialog_AutoMarkingRules : Window
 
             ruleWorkingCopy.ShowTypeParametersRect(workingRect.RightPart(0.53f), true);
 
-            var changeMarkerDefRect = rowRightArea.LeftHalf().TopHalf().ContractedBy(1f);
-            TooltipHandler.TipRegion(changeMarkerDefRect, ruleWorkingCopy.MarkerDef.description);
-            if (Widgets.ButtonText(changeMarkerDefRect, ruleWorkingCopy.MarkerDef.LabelCap))
+            if (!autoRule.UsesDynamicIcons)
             {
-                ruleWorkingCopy.ShowChangeMarkerDefMenu();
-            }
+                var changeMarkerDefRect = rowRightArea.LeftHalf().TopHalf().ContractedBy(1f);
+                TooltipHandler.TipRegion(changeMarkerDefRect, ruleWorkingCopy.MarkerDef.description);
+                if (Widgets.ButtonText(changeMarkerDefRect, ruleWorkingCopy.MarkerDef.LabelCap))
+                {
+                    ruleWorkingCopy.ShowChangeMarkerDefMenu();
+                }
 
-            if (Widgets.ButtonText(rowRightArea.LeftHalf().BottomHalf().ContractedBy(1f),
-                    ruleWorkingCopy.GetTranslatedMarkerIndex()))
-            {
-                ruleWorkingCopy.ShowChangeMarkerMenu();
+                if (Widgets.ButtonText(rowRightArea.LeftHalf().BottomHalf().ContractedBy(1f),
+                        ruleWorkingCopy.GetTranslatedMarkerIndex()))
+                {
+                    ruleWorkingCopy.ShowChangeMarkerMenu();
+                }
             }
 
             TooltipHandler.TipRegion(positiveButtonRect, "MTP.SaveAutomaticType".Translate());
@@ -384,6 +400,14 @@ public class Dialog_AutoMarkingRules : Window
                 case MarkerRule.AutoRuleType.AnyHediffStatic:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AnyStaticHediffMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.FactionIcon:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new FactionIconMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new IdeologyIconMarkerRule())));
                     break;
                 default:
                     continue;

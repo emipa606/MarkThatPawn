@@ -29,7 +29,9 @@ public abstract class MarkerRule
         Gender,
         Age,
         Gene,
-        Xenotype
+        Xenotype,
+        FactionIcon,
+        IdeologyIcon
     }
 
     public List<PawnType> ApplicablePawnTypes;
@@ -44,6 +46,7 @@ public abstract class MarkerRule
     public int RuleOrder;
     protected string RuleParameters;
     protected AutoRuleType RuleType;
+    public bool UsesDynamicIcons;
 
     public static bool TryGetRuleTypeFromBlob(string blob, out AutoRuleType type)
     {
@@ -93,7 +96,9 @@ public abstract class MarkerRule
         return MarkerIndex < MarkerDef.MarkerTextures.Count;
     }
 
-    public abstract void ShowTypeParametersRect(Rect rect, bool edit);
+    public virtual void ShowTypeParametersRect(Rect rect, bool edit)
+    {
+    }
 
     public abstract MarkerRule GetCopy();
 
@@ -177,7 +182,9 @@ public abstract class MarkerRule
         PopulateRuleParameterObjects();
     }
 
-    protected abstract void PopulateRuleParameterObjects();
+    protected virtual void PopulateRuleParameterObjects()
+    {
+    }
 
     public virtual bool AppliesToPawn(Pawn pawn)
     {
@@ -204,7 +211,7 @@ public abstract class MarkerRule
         return "MTP.MarkerNumber".Translate(MarkerIndex + 1);
     }
 
-    public Texture2D GetIconTexture()
+    public virtual Texture2D GetIconTexture()
     {
         if (MarkerDef != null)
         {
@@ -215,7 +222,7 @@ public abstract class MarkerRule
         return BaseContent.BadTex;
     }
 
-    public string GetMarkerBlob()
+    public virtual string GetMarkerBlob()
     {
         return $"{MarkerDef.defName};{MarkerIndex + 1}";
     }

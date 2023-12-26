@@ -1,5 +1,10 @@
 # Changelog for MarkThatPawn
 
+1.4.28 - Added option to show ideology icon
+Added option to show faction icon.
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.27 - Fixed temporary icons not showing when alone. Also added a smoother for the expanding of the icons
 
 
