@@ -10,6 +10,7 @@ namespace MarkThatPawn.MarkerRules;
 public class SkillMarkerRule : MarkerRule
 {
     private readonly Dictionary<SkillDef, Passion> passionDefs;
+    private bool or;
     private Dictionary<SkillDef, int> skillDefs;
 
     public SkillMarkerRule()
@@ -35,24 +36,7 @@ public class SkillMarkerRule : MarkerRule
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var skillListRect = rect;
-
-        if (edit)
-        {
-            skillListRect = rect.RightPart(0.75f);
-            var buttonRect = rect.LeftPart(0.23f);
-            if (Widgets.ButtonText(buttonRect,
-                    !skillDefs.Any() ? "MTP.NoneSelected".Translate() : "MTP.SomeSelected".Translate(skillDefs.Count)))
-            {
-                showSkillSelectorMenu();
-            }
-        }
-
-        if (!skillDefs.Any())
-        {
-            Widgets.Label(skillListRect, "MTP.NoneSelected".Translate());
-            return;
-        }
+        var skillRect = rect.TopHalf();
 
         var labelList = new List<string>();
         foreach (var skillDef in skillDefs)
@@ -74,7 +58,50 @@ public class SkillMarkerRule : MarkerRule
             labelList.Add(label);
         }
 
-        Widgets.Label(skillListRect, string.Join(", ", labelList));
+        var skillLabel = string.Join("\n", labelList);
+
+        if (edit)
+        {
+            if (Widgets.ButtonText(skillRect,
+                    !skillDefs.Any() ? "MTP.NoneSelected".Translate() : "MTP.SomeSelected".Translate(skillDefs.Count)))
+            {
+                showSkillSelectorMenu();
+            }
+
+            TooltipHandler.TipRegion(skillRect, skillLabel);
+
+            var originalValue = or;
+            Widgets.CheckboxLabeled(rect.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate(),
+                ref or);
+            TooltipHandler.TipRegion(rect.BottomHalf().RightHalf().RightPart(0.8f),
+                "MTP.OrLogicTT".Translate());
+            if (originalValue != or)
+            {
+                RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                    skillDefs.Select(pair =>
+                        $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}{MarkThatPawn.RuleInternalSplitter}{passionDefs[pair.Key].ToString()}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
+            }
+
+            return;
+        }
+
+        if (!skillDefs.Any())
+        {
+            Widgets.Label(skillRect, "MTP.NoneSelected".Translate());
+            return;
+        }
+
+        Widgets.Label(skillRect, "MTP.SomeSelected".Translate(skillDefs.Count));
+        TooltipHandler.TipRegion(skillRect, skillLabel);
+
+        if (!or)
+        {
+            return;
+        }
+
+        Widgets.Label(rect.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate());
+        TooltipHandler.TipRegion(rect.BottomHalf().RightHalf().RightPart(0.8f),
+            "MTP.OrLogicTT".Translate());
     }
 
     public override MarkerRule GetCopy()
@@ -96,23 +123,35 @@ public class SkillMarkerRule : MarkerRule
             return;
         }
 
-        foreach (var skillKeyPair in RuleParameters.Split(','))
+        if (!RuleParameters.Contains(MarkThatPawn.RuleAlternateItemsSplitter))
         {
-            if (!skillKeyPair.Contains("|") ||
-                skillKeyPair.Split('|').Length != 2 && skillKeyPair.Split('|').Length != 3)
+            RuleParameters = RuleParameters.Replace(',', MarkThatPawn.RuleAlternateItemsSplitter);
+            RuleParameters = RuleParameters.Replace(MarkThatPawn.RuleItemsSplitter, MarkThatPawn.RuleInternalSplitter);
+        }
+
+        var ruleParametersSplitted = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter);
+        var skillPart = ruleParametersSplitted[0];
+
+        foreach (var skillKeyPair in skillPart.Split(MarkThatPawn.RuleAlternateItemsSplitter))
+        {
+            if (!skillKeyPair.Contains(MarkThatPawn.RuleInternalSplitter) ||
+                skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter).Length != 2 &&
+                skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter).Length != 3)
             {
                 ConfigError = true;
                 continue;
             }
 
-            var skillDef = DefDatabase<SkillDef>.GetNamedSilentFail(skillKeyPair.Split('|')[0]);
+            var skillDef =
+                DefDatabase<SkillDef>.GetNamedSilentFail(
+                    skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter)[0]);
             if (skillDef == null)
             {
                 ConfigError = true;
                 continue;
             }
 
-            if (!int.TryParse(skillKeyPair.Split('|')[1], out var skillLevel))
+            if (!int.TryParse(skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter)[1], out var skillLevel))
             {
                 ConfigError = true;
                 continue;
@@ -120,9 +159,9 @@ public class SkillMarkerRule : MarkerRule
 
             skillDefs[skillDef] = skillLevel;
 
-            if (skillKeyPair.Split('|').Length == 3)
+            if (skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter).Length == 3)
             {
-                if (!Enum.TryParse(skillKeyPair.Split('|')[2], out Passion passion))
+                if (!Enum.TryParse(skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter)[2], out Passion passion))
                 {
                     passionDefs[skillDef] = Passion.None;
                     ConfigError = true;
@@ -141,6 +180,19 @@ public class SkillMarkerRule : MarkerRule
         {
             ErrorMessage = $"Could not parse all skillDefs from {RuleParameters}, disabling rule";
         }
+
+        if (ruleParametersSplitted.Length == 1)
+        {
+            return;
+        }
+
+        if (bool.TryParse(ruleParametersSplitted[1], out or))
+        {
+            return;
+        }
+
+        ErrorMessage = $"Could not parse bool for {ruleParametersSplitted[1]}, disabling rule";
+        ConfigError = true;
     }
 
     public override bool AppliesToPawn(Pawn pawn)
@@ -162,17 +214,14 @@ public class SkillMarkerRule : MarkerRule
             return false;
         }
 
-        foreach (var skillDef in skillDefs)
-        {
-            if (!pawnSkills.Any(skill =>
-                    skill.def == skillDef.Key && skill.Level >= skillDef.Value &&
-                    skill.passion >= passionDefs[skillDef.Key]))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return or
+            ? pawnSkills.Any(skillRecord =>
+                skillDefs.Any(pair =>
+                    pair.Key == skillRecord.def && pair.Value <= skillRecord.Level &&
+                    skillRecord.passion >= passionDefs[pair.Key]))
+            : skillDefs.All(skillDef =>
+                pawnSkills.Any(skillRecord => skillRecord.def == skillDef.Key && skillRecord.Level >= skillDef.Value &&
+                                              skillRecord.passion >= passionDefs[skillDef.Key]));
     }
 
     private void showSkillSelectorMenu()
@@ -187,8 +236,9 @@ public class SkillMarkerRule : MarkerRule
                 {
                     skillDefs.Remove(skillDef);
                     passionDefs.Remove(skillDef);
-                    RuleParameters = string.Join(",",
-                        skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|{passionDefs[pair.Key]}"));
+                    RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                        skillDefs.Select(pair =>
+                            $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}{MarkThatPawn.RuleInternalSplitter}{passionDefs[pair.Key].ToString()}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                 }, TexButton.Empty, Color.white));
                 continue;
             }
@@ -207,22 +257,25 @@ public class SkillMarkerRule : MarkerRule
                             {
                                 skillDefs[skillDef] = level;
                                 passionDefs[skillDef] = Passion.None;
-                                RuleParameters = string.Join(",",
-                                    skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|None"));
+                                RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                                    skillDefs.Select(pair =>
+                                        $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}{MarkThatPawn.RuleInternalSplitter}{passionDefs[pair.Key].ToString()}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                             }),
                             new FloatMenuOption("PassionMinor".Translate(), () =>
                             {
                                 skillDefs[skillDef] = level;
                                 passionDefs[skillDef] = Passion.Minor;
-                                RuleParameters = string.Join(",",
-                                    skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|Minor"));
+                                RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                                    skillDefs.Select(pair =>
+                                        $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}{MarkThatPawn.RuleInternalSplitter}{passionDefs[pair.Key].ToString()}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                             }, SkillUI.PassionMinorIcon, Color.white),
                             new FloatMenuOption("PassionMajor".Translate(), () =>
                             {
                                 skillDefs[skillDef] = level;
                                 passionDefs[skillDef] = Passion.Major;
-                                RuleParameters = string.Join(",",
-                                    skillDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}|Major"));
+                                RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                                    skillDefs.Select(pair =>
+                                        $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}{MarkThatPawn.RuleInternalSplitter}{passionDefs[pair.Key].ToString()}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                             }, SkillUI.PassionMajorIcon, Color.white)
                         };
                         Find.WindowStack.Add(new FloatMenu(subSubMenu));

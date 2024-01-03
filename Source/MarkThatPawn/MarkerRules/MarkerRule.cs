@@ -56,7 +56,7 @@ public abstract class MarkerRule
             return false;
         }
 
-        var typeString = blob.Split(';')[0];
+        var typeString = blob.Split(BlobSplitter)[0];
         return Enum.TryParse(typeString, out type);
     }
 
@@ -128,7 +128,7 @@ public abstract class MarkerRule
     protected void SetBlob(string blob)
     {
         SetDefaultValues();
-        var rowSplitted = blob.Split(';');
+        var rowSplitted = blob.Split(BlobSplitter);
         if (rowSplitted.Length is < 6 or > 8)
         {
             ErrorMessage = $"Blob is malformed, cannot split into correct parts, got {rowSplitted.Length}";
@@ -138,7 +138,7 @@ public abstract class MarkerRule
 
         if (rowSplitted.Length == 6)
         {
-            rowSplitted = $"{blob};Default".Split(';');
+            rowSplitted = $"{blob}{BlobSplitter}Default".Split(BlobSplitter);
         }
 
         RuleParameters = rowSplitted[1];

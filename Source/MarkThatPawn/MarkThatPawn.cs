@@ -25,6 +25,13 @@ public static class MarkThatPawn
         Vehicle
     }
 
+    public const char BlobSplitter = ';';
+    public const char RuleItemsSplitter = '|';
+    public const char RuleAlternateItemsSplitter = '€';
+    public const char RuleInternalSplitter = '$';
+    public const char MarkerBlobSplitter = '£';
+    public const char OverrideRuleSplitter = '§';
+
     public const float ButtonIconSizeFactor = 0.8f;
 
     private const int rotationInterval = 250;
@@ -339,7 +346,7 @@ public static class MarkThatPawn
                     break;
                 }
 
-                foreach (var autoRuleString in autoString.Split('£'))
+                foreach (var autoRuleString in autoString.Split(MarkerBlobSplitter))
                 {
                     if (!TryToConvertStringToMaterial(autoRuleString, out var autoMaterial, pawn))
                     {
@@ -374,9 +381,9 @@ public static class MarkThatPawn
 
         if (tracker.GlobalMarkingTracker.OverridePawns.TryGetValue(pawn, out var overrideString))
         {
-            foreach (var overrideRuleString in overrideString.Split('£'))
+            foreach (var overrideRuleString in overrideString.Split(MarkerBlobSplitter))
             {
-                var overrideStringTypeless = overrideRuleString.Split('§')[0];
+                var overrideStringTypeless = overrideRuleString.Split(OverrideRuleSplitter)[0];
                 if (!TryToConvertStringToMaterial(overrideStringTypeless, out var material))
                 {
                     continue;
@@ -587,7 +594,7 @@ public static class MarkThatPawn
             return false;
         }
 
-        result = string.Join("£", validRules);
+        result = string.Join(MarkerBlobSplitter.ToString(), validRules);
         return true;
     }
 
@@ -599,9 +606,9 @@ public static class MarkThatPawn
             return false;
         }
 
-        if (markerString.Split(';')[0] == "__custom__")
+        if (markerString.Split(BlobSplitter)[0] == "__custom__")
         {
-            switch (markerString.Split(';')[1])
+            switch (markerString.Split(BlobSplitter)[1])
             {
                 case "FactionIcon":
 
@@ -639,13 +646,13 @@ public static class MarkThatPawn
             return false;
         }
 
-        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == markerString.Split(';')[0]);
+        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == markerString.Split(BlobSplitter)[0]);
         if (markerSet == null)
         {
             return false;
         }
 
-        if (!int.TryParse(markerString.Split(';')[1], out var number))
+        if (!int.TryParse(markerString.Split(BlobSplitter)[1], out var number))
         {
             return false;
         }
@@ -667,9 +674,9 @@ public static class MarkThatPawn
             return false;
         }
 
-        if (markerString.Split(';')[0] == "__custom__")
+        if (markerString.Split(BlobSplitter)[0] == "__custom__")
         {
-            switch (markerString.Split(';')[1])
+            switch (markerString.Split(BlobSplitter)[1])
             {
                 case "FactionIcon":
 
@@ -693,13 +700,13 @@ public static class MarkThatPawn
             return false;
         }
 
-        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == markerString.Split(';')[0]);
+        var markerSet = MarkerDefs.FirstOrDefault(def => def.defName == markerString.Split(BlobSplitter)[0]);
         if (markerSet == null)
         {
             return false;
         }
 
-        if (!int.TryParse(markerString.Split(';')[1], out var number))
+        if (!int.TryParse(markerString.Split(BlobSplitter)[1], out var number))
         {
             return false;
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -6,7 +7,8 @@ namespace MarkThatPawn.MarkerRules;
 
 public class ApparelMarkerRule : MarkerRule
 {
-    private ThingDef ApparelThingDef;
+    private List<ThingDef> apparelThingDefs = [];
+    private bool or;
 
     public ApparelMarkerRule()
     {
@@ -22,32 +24,74 @@ public class ApparelMarkerRule : MarkerRule
 
     protected override bool CanEnable()
     {
-        return base.CanEnable() && ApparelThingDef != null;
+        return base.CanEnable() && apparelThingDefs?.Any() == true;
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var ApparelArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
+        var apparelArea = rect.LeftPart(0.75f);
         if (edit)
         {
-            if (Widgets.ButtonText(ApparelArea, ApparelThingDef?.LabelCap ?? "MTP.NoneSelected".Translate()))
+            var buttonLabel = "MTP.NoneSelected".Translate();
+            if (apparelThingDefs.Any())
+            {
+                buttonLabel = "MTP.SomeSelected".Translate(apparelThingDefs.Count);
+            }
+
+            if (Widgets.ButtonText(apparelArea.TopHalf(), buttonLabel))
             {
                 showApparelSelectorMenu();
+            }
+
+            TooltipHandler.TipRegion(apparelArea.TopHalf(),
+                string.Join("\n", apparelThingDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
+            if (apparelThingDefs.Any())
+            {
+                var originalValue = or;
+                Widgets.CheckboxLabeled(apparelArea.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate(),
+                    ref or);
+                TooltipHandler.TipRegion(apparelArea.BottomHalf().RightHalf().RightPart(0.8f),
+                    "MTP.OrLogicTT".Translate());
+                if (originalValue != or)
+                {
+                    RuleParameters =
+                        $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), apparelThingDefs.Select(thingDef => thingDef.defName).ToArray())}{MarkThatPawn.RuleItemsSplitter}{or}";
+                }
             }
         }
         else
         {
-            Widgets.Label(ApparelArea, ApparelThingDef?.LabelCap ?? "MTP.NoneSelected".Translate());
+            var weaponLabel = "MTP.NoneSelected".Translate();
+            if (apparelThingDefs.Any())
+            {
+                weaponLabel = "MTP.SomeSelected".Translate(apparelThingDefs.Count);
+            }
+
+            Widgets.Label(apparelArea.TopHalf(), weaponLabel);
+            TooltipHandler.TipRegion(apparelArea.TopHalf(),
+                string.Join("\n", apparelThingDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
+
+            if (or)
+            {
+                Widgets.Label(apparelArea.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate());
+                TooltipHandler.TipRegion(apparelArea.BottomHalf().RightHalf().RightPart(0.8f),
+                    "MTP.OrLogicTT".Translate());
+            }
         }
 
-        if (ApparelThingDef == null)
+        if (!apparelThingDefs.Any())
         {
             return;
         }
 
-        var ApparelImageRect = rect.RightPartPixels(rect.height).ContractedBy(1f);
-        TooltipHandler.TipRegion(ApparelImageRect, ApparelThingDef.description);
-        GUI.DrawTexture(ApparelImageRect, Widgets.GetIconFor(ApparelThingDef));
+        var apparelImageRect = rect.RightPartPixels(rect.height).ContractedBy(1f);
+        TooltipHandler.TipRegion(apparelImageRect,
+            string.Join("\n", apparelThingDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
+        GUI.DrawTexture(apparelImageRect, Widgets.GetIconFor(apparelThingDefs.First()));
+        if (apparelThingDefs.Count > 1)
+        {
+            GUI.DrawTexture(apparelImageRect, MarkThatPawn.MultiIconOverlay.mainTexture);
+        }
     }
 
     public override MarkerRule GetCopy()
@@ -67,13 +111,41 @@ public class ApparelMarkerRule : MarkerRule
             return;
         }
 
-        ApparelThingDef = DefDatabase<ThingDef>.GetNamedSilentFail(RuleParameters);
-        if (ApparelThingDef != null)
+        var ruleParametersSplitted = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter);
+
+        var apparelPart = ruleParametersSplitted[0];
+        apparelThingDefs = [];
+
+        foreach (var apparelDefname in apparelPart.Split(MarkThatPawn.RuleAlternateItemsSplitter))
+        {
+            var apparelDef = DefDatabase<ThingDef>.GetNamedSilentFail(apparelDefname);
+            if (apparelDef == null)
+            {
+                ErrorMessage = $"Could not find apparel with defname {apparelDefname}";
+                continue;
+            }
+
+            apparelThingDefs.Add(apparelDef);
+        }
+
+        if (!apparelThingDefs.Any())
+        {
+            ErrorMessage = $"Could not find apparel based on {apparelPart}, disabling rule";
+            ConfigError = true;
+            return;
+        }
+
+        if (ruleParametersSplitted.Length == 1)
         {
             return;
         }
 
-        ErrorMessage = $"Could not find Apparel with defname {RuleParameters}, disabling rule";
+        if (bool.TryParse(ruleParametersSplitted[1], out or))
+        {
+            return;
+        }
+
+        ErrorMessage = $"Could not parse bool for {ruleParametersSplitted[1]}, disabling rule";
         ConfigError = true;
     }
 
@@ -89,24 +161,46 @@ public class ApparelMarkerRule : MarkerRule
             return false;
         }
 
-        return pawn.apparel is { AnyApparel: true } &&
-               pawn.apparel.WornApparel.Any(thing => thing.def == ApparelThingDef);
+        if (pawn.apparel is not { AnyApparel: true })
+        {
+            return false;
+        }
+
+        if (or)
+        {
+            return pawn.apparel.WornApparel.Any(apparel => apparelThingDefs.Contains(apparel.def));
+        }
+
+        var allApparel = pawn.apparel.WornApparel.Select(thing => thing.def);
+        return apparelThingDefs.All(def => allApparel.Contains(def));
     }
 
 
     private void showApparelSelectorMenu()
     {
-        var ApparelList = new List<FloatMenuOption>();
+        var apparelList = new List<FloatMenuOption>();
 
-        foreach (var Apparel in MarkThatPawn.AllValidApparels)
+        foreach (var apparel in MarkThatPawn.AllValidApparels)
         {
-            ApparelList.Add(new FloatMenuOption(Apparel.LabelCap, () =>
+            if (apparelThingDefs.Contains(apparel))
             {
-                RuleParameters = Apparel.defName;
-                ApparelThingDef = Apparel;
-            }, Apparel));
+                apparelList.Add(new FloatMenuOption(apparel.LabelCap, () =>
+                {
+                    apparelThingDefs.Remove(apparel);
+                    RuleParameters =
+                        $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), apparelThingDefs.Select(thingDef => thingDef.defName))}{MarkThatPawn.RuleItemsSplitter}{or}";
+                }, MarkThatPawn.RemoveIcon, Color.white));
+                continue;
+            }
+
+            apparelList.Add(new FloatMenuOption(apparel.LabelCap, () =>
+            {
+                apparelThingDefs.Add(apparel);
+                RuleParameters =
+                    $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), apparelThingDefs.Select(thingDef => thingDef.defName))}{MarkThatPawn.RuleItemsSplitter}{or}";
+            }));
         }
 
-        Find.WindowStack.Add(new FloatMenu(ApparelList));
+        Find.WindowStack.Add(new FloatMenu(apparelList));
     }
 }

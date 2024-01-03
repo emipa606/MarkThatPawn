@@ -7,12 +7,13 @@ namespace MarkThatPawn.MarkerRules;
 
 public class DynamicHediffMarkerRule : MarkerRule
 {
-    private Dictionary<HediffDef, int> HediffDefs;
+    private Dictionary<HediffDef, int> hediffDefs;
+    private bool or;
 
     public DynamicHediffMarkerRule()
     {
         RuleType = AutoRuleType.HediffDynamic;
-        HediffDefs = new Dictionary<HediffDef, int>();
+        hediffDefs = new Dictionary<HediffDef, int>();
         SetDefaultValues();
         IsOverride = true;
     }
@@ -20,41 +21,22 @@ public class DynamicHediffMarkerRule : MarkerRule
     public DynamicHediffMarkerRule(string blob)
     {
         RuleType = AutoRuleType.HediffDynamic;
-        HediffDefs = new Dictionary<HediffDef, int>();
+        hediffDefs = new Dictionary<HediffDef, int>();
         SetBlob(blob);
         IsOverride = true;
     }
 
     protected override bool CanEnable()
     {
-        return base.CanEnable() && HediffDefs?.Any() == true;
+        return base.CanEnable() && hediffDefs?.Any() == true;
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var hediffListRect = rect;
+        var hediffRect = rect.TopHalf();
 
-        if (edit)
-        {
-            hediffListRect = rect.RightPart(0.75f);
-            var buttonRect = rect.LeftPart(0.23f);
-            if (Widgets.ButtonText(buttonRect,
-                    !HediffDefs.Any()
-                        ? "MTP.NoneSelected".Translate()
-                        : "MTP.SomeSelected".Translate(HediffDefs.Count)))
-            {
-                showHediffSelectorMenu();
-            }
-        }
-
-        if (!HediffDefs.Any())
-        {
-            Widgets.Label(hediffListRect, "MTP.NoneSelected".Translate());
-            return;
-        }
-
-        var labelList = new List<string>();
-        foreach (var keyValuePair in HediffDefs)
+        var hediffList = new List<string>();
+        foreach (var keyValuePair in hediffDefs)
         {
             var label = MarkThatPawn.GetDistinctHediffName(keyValuePair.Key, MarkThatPawn.AllDynamicHediffs);
 
@@ -64,10 +46,52 @@ public class DynamicHediffMarkerRule : MarkerRule
                     $":  {keyValuePair.Key.stages[keyValuePair.Value].label ?? "MTP.AutomaticType.HediffStage".Translate(keyValuePair.Value)}";
             }
 
-            labelList.Add(label);
+            hediffList.Add(label);
         }
 
-        Widgets.Label(hediffListRect, string.Join(", ", labelList));
+        var hediffListLabel = string.Join("\n", hediffList);
+
+        if (edit)
+        {
+            if (Widgets.ButtonText(hediffRect,
+                    !hediffDefs.Any()
+                        ? "MTP.NoneSelected".Translate()
+                        : "MTP.SomeSelected".Translate(hediffDefs.Count)))
+            {
+                showHediffSelectorMenu();
+            }
+
+            TooltipHandler.TipRegion(hediffRect, hediffListLabel);
+
+            var originalValue = or;
+            Widgets.CheckboxLabeled(rect.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate(), ref or);
+            TooltipHandler.TipRegion(rect.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogicTT".Translate());
+            if (originalValue != or)
+            {
+                RuleParameters =
+                    $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), hediffDefs.Select(pair => $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
+            }
+
+            return;
+        }
+
+        if (!hediffDefs.Any())
+        {
+            Widgets.Label(hediffRect, "MTP.NoneSelected".Translate());
+            return;
+        }
+
+        Widgets.Label(hediffRect, "MTP.SomeSelected".Translate(hediffDefs.Count));
+        TooltipHandler.TipRegion(hediffRect, hediffListLabel);
+
+        if (!or)
+        {
+            return;
+        }
+
+        Widgets.Label(rect.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate());
+        TooltipHandler.TipRegion(rect.BottomHalf().RightHalf().RightPart(0.8f),
+            "MTP.OrLogicTT".Translate());
     }
 
     public override MarkerRule GetCopy()
@@ -82,29 +106,41 @@ public class DynamicHediffMarkerRule : MarkerRule
             return;
         }
 
-        HediffDefs = new Dictionary<HediffDef, int>();
+        hediffDefs = new Dictionary<HediffDef, int>();
 
         if (RuleParameters == string.Empty && !Enabled)
         {
             return;
         }
 
-        foreach (var hediffKeyPair in RuleParameters.Split(','))
+        if (!RuleParameters.Contains(MarkThatPawn.RuleAlternateItemsSplitter))
         {
-            if (!hediffKeyPair.Contains("|") || hediffKeyPair.Split('|').Length != 2)
+            RuleParameters = RuleParameters.Replace(',', MarkThatPawn.RuleAlternateItemsSplitter);
+            RuleParameters = RuleParameters.Replace(MarkThatPawn.RuleItemsSplitter, MarkThatPawn.RuleInternalSplitter);
+        }
+
+        var ruleParametersSplitted = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter);
+        var hediffPart = ruleParametersSplitted[0];
+
+        foreach (var hediffKeyPair in hediffPart.Split(MarkThatPawn.RuleAlternateItemsSplitter))
+        {
+            var traitSplitted = hediffKeyPair.Split(MarkThatPawn.RuleInternalSplitter);
+
+            if (traitSplitted.Length != 2)
             {
                 ConfigError = true;
                 continue;
             }
 
-            var hediffDef = DefDatabase<HediffDef>.GetNamedSilentFail(hediffKeyPair.Split('|')[0]);
+            var hediffDef =
+                DefDatabase<HediffDef>.GetNamedSilentFail(traitSplitted[0]);
             if (hediffDef == null)
             {
                 ConfigError = true;
                 continue;
             }
 
-            if (!int.TryParse(hediffKeyPair.Split('|')[1], out var hediffStage))
+            if (!int.TryParse(traitSplitted[1], out var hediffStage))
             {
                 ConfigError = true;
                 continue;
@@ -116,13 +152,26 @@ public class DynamicHediffMarkerRule : MarkerRule
                 continue;
             }
 
-            HediffDefs[hediffDef] = hediffStage;
+            hediffDefs[hediffDef] = hediffStage;
         }
 
         if (ConfigError)
         {
-            ErrorMessage = $"Could not parse all HediffDefs from {RuleParameters}, disabling rule";
+            ErrorMessage = $"Could not parse all hediffDefs from {RuleParameters}, disabling rule";
         }
+
+        if (ruleParametersSplitted.Length == 1)
+        {
+            return;
+        }
+
+        if (bool.TryParse(ruleParametersSplitted[1], out or))
+        {
+            return;
+        }
+
+        ErrorMessage = $"Could not parse bool for {ruleParametersSplitted[1]}, disabling rule";
+        ConfigError = true;
     }
 
     public override bool AppliesToPawn(Pawn pawn)
@@ -144,15 +193,11 @@ public class DynamicHediffMarkerRule : MarkerRule
             return false;
         }
 
-        foreach (var hediffDef in HediffDefs)
-        {
-            if (!pawnHediffs.Any(hediff => hediff.def == hediffDef.Key && hediff.CurStageIndex >= hediffDef.Value))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return or
+            ? pawnHediffs.Any(hediff =>
+                hediffDefs.Any(pair => pair.Key == hediff.def && pair.Value <= hediff.CurStageIndex))
+            : hediffDefs.All(hediffDef =>
+                pawnHediffs.Any(hediff => hediff.def == hediffDef.Key && hediff.CurStageIndex >= hediffDef.Value));
     }
 
     private void showHediffSelectorMenu()
@@ -163,13 +208,13 @@ public class DynamicHediffMarkerRule : MarkerRule
         {
             var label = MarkThatPawn.GetDistinctHediffName(hediffDef, MarkThatPawn.AllDynamicHediffs);
 
-            if (HediffDefs.Any(pair => pair.Key == hediffDef))
+            if (hediffDefs.Any(pair => pair.Key == hediffDef))
             {
                 hediffMenu.Add(new FloatMenuOption(label, () =>
                 {
-                    HediffDefs.Remove(hediffDef);
-                    RuleParameters = string.Join(",",
-                        HediffDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
+                    hediffDefs.Remove(hediffDef);
+                    RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                        hediffDefs.Select(pair => $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                 }, MarkThatPawn.RemoveIcon, Color.white));
                 continue;
             }
@@ -178,9 +223,9 @@ public class DynamicHediffMarkerRule : MarkerRule
             {
                 hediffMenu.Add(new FloatMenuOption(label, () =>
                 {
-                    HediffDefs[hediffDef] = 0;
-                    RuleParameters = string.Join(",",
-                        HediffDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
+                    hediffDefs[hediffDef] = 0;
+                    RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                        hediffDefs.Select(pair => $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                 }));
                 continue;
             }
@@ -201,9 +246,10 @@ public class DynamicHediffMarkerRule : MarkerRule
                     subMenu.Add(new FloatMenuOption(subLabel,
                         () =>
                         {
-                            HediffDefs[hediffDef] = localIndex;
-                            RuleParameters = string.Join(",",
-                                HediffDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
+                            hediffDefs[hediffDef] = localIndex;
+                            RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                                hediffDefs.Select(pair =>
+                                    $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                         }));
                 }
 

@@ -54,6 +54,8 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 [*]Pawn has one or more permanent hediffs, like a bionic limb
 [*]Pawn has any bad permanent hediff, like a scar
 [*]Animal type
+[*]Faction icon
+[*]Ideology icon (Ideology)
 [*]Xenotype (Biotech)
 [*]Gene (Biotech)
 [/list]

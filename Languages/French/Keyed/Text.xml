@@ -141,4 +141,7 @@
   <MTP.PawnIsSelected>- Le pion est sélectionné</MTP.PawnIsSelected>
   <MTP.AutomaticType.FactionIcon>Afficher l'icône de la faction pour le pion</MTP.AutomaticType.FactionIcon>
   <MTP.AutomaticType.IdeologyIcon>Afficher l'icône d'idéologie pour le pion</MTP.AutomaticType.IdeologyIcon>
+  <MTP.OnlyWhenDraftedTT>Ne s'appliquera que lorsque les pions sont dragués</MTP.OnlyWhenDraftedTT>
+  <MTP.OrLogic>Or-logique</MTP.OrLogic>
+  <MTP.OrLogicTT>Appliquera la règle si l'un des éléments sélectionnés est correct, plutôt que si tous sont corrects.</MTP.OrLogicTT>
 </LanguageData>

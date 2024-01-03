@@ -16,7 +16,7 @@ public class AgeMarkerRule : MarkerRule
         RuleType = AutoRuleType.Age;
         lowLimit = 0;
         highLimit = 0;
-        RuleParameters = $"{lowLimit}|{highLimit}";
+        RuleParameters = $"{lowLimit}{MarkThatPawn.RuleItemsSplitter}{highLimit}";
         SetDefaultValues();
     }
 
@@ -25,7 +25,7 @@ public class AgeMarkerRule : MarkerRule
         RuleType = AutoRuleType.Age;
         lowLimit = 0;
         highLimit = 0;
-        RuleParameters = $"{lowLimit}|{highLimit}";
+        RuleParameters = $"{lowLimit}{MarkThatPawn.RuleItemsSplitter}{highLimit}";
         SetBlob(blob);
     }
 
@@ -73,7 +73,7 @@ public class AgeMarkerRule : MarkerRule
                 highBuffer = highLimit.ToString();
             }
 
-            RuleParameters = $"{lowLimit}|{highLimit}";
+            RuleParameters = $"{lowLimit}{MarkThatPawn.RuleItemsSplitter}{highLimit}";
             return;
         }
 
@@ -108,13 +108,13 @@ public class AgeMarkerRule : MarkerRule
             return;
         }
 
-        if (!RuleParameters.Contains("|"))
+        if (!RuleParameters.Contains(MarkThatPawn.RuleItemsSplitter.ToString()))
         {
             return;
         }
 
-        var lowPart = RuleParameters.Split('|')[0];
-        var highPart = RuleParameters.Split('|')[1];
+        var lowPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[0];
+        var highPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[1];
         if (int.TryParse(lowPart, out lowLimit) && int.TryParse(highPart, out highLimit))
         {
             return;

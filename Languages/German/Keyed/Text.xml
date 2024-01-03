@@ -141,4 +141,7 @@
   <MTP.PawnIsSelected>- Bauer ist ausgewählt</MTP.PawnIsSelected>
   <MTP.AutomaticType.FactionIcon>Fraktionssymbol für Spielfigur anzeigen</MTP.AutomaticType.FactionIcon>
   <MTP.AutomaticType.IdeologyIcon>Ideologie-Symbol für Pfand anzeigen</MTP.AutomaticType.IdeologyIcon>
+  <MTP.OnlyWhenDraftedTT>Gilt nur, wenn Bauern eingezogen werden</MTP.OnlyWhenDraftedTT>
+  <MTP.OrLogic>Or-logic</MTP.OrLogic>
+  <MTP.OrLogicTT>Wendet die Regel an, wenn eines der ausgewählten Elemente korrekt ist, anstatt wenn alle korrekt sind.</MTP.OrLogicTT>
 </LanguageData>

@@ -13,7 +13,7 @@ public class GenderMarkerRule : MarkerRule
         RuleType = AutoRuleType.Gender;
         male = true;
         animal = false;
-        RuleParameters = $"{male}|{animal}";
+        RuleParameters = $"{male}{MarkThatPawn.RuleItemsSplitter}{animal}";
         SetDefaultValues();
     }
 
@@ -22,7 +22,7 @@ public class GenderMarkerRule : MarkerRule
         RuleType = AutoRuleType.Gender;
         male = true;
         animal = false;
-        RuleParameters = $"{male}|{animal}";
+        RuleParameters = $"{male}{MarkThatPawn.RuleItemsSplitter}{animal}";
         SetBlob(blob);
     }
 
@@ -35,20 +35,20 @@ public class GenderMarkerRule : MarkerRule
             if (Widgets.RadioButtonLabeled(genderArea.LeftPart(0.45f), "MTP.Male".Translate(), male))
             {
                 male = true;
-                RuleParameters = $"{male}|{animal}";
+                RuleParameters = $"{male}{MarkThatPawn.RuleItemsSplitter}{animal}";
             }
 
             if (Widgets.RadioButtonLabeled(genderArea.RightPart(0.45f), "MTP.Female".Translate(), !male))
             {
                 male = false;
-                RuleParameters = $"{male}|{animal}";
+                RuleParameters = $"{male}{MarkThatPawn.RuleItemsSplitter}{animal}";
             }
 
             var animalWas = animal;
             Widgets.CheckboxLabeled(animalArea.LeftPart(0.45f), "MTP.Animal".Translate(), ref animal);
             if (animalWas != animal)
             {
-                RuleParameters = $"{male}|{animal}";
+                RuleParameters = $"{male}{MarkThatPawn.RuleItemsSplitter}{animal}";
             }
 
             return;
@@ -77,10 +77,10 @@ public class GenderMarkerRule : MarkerRule
 
         var genderPart = RuleParameters;
         var animalPart = $"{false}";
-        if (RuleParameters.Contains("|"))
+        if (RuleParameters.Contains(MarkThatPawn.RuleItemsSplitter.ToString()))
         {
-            genderPart = RuleParameters.Split('|')[0];
-            animalPart = RuleParameters.Split('|')[1];
+            genderPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[0];
+            animalPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[1];
         }
 
         if (bool.TryParse(genderPart, out male) && bool.TryParse(animalPart, out animal))

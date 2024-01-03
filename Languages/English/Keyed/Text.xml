@@ -58,7 +58,10 @@
   <MTP.Male>Male</MTP.Male>
   <MTP.Female>Female</MTP.Female>
   <MTP.Animal>Animals</MTP.Animal>
-  <MTP.OnlyWhenDrafted>Only when drafted</MTP.OnlyWhenDrafted>
+  <MTP.OnlyWhenDrafted>Drafted</MTP.OnlyWhenDrafted>
+  <MTP.OnlyWhenDraftedTT>Will only apply when pawns are drafted</MTP.OnlyWhenDraftedTT>
+  <MTP.OrLogic>Or-logic</MTP.OrLogic>
+  <MTP.OrLogicTT>Will apply the rule if any of the selected things are correct, instead of when all are correct.</MTP.OrLogicTT>
   <MTP.OnlyAnimal>Only animals</MTP.OnlyAnimal>
   <MTP.NotAnimal>Not animals</MTP.NotAnimal>
   <MTP.LowAgeLimit>Low age-limit: {0}</MTP.LowAgeLimit>
@@ -113,28 +116,28 @@
   <MTP.PawnType.Enemy>Enemy</MTP.PawnType.Enemy>
   <MTP.PawnType.Neutral>Neutral</MTP.PawnType.Neutral>
   <MTP.PawnType.Default>Any</MTP.PawnType.Default>
-  <MTP.AutomaticType.Weapon>Equipped weapon</MTP.AutomaticType.Weapon>
+  <MTP.AutomaticType.Weapon>Equipped weapons</MTP.AutomaticType.Weapon>
   <MTP.AutomaticType.Apparel>Equipped apparel</MTP.AutomaticType.Apparel>
   <MTP.AutomaticType.WeaponType>Equipped weapon-type</MTP.AutomaticType.WeaponType>
   <MTP.AutomaticType.ApparelType>Equipped apparel-type</MTP.AutomaticType.ApparelType>
   <MTP.AutomaticType.Trait>Has traits</MTP.AutomaticType.Trait>
   <MTP.AutomaticType.Skill>Skill at least</MTP.AutomaticType.Skill>
-  <MTP.AutomaticType.Relative>Has relation to colonist</MTP.AutomaticType.Relative>
-  <MTP.AutomaticType.PawnType>Pawn is of type</MTP.AutomaticType.PawnType>
-  <MTP.AutomaticType.Drafted>^ Pawn is drafted</MTP.AutomaticType.Drafted>
-  <MTP.AutomaticType.MentalState>^ Pawn is in mental state</MTP.AutomaticType.MentalState>
-  <MTP.AutomaticType.HediffDynamic>^ Pawn has temporary hediff</MTP.AutomaticType.HediffDynamic>
-  <MTP.AutomaticType.HediffStatic>Pawn has permanent hediff</MTP.AutomaticType.HediffStatic>
-  <MTP.AutomaticType.AnyHediffStatic>Pawn has any permanent bad hediff</MTP.AutomaticType.AnyHediffStatic>
-  <MTP.AutomaticType.Animal>Pawn is a specific animal</MTP.AutomaticType.Animal>
-  <MTP.AutomaticType.Gender>Pawn is of specified gender</MTP.AutomaticType.Gender>
-  <MTP.AutomaticType.Age>Pawn is in specified age-range</MTP.AutomaticType.Age>
-  <MTP.AutomaticType.Xenotype>Pawn is specific xenotype</MTP.AutomaticType.Xenotype>
-  <MTP.AutomaticType.Gene>Pawn has a specific gene</MTP.AutomaticType.Gene>
+  <MTP.AutomaticType.Relative>Related to colonist</MTP.AutomaticType.Relative>
+  <MTP.AutomaticType.PawnType>Pawntype</MTP.AutomaticType.PawnType>
+  <MTP.AutomaticType.Drafted>^ Drafted</MTP.AutomaticType.Drafted>
+  <MTP.AutomaticType.MentalState>^ Mental state</MTP.AutomaticType.MentalState>
+  <MTP.AutomaticType.HediffDynamic>^ Temporary hediff</MTP.AutomaticType.HediffDynamic>
+  <MTP.AutomaticType.HediffStatic>Permanent hediff</MTP.AutomaticType.HediffStatic>
+  <MTP.AutomaticType.AnyHediffStatic>Permanent bad hediff</MTP.AutomaticType.AnyHediffStatic>
+  <MTP.AutomaticType.Animal>Specific animal</MTP.AutomaticType.Animal>
+  <MTP.AutomaticType.Gender>Specified gender</MTP.AutomaticType.Gender>
+  <MTP.AutomaticType.Age>Specified age-range</MTP.AutomaticType.Age>
+  <MTP.AutomaticType.Xenotype>Specific xenotype</MTP.AutomaticType.Xenotype>
+  <MTP.AutomaticType.Gene>Specific genes</MTP.AutomaticType.Gene>
   <MTP.AutomaticType.GeneUndefinedCategory>Undefined</MTP.AutomaticType.GeneUndefinedCategory>
   <MTP.AutomaticType.HediffStage>stage {0}</MTP.AutomaticType.HediffStage>
-  <MTP.AutomaticType.FactionIcon>Show faction icon for pawn</MTP.AutomaticType.FactionIcon>
-  <MTP.AutomaticType.IdeologyIcon>Show ideology icon for pawn</MTP.AutomaticType.IdeologyIcon>
+  <MTP.AutomaticType.FactionIcon>Show faction icon</MTP.AutomaticType.FactionIcon>
+  <MTP.AutomaticType.IdeologyIcon>Show ideology icon</MTP.AutomaticType.IdeologyIcon>
   <MTP.PawnLimitation>Only applies to: {0}</MTP.PawnLimitation>
   <MTP.MentalState.Any>Any state</MTP.MentalState.Any>
   <MTP.MentalState.Passive>Passive state</MTP.MentalState.Passive>

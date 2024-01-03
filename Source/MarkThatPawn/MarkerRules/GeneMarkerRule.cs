@@ -7,7 +7,8 @@ namespace MarkThatPawn.MarkerRules;
 
 public class GeneMarkerRule : MarkerRule
 {
-    private GeneDef RuleGene;
+    private List<GeneDef> geneDefs = [];
+    private bool or;
 
     public GeneMarkerRule()
     {
@@ -23,32 +24,74 @@ public class GeneMarkerRule : MarkerRule
 
     protected override bool CanEnable()
     {
-        return base.CanEnable() && ModLister.BiotechInstalled && RuleGene != null;
+        return base.CanEnable() && ModLister.BiotechInstalled && geneDefs?.Any() == true;
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var geneArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
+        var geneArea = rect.LeftPart(0.75f);
         if (edit)
         {
-            if (Widgets.ButtonText(geneArea, RuleGene?.LabelCap ?? "MTP.NoneSelected".Translate()))
+            var buttonLabel = "MTP.NoneSelected".Translate();
+            if (geneDefs.Any())
+            {
+                buttonLabel = "MTP.SomeSelected".Translate(geneDefs.Count);
+            }
+
+            if (Widgets.ButtonText(geneArea.TopHalf(), buttonLabel))
             {
                 showGeneSelectorMenu();
+            }
+
+            TooltipHandler.TipRegion(geneArea.TopHalf(),
+                string.Join("\n", geneDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
+            if (geneDefs.Any())
+            {
+                var originalValue = or;
+                Widgets.CheckboxLabeled(geneArea.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate(),
+                    ref or);
+                TooltipHandler.TipRegion(geneArea.BottomHalf().RightHalf().RightPart(0.8f),
+                    "MTP.OrLogicTT".Translate());
+                if (originalValue != or)
+                {
+                    RuleParameters =
+                        $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), geneDefs.Select(geneDef => geneDef.defName))}{MarkThatPawn.RuleItemsSplitter}{or}";
+                }
             }
         }
         else
         {
-            Widgets.Label(geneArea, RuleGene?.LabelCap ?? "MTP.NoneSelected".Translate());
+            var weaponLabel = "MTP.NoneSelected".Translate();
+            if (geneDefs.Any())
+            {
+                weaponLabel = "MTP.SomeSelected".Translate(geneDefs.Count);
+            }
+
+            Widgets.Label(geneArea.TopHalf(), weaponLabel);
+            TooltipHandler.TipRegion(geneArea.TopHalf(),
+                string.Join("\n", geneDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
+
+            if (or)
+            {
+                Widgets.Label(geneArea.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate());
+                TooltipHandler.TipRegion(geneArea.BottomHalf().RightHalf().RightPart(0.8f),
+                    "MTP.OrLogicTT".Translate());
+            }
         }
 
-        if (RuleGene == null)
+        if (!geneDefs.Any())
         {
             return;
         }
 
         var geneImageRect = rect.RightPartPixels(rect.height).ContractedBy(1f);
-        TooltipHandler.TipRegion(geneImageRect, RuleGene.description);
-        GUI.DrawTexture(geneImageRect, RuleGene.Icon);
+        TooltipHandler.TipRegion(geneImageRect,
+            string.Join("\n", geneDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
+        GUI.DrawTexture(geneImageRect, geneDefs.First().Icon);
+        if (geneDefs.Count > 1)
+        {
+            GUI.DrawTexture(geneImageRect, MarkThatPawn.MultiIconOverlay.mainTexture);
+        }
     }
 
     public override MarkerRule GetCopy()
@@ -75,13 +118,41 @@ public class GeneMarkerRule : MarkerRule
             return;
         }
 
-        RuleGene = DefDatabase<GeneDef>.GetNamedSilentFail(RuleParameters);
-        if (RuleGene != null)
+        var ruleParametersSplitted = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter);
+
+        var genePart = ruleParametersSplitted[0];
+        geneDefs = [];
+
+        foreach (var geneDefName in genePart.Split(MarkThatPawn.RuleAlternateItemsSplitter))
+        {
+            var geneDef = DefDatabase<GeneDef>.GetNamedSilentFail(geneDefName);
+            if (geneDef == null)
+            {
+                ErrorMessage = $"Could not find gene with defname {geneDefName}";
+                continue;
+            }
+
+            geneDefs.Add(geneDef);
+        }
+
+        if (!geneDefs.Any())
+        {
+            ErrorMessage = $"Could not find Genes from {RuleParameters}, disabling rule";
+            ConfigError = true;
+            return;
+        }
+
+        if (ruleParametersSplitted.Length == 1)
         {
             return;
         }
 
-        ErrorMessage = $"Could not find Gene with defname {RuleParameters}, disabling rule";
+        if (bool.TryParse(ruleParametersSplitted[1], out or))
+        {
+            return;
+        }
+
+        ErrorMessage = $"Could not parse bool for {ruleParametersSplitted[1]}, disabling rule";
         ConfigError = true;
     }
 
@@ -97,7 +168,18 @@ public class GeneMarkerRule : MarkerRule
             return false;
         }
 
-        return pawn.genes?.GenesListForReading?.Any(gene => gene.def == RuleGene) == true;
+        if (pawn.genes == null)
+        {
+            return false;
+        }
+
+        if (or)
+        {
+            return pawn.genes.GenesListForReading.Any(gene => geneDefs.Contains(gene.def));
+        }
+
+        var allGenes = pawn.genes.GenesListForReading.Select(gene => gene.def);
+        return geneDefs.All(def => allGenes.Contains(def));
     }
 
 
@@ -113,10 +195,22 @@ public class GeneMarkerRule : MarkerRule
                 foreach (var gene in MarkThatPawn.AllValidGenes.Where(def => def.displayCategory == geneCategory)
                              .OrderBy(def => def.label))
                 {
+                    if (geneDefs.Contains(gene))
+                    {
+                        geneCategoryList.Add(new FloatMenuOption(gene.LabelCap, () =>
+                        {
+                            geneDefs.Remove(gene);
+                            RuleParameters =
+                                $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), geneDefs.Select(geneDef => geneDef.defName))}{MarkThatPawn.RuleItemsSplitter}{or}";
+                        }, MarkThatPawn.RemoveIcon, Color.white));
+                        continue;
+                    }
+
                     geneCategoryList.Add(new FloatMenuOption(gene.LabelCap, () =>
                     {
-                        RuleParameters = gene.defName;
-                        RuleGene = gene;
+                        geneDefs.Add(gene);
+                        RuleParameters =
+                            $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), geneDefs.Select(geneDef => geneDef.defName))}{MarkThatPawn.RuleItemsSplitter}{or}";
                     }, gene.Icon, gene.IconColor));
                 }
 
@@ -132,10 +226,22 @@ public class GeneMarkerRule : MarkerRule
                 var geneCategoryList = new List<FloatMenuOption>();
                 foreach (var gene in allUndefinedGenes.OrderBy(def => def.label))
                 {
+                    if (geneDefs.Contains(gene))
+                    {
+                        geneCategoryList.Add(new FloatMenuOption(gene.LabelCap, () =>
+                        {
+                            geneDefs.Remove(gene);
+                            RuleParameters =
+                                $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), geneDefs.Select(geneDef => geneDef.defName))}{MarkThatPawn.RuleItemsSplitter}{or}";
+                        }, MarkThatPawn.RemoveIcon, Color.white));
+                        continue;
+                    }
+
                     geneCategoryList.Add(new FloatMenuOption(gene.LabelCap, () =>
                     {
-                        RuleParameters = gene.defName;
-                        RuleGene = gene;
+                        geneDefs.Add(gene);
+                        RuleParameters =
+                            $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), geneDefs.Select(geneDef => geneDef.defName))}{MarkThatPawn.RuleItemsSplitter}{or}";
                     }, gene.Icon, gene.IconColor));
                 }
 

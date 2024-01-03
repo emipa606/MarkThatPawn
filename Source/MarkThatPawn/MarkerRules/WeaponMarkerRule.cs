@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -7,7 +8,8 @@ namespace MarkThatPawn.MarkerRules;
 public class WeaponMarkerRule : MarkerRule
 {
     private bool onlyWhenDrafted;
-    private ThingDef weaponThingDef;
+    private bool or;
+    private List<ThingDef> weaponThingDefs = [];
 
     public WeaponMarkerRule()
     {
@@ -23,7 +25,7 @@ public class WeaponMarkerRule : MarkerRule
 
     protected override bool CanEnable()
     {
-        return base.CanEnable() && weaponThingDef != null;
+        return base.CanEnable() && weaponThingDefs?.Any() == true;
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
@@ -31,39 +33,82 @@ public class WeaponMarkerRule : MarkerRule
         var weaponArea = rect.LeftPart(0.75f);
         if (edit)
         {
-            if (Widgets.ButtonText(weaponArea.TopHalf(), weaponThingDef?.LabelCap ?? "MTP.NoneSelected".Translate()))
+            var buttonLabel = "MTP.NoneSelected".Translate();
+            if (weaponThingDefs.Any())
+            {
+                buttonLabel = "MTP.SomeSelected".Translate(weaponThingDefs.Count);
+            }
+
+            if (Widgets.ButtonText(weaponArea.TopHalf(), buttonLabel))
             {
                 showWeaponSelectorMenu();
             }
 
-            if (weaponThingDef != null)
+            TooltipHandler.TipRegion(weaponArea.TopHalf(),
+                string.Join("\n", weaponThingDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
+
+            if (weaponThingDefs.Any())
             {
                 var originalValue = onlyWhenDrafted;
-                Widgets.CheckboxLabeled(weaponArea.BottomHalf(), "MTP.OnlyWhenDrafted".Translate(),
+                Widgets.CheckboxLabeled(weaponArea.BottomHalf().LeftHalf(), "MTP.OnlyWhenDrafted".Translate(),
                     ref onlyWhenDrafted);
+                TooltipHandler.TipRegion(weaponArea.BottomHalf().LeftHalf(), "MTP.OnlyWhenDraftedTT".Translate());
                 if (originalValue != onlyWhenDrafted)
                 {
-                    RuleParameters = $"{weaponThingDef.defName}|{onlyWhenDrafted}";
+                    RuleParameters =
+                        $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), weaponThingDefs.Select(thingDef => thingDef.defName).ToArray())}{MarkThatPawn.RuleItemsSplitter}{onlyWhenDrafted}{MarkThatPawn.RuleItemsSplitter}{or}";
+                }
+
+                originalValue = or;
+                Widgets.CheckboxLabeled(weaponArea.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate(),
+                    ref or);
+                TooltipHandler.TipRegion(weaponArea.BottomHalf().RightHalf().RightPart(0.8f),
+                    "MTP.OrLogicTT".Translate());
+                if (originalValue != or)
+                {
+                    RuleParameters =
+                        $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), weaponThingDefs.Select(thingDef => thingDef.defName).ToArray())}{MarkThatPawn.RuleItemsSplitter}{onlyWhenDrafted}{MarkThatPawn.RuleItemsSplitter}{or}";
                 }
             }
         }
         else
         {
-            Widgets.Label(weaponArea.TopHalf(), weaponThingDef?.LabelCap ?? "MTP.NoneSelected".Translate());
+            var weaponLabel = "MTP.NoneSelected".Translate();
+            if (weaponThingDefs.Any())
+            {
+                weaponLabel = "MTP.SomeSelected".Translate(weaponThingDefs.Count);
+            }
+
+            Widgets.Label(weaponArea.TopHalf(), weaponLabel);
+            TooltipHandler.TipRegion(weaponArea.TopHalf(),
+                string.Join("\n", weaponThingDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
             if (onlyWhenDrafted)
             {
-                Widgets.Label(weaponArea.BottomHalf(), "MTP.OnlyWhenDrafted".Translate());
+                Widgets.Label(weaponArea.BottomHalf().LeftHalf(), "MTP.OnlyWhenDrafted".Translate());
+                TooltipHandler.TipRegion(weaponArea.BottomHalf().LeftHalf(), "MTP.OnlyWhenDraftedTT".Translate());
+            }
+
+            if (or)
+            {
+                Widgets.Label(weaponArea.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate());
+                TooltipHandler.TipRegion(weaponArea.BottomHalf().RightHalf().RightPart(0.8f),
+                    "MTP.OrLogicTT".Translate());
             }
         }
 
-        if (weaponThingDef == null)
+        if (!weaponThingDefs.Any())
         {
             return;
         }
 
         var weaponImageRect = rect.RightPartPixels(rect.height).ContractedBy(1f);
-        TooltipHandler.TipRegion(weaponImageRect, weaponThingDef.description);
-        GUI.DrawTexture(weaponImageRect, Widgets.GetIconFor(weaponThingDef));
+        TooltipHandler.TipRegion(weaponImageRect,
+            string.Join("\n", weaponThingDefs.Select(thingDef => thingDef.LabelCap).ToArray()));
+        GUI.DrawTexture(weaponImageRect, Widgets.GetIconFor(weaponThingDefs.First()));
+        if (weaponThingDefs.Count > 1)
+        {
+            GUI.DrawTexture(weaponImageRect, MarkThatPawn.MultiIconOverlay.mainTexture);
+        }
     }
 
     public override MarkerRule GetCopy()
@@ -83,27 +128,51 @@ public class WeaponMarkerRule : MarkerRule
             return;
         }
 
-        var weaponPart = RuleParameters.Split('|')[0];
+        var ruleParametersSplitted = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter);
+        var weaponPart = ruleParametersSplitted[0];
+        weaponThingDefs = [];
 
-        weaponThingDef = DefDatabase<ThingDef>.GetNamedSilentFail(weaponPart);
-        if (weaponThingDef == null)
+        foreach (var weaponDefname in weaponPart.Split(MarkThatPawn.RuleAlternateItemsSplitter))
         {
-            ErrorMessage = $"Could not find weapon with defname {weaponPart}, disabling rule";
+            var weaponDef = DefDatabase<ThingDef>.GetNamedSilentFail(weaponDefname);
+            if (weaponDef == null)
+            {
+                ErrorMessage = $"Could not find weapon with defname {weaponDefname}";
+                continue;
+            }
+
+            weaponThingDefs.Add(weaponDef);
+        }
+
+        if (!weaponThingDefs.Any())
+        {
+            ErrorMessage = $"Could not find weapons based on {weaponPart}, disabling rule";
             ConfigError = true;
             return;
         }
 
-        if (!RuleParameters.Contains("|"))
+        if (ruleParametersSplitted.Length == 1)
         {
             return;
         }
 
-        if (bool.TryParse(RuleParameters.Split('|')[1], out onlyWhenDrafted))
+        if (!bool.TryParse(ruleParametersSplitted[1], out onlyWhenDrafted))
+        {
+            ErrorMessage = $"Could not parse bool for {ruleParametersSplitted[1]}, disabling rule";
+            ConfigError = true;
+        }
+
+        if (ruleParametersSplitted.Length != 3)
         {
             return;
         }
 
-        ErrorMessage = $"Could not parse bool in {RuleParameters}, disabling rule";
+        if (bool.TryParse(ruleParametersSplitted[2], out or))
+        {
+            return;
+        }
+
+        ErrorMessage = $"Could not parse bool for {ruleParametersSplitted[2]}, disabling rule";
         ConfigError = true;
     }
 
@@ -129,7 +198,13 @@ public class WeaponMarkerRule : MarkerRule
             return false;
         }
 
-        return pawn.equipment.AllEquipmentListForReading.Any(thing => thing.def == weaponThingDef);
+        if (or)
+        {
+            return pawn.equipment.AllEquipmentListForReading.Any(weapon => weaponThingDefs.Contains(weapon.def));
+        }
+
+        var allEquippedDefs = pawn.equipment.AllEquipmentListForReading.Select(weapon => weapon.def);
+        return weaponThingDefs.All(def => allEquippedDefs.Contains(def));
     }
 
 
@@ -139,11 +214,23 @@ public class WeaponMarkerRule : MarkerRule
 
         foreach (var weapon in MarkThatPawn.AllValidWeapons)
         {
+            if (weaponThingDefs.Contains(weapon))
+            {
+                weaponList.Add(new FloatMenuOption(weapon.LabelCap, () =>
+                {
+                    weaponThingDefs.Remove(weapon);
+                    RuleParameters =
+                        $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), weaponThingDefs.Select(thingDef => thingDef.defName))}{MarkThatPawn.RuleItemsSplitter}{onlyWhenDrafted}{MarkThatPawn.RuleItemsSplitter}{or}";
+                }, MarkThatPawn.RemoveIcon, Color.white));
+                continue;
+            }
+
             weaponList.Add(new FloatMenuOption(weapon.LabelCap, () =>
             {
-                RuleParameters = $"{weapon.defName}|{onlyWhenDrafted}";
-                weaponThingDef = weapon;
-            }, weapon));
+                weaponThingDefs.Add(weapon);
+                RuleParameters =
+                    $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(), weaponThingDefs.Select(thingDef => thingDef.defName))}{MarkThatPawn.RuleItemsSplitter}{onlyWhenDrafted}{MarkThatPawn.RuleItemsSplitter}{or}";
+            }));
         }
 
         Find.WindowStack.Add(new FloatMenu(weaponList));

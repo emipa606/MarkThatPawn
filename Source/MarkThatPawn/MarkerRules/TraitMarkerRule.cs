@@ -8,6 +8,7 @@ namespace MarkThatPawn.MarkerRules;
 
 public class TraitMarkerRule : MarkerRule
 {
+    private bool or;
     private Dictionary<TraitDef, int> traitDefs;
 
     public TraitMarkerRule()
@@ -31,27 +32,50 @@ public class TraitMarkerRule : MarkerRule
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var traitListRect = rect;
-
+        var traitRect = rect.TopHalf();
         if (edit)
         {
-            traitListRect = rect.RightPart(0.75f);
-            var buttonRect = rect.LeftPart(0.23f);
-            if (Widgets.ButtonText(buttonRect,
+            if (Widgets.ButtonText(traitRect,
                     !traitDefs.Any() ? "MTP.NoneSelected".Translate() : "MTP.SomeSelected".Translate(traitDefs.Count)))
             {
                 showTraitSelectorMenu();
             }
+
+            TooltipHandler.TipRegion(traitRect,
+                string.Join(", ", traitDefs.Select(pair => pair.Key.DataAtDegree(pair.Value).LabelCap)));
+
+            var originalValue = or;
+            Widgets.CheckboxLabeled(rect.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate(),
+                ref or);
+            TooltipHandler.TipRegion(rect.BottomHalf().RightHalf().RightPart(0.8f),
+                "MTP.OrLogicTT".Translate());
+            if (originalValue != or)
+            {
+                RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                    traitDefs.Select(pair => $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
+            }
+
+            return;
         }
 
         if (!traitDefs.Any())
         {
-            Widgets.Label(traitListRect, "MTP.NoneSelected".Translate());
+            Widgets.Label(rect, "MTP.NoneSelected".Translate());
             return;
         }
 
-        Widgets.Label(traitListRect,
+        Widgets.Label(traitRect, "MTP.SomeSelected".Translate(traitDefs.Count));
+        TooltipHandler.TipRegion(traitRect,
             string.Join(", ", traitDefs.Select(pair => pair.Key.DataAtDegree(pair.Value).LabelCap)));
+
+        if (!or)
+        {
+            return;
+        }
+
+        Widgets.Label(rect.BottomHalf().RightHalf().RightPart(0.8f), "MTP.OrLogic".Translate());
+        TooltipHandler.TipRegion(rect.BottomHalf().RightHalf().RightPart(0.8f),
+            "MTP.OrLogicTT".Translate());
     }
 
     public override MarkerRule GetCopy()
@@ -73,22 +97,34 @@ public class TraitMarkerRule : MarkerRule
             return;
         }
 
-        foreach (var traitKeyPair in RuleParameters.Split(','))
+        if (!RuleParameters.Contains(MarkThatPawn.RuleAlternateItemsSplitter))
         {
-            if (!traitKeyPair.Contains("|") || traitKeyPair.Split('|').Length != 2)
+            RuleParameters = RuleParameters.Replace(',', MarkThatPawn.RuleAlternateItemsSplitter);
+            RuleParameters = RuleParameters.Replace(MarkThatPawn.RuleItemsSplitter, MarkThatPawn.RuleInternalSplitter);
+        }
+
+        var ruleParametersSplitted = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter);
+        var traitPart = ruleParametersSplitted[0];
+
+        foreach (var traitKeyPair in traitPart.Split(MarkThatPawn.RuleAlternateItemsSplitter))
+        {
+            var traitSplitted = traitKeyPair.Split(MarkThatPawn.RuleInternalSplitter);
+
+            if (traitSplitted.Length != 2)
             {
                 ConfigError = true;
                 continue;
             }
 
-            var traitDef = DefDatabase<TraitDef>.GetNamedSilentFail(traitKeyPair.Split('|')[0]);
+            var traitDef =
+                DefDatabase<TraitDef>.GetNamedSilentFail(traitSplitted[0]);
             if (traitDef == null)
             {
                 ConfigError = true;
                 continue;
             }
 
-            if (!int.TryParse(traitKeyPair.Split('|')[1], out var traitDegree))
+            if (!int.TryParse(traitSplitted[1], out var traitDegree))
             {
                 ConfigError = true;
                 continue;
@@ -107,6 +143,19 @@ public class TraitMarkerRule : MarkerRule
         {
             ErrorMessage = $"Could not parse all traitDefs from {RuleParameters}, disabling rule";
         }
+
+        if (ruleParametersSplitted.Length == 1)
+        {
+            return;
+        }
+
+        if (bool.TryParse(ruleParametersSplitted[1], out or))
+        {
+            return;
+        }
+
+        ErrorMessage = $"Could not parse bool for {ruleParametersSplitted[1]}, disabling rule";
+        ConfigError = true;
     }
 
     public override bool AppliesToPawn(Pawn pawn)
@@ -128,15 +177,10 @@ public class TraitMarkerRule : MarkerRule
             return false;
         }
 
-        foreach (var traitDef in traitDefs)
-        {
-            if (!pawnTraits.Any(trait => trait.def == traitDef.Key && trait.Degree == traitDef.Value))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return or
+            ? pawnTraits.Any(trait => traitDefs.Any(pair => pair.Key == trait.def && pair.Value == trait.Degree))
+            : traitDefs.All(traitDef =>
+                pawnTraits.Any(trait => trait.def == traitDef.Key && trait.Degree == traitDef.Value));
     }
 
     private void showTraitSelectorMenu()
@@ -152,7 +196,9 @@ public class TraitMarkerRule : MarkerRule
                     traitMenu.Add(new FloatMenuOption(traitDefDegree.LabelCap, () =>
                     {
                         traitDefs.Remove(traitDef);
-                        RuleParameters = string.Join(",", traitDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
+                        RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                            traitDefs.Select(pair =>
+                                $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                     }, MarkThatPawn.RemoveIcon, Color.white));
                     continue;
                 }
@@ -160,7 +206,8 @@ public class TraitMarkerRule : MarkerRule
                 traitMenu.Add(new FloatMenuOption(traitDefDegree.LabelCap, () =>
                 {
                     traitDefs[traitDef] = traitDefDegree.degree;
-                    RuleParameters = string.Join(",", traitDefs.Select(pair => $"{pair.Key.defName}|{pair.Value}"));
+                    RuleParameters = $"{string.Join(MarkThatPawn.RuleAlternateItemsSplitter.ToString(),
+                        traitDefs.Select(pair => $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                 }));
             }
         }
