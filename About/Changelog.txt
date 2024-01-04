@@ -1,5 +1,9 @@
 # Changelog for MarkThatPawn
 
+1.4.31 - Fixed issue with the new string-handling causing some rules to only apply if two or more options were selected
+Fixed a loading issue connected to CE patches removing default projectiles
+
+
 1.4.30 - Fixed issue with the new string-handling causing some rules to only apply if two or more options were selected
 Fixed a loading issue connected to CE patches removing default projectiles
 

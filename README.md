@@ -26,9 +26,9 @@ Mod-options:
 You can define rules to make spawning pawns get marked automatically. The rules are defined based on:
 
 
-- Weapon equipped
+- Weapons equipped
 - Weapon type equipped
-- Apparel equipped
+- Apparels equipped
 - Apparel type equipped
 - Pawn skill levels
 - Pawn traits
@@ -42,7 +42,7 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 - Faction icon
 - Ideology icon (Ideology)
 - Xenotype (Biotech)
-- Gene (Biotech)
+- Genes (Biotech)
 
 
 
