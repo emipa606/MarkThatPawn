@@ -97,7 +97,7 @@ public class TraitMarkerRule : MarkerRule
             return;
         }
 
-        if (!RuleParameters.Contains(MarkThatPawn.RuleAlternateItemsSplitter))
+        if (!RuleParameters.Contains(MarkThatPawn.RuleAlternateItemsSplitter) && RuleParameters.Contains(','))
         {
             RuleParameters = RuleParameters.Replace(',', MarkThatPawn.RuleAlternateItemsSplitter);
             RuleParameters = RuleParameters.Replace(MarkThatPawn.RuleItemsSplitter, MarkThatPawn.RuleInternalSplitter);

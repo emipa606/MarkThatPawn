@@ -102,7 +102,7 @@ public class StaticHediffMarkerRule : MarkerRule
             return;
         }
 
-        if (!RuleParameters.Contains(MarkThatPawn.RuleAlternateItemsSplitter))
+        if (!RuleParameters.Contains(MarkThatPawn.RuleAlternateItemsSplitter) && RuleParameters.Contains(','))
         {
             RuleParameters = RuleParameters.Replace(',', MarkThatPawn.RuleAlternateItemsSplitter);
         }

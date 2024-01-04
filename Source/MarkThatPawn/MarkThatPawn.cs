@@ -124,16 +124,19 @@ public static class MarkThatPawn
             SizeMesh.Add(MeshMakerPlanes.NewPlaneMesh(i / 10f));
         }
 
+        //Log.Message("[MarkThatPawn]: Caching all valid weapons");
         AllValidWeapons = DefDatabase<ThingDef>.AllDefsListForReading
             .Where(def => !string.IsNullOrEmpty(def.label) && def.IsWeapon)
             .OrderBy(def => def.label).ToList();
 
+        //Log.Message("[MarkThatPawn]: Caching all valid explosive weapons");
         AllExplosiveRangedWeapons = AllValidWeapons
-            .Where(def => def.IsRangedWeapon && def.Verbs.Any(properties =>
+            .Where(def => def.IsRangedWeapon && def.Verbs != null && def.Verbs.Any(properties =>
                 properties.CausesExplosion && properties.defaultProjectile?.projectile.arcHeightFactor == 0)).ToList();
 
+        //Log.Message("[MarkThatPawn]: Caching all valid thrown weapons");
         AllThrownWeapons = AllValidWeapons.Where(def =>
-            def.Verbs.Any(properties => properties.defaultProjectile?.projectile.arcHeightFactor > 0)).ToList();
+            def.Verbs.Any(properties => properties.defaultProjectile?.projectile?.arcHeightFactor > 0)).ToList();
 
         Log.Message(
             $"[MarkThatPawn]: Found {AllValidWeapons.Count} loaded weapons, {AllExplosiveRangedWeapons.Count} explosive weapons and {AllThrownWeapons.Count} thrown projectiles");
