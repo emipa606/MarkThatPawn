@@ -14,6 +14,7 @@ public class MentalStateMarkerRule : MarkerRule
         RuleType = AutoRuleType.MentalState;
         mentalStateType = MentalStateType.Any;
         SetDefaultValues();
+        RuleParameters = mentalStateType.ToString();
         IsOverride = true;
     }
 
