@@ -63,7 +63,7 @@ public class WeaponTypeMarkerRule : MarkerRule
         return new WeaponTypeMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

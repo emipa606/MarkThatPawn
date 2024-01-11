@@ -83,7 +83,7 @@ public class TraitMarkerRule : MarkerRule
         return new TraitMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

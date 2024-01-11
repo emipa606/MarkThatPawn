@@ -99,7 +99,7 @@ public class GeneMarkerRule : MarkerRule
         return new GeneMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (!ModLister.BiotechInstalled)
         {

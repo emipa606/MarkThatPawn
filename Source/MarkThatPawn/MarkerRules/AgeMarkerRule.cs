@@ -96,7 +96,7 @@ public class AgeMarkerRule : MarkerRule
         return new AgeMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

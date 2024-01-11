@@ -23,7 +23,7 @@ public class IdeologyIconMarkerRule : MarkerRule
         return base.CanEnable() && ModLister.IdeologyInstalled;
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (ModLister.IdeologyInstalled)
         {

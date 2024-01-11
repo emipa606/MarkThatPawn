@@ -6,7 +6,7 @@ using Verse;
 namespace MarkThatPawn;
 
 [StaticConstructorOnStartup]
-internal class MarkThatPawnMod : Mod
+public class MarkThatPawnMod : Mod
 {
     private const float selectorHeight = 50f;
 
@@ -39,7 +39,7 @@ internal class MarkThatPawnMod : Mod
     /// <summary>
     ///     The instance-settings for the mod
     /// </summary>
-    internal MarkThatPawnSettings Settings { get; }
+    public MarkThatPawnSettings Settings { get; }
 
     public override void WriteSettings()
     {

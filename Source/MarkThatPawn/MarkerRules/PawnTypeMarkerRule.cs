@@ -52,7 +52,7 @@ public class PawnTypeMarkerRule : MarkerRule
         return new PawnTypeMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

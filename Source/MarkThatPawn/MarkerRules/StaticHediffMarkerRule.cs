@@ -88,7 +88,7 @@ public class StaticHediffMarkerRule : MarkerRule
         return new StaticHediffMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

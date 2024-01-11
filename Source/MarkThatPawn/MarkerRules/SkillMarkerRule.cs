@@ -109,7 +109,7 @@ public class SkillMarkerRule : MarkerRule
         return new SkillMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

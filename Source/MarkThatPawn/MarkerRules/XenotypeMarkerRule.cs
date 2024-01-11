@@ -56,7 +56,7 @@ public class XenotypeMarkerRule : MarkerRule
         return new XenotypeMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (!ModLister.BiotechInstalled)
         {

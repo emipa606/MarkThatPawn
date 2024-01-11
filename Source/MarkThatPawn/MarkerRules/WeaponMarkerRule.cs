@@ -116,7 +116,7 @@ public class WeaponMarkerRule : MarkerRule
         return new WeaponMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

@@ -47,7 +47,7 @@ public class MentalStateMarkerRule : MarkerRule
         return new MentalStateMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

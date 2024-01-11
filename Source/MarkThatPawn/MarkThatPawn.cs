@@ -64,6 +64,8 @@ public static class MarkThatPawn
     public static readonly Dictionary<Faction, Material> FactionMaterialCache;
     public static readonly Dictionary<Ideo, Material> IdeoMaterialCache;
     public static readonly bool VehiclesLoaded;
+    public static readonly bool TDFindLibLoaded;
+    public static readonly Type TDFindLibRuleType;
     private static CameraZoomRange lastCameraZoomRange = CameraZoomRange.Far;
     private static readonly int standardSize;
     private static readonly Texture2D autoIcon;
@@ -180,6 +182,18 @@ public static class MarkThatPawn
             $"{AllPsycastApparel.Count} psycast apparel, {AllEnviromentalProtectionApparel.Count} enviromental protection apparel, " +
             $"{AllMechanatorApparel.Count} mechanator apparel and {AllBasicApparel.Count} basic apparel ");
 
+        TDFindLibLoaded = ModLister.GetActiveModWithIdentifier("Uuugggg.TDFindLib") != null;
+        if (TDFindLibLoaded)
+        {
+            TDFindLibRuleType = AccessTools.TypeByName("TDFindLibRule");
+            if (TDFindLibRuleType == null)
+            {
+                Log.Message(
+                    "[MarkThatPawn]: Failed to fetch the TDFindLibRule type, will not add TD FInd Lib support.");
+                TDFindLibLoaded = false;
+            }
+        }
+
         foreach (var ruleBlob in MarkThatPawnMod.instance.Settings.AutoRuleBlobs)
         {
             MarkerRule rule;
@@ -250,6 +264,9 @@ public static class MarkThatPawn
                     break;
                 case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
                     rule = new IdeologyIconMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.TDFindLib when TDFindLibLoaded:
+                    rule = (MarkerRule)Activator.CreateInstance(TDFindLibRuleType, ruleBlob);
                     break;
                 default:
                     continue;

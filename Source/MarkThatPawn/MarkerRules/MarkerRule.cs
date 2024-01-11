@@ -31,7 +31,8 @@ public abstract class MarkerRule
         Gene,
         Xenotype,
         FactionIcon,
-        IdeologyIcon
+        IdeologyIcon,
+        TDFindLib
     }
 
     public List<PawnType> ApplicablePawnTypes;
@@ -43,6 +44,7 @@ public abstract class MarkerRule
     public MarkerDef MarkerDef;
     public int MarkerIndex;
     public PawnType PawnLimitation;
+    public bool RequiresAnActiveGame;
     public int RuleOrder;
     protected string RuleParameters;
     protected AutoRuleType RuleType;
@@ -101,6 +103,11 @@ public abstract class MarkerRule
     }
 
     public abstract MarkerRule GetCopy();
+
+    public virtual MarkerRule GetEditableVersion()
+    {
+        return GetCopy();
+    }
 
     public void SaveFromCopy(MarkerRule copy)
     {
@@ -182,7 +189,11 @@ public abstract class MarkerRule
         PopulateRuleParameterObjects();
     }
 
-    protected virtual void PopulateRuleParameterObjects()
+    public virtual void PopulateRuleParameterObjects()
+    {
+    }
+
+    public virtual void OnDelete()
     {
     }
 

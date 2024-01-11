@@ -51,7 +51,7 @@ public class Dialog_AutoMarkingRules : Window
             {
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
                     "MTP.ResetAllConfirm".Translate(),
-                    MarkThatPawnMod.instance.Settings.AutoRules.Clear));
+                    MarkThatPawnMod.instance.Settings.ClearRules));
             }
         }
 
@@ -142,30 +142,36 @@ public class Dialog_AutoMarkingRules : Window
                     if (Widgets.ButtonImageWithBG(fullButtonArea, TexButton.Info,
                             fullButtonArea.size * MarkThatPawn.ButtonIconSizeFactor))
                     {
-                        var editFloatMenu = new List<FloatMenuOption>
+                        var editFloatMenu = new List<FloatMenuOption>();
+                        if (!autoRule.RequiresAnActiveGame || Current.ProgramState == ProgramState.Playing)
                         {
-                            new FloatMenuOption("MTP.EditAutomaticType".Translate(),
+                            editFloatMenu.Add(new FloatMenuOption("MTP.EditAutomaticType".Translate(),
                                 () =>
                                 {
-                                    ruleWorkingCopy = autoRule.GetCopy();
+                                    ruleWorkingCopy = autoRule.GetEditableVersion();
                                     originalRule = autoRule;
-                                }, TexButton.OpenStatsReport, Color.white),
-                            new FloatMenuOption("MTP.DuplicateRule".Translate(),
+                                }, TexButton.OpenStatsReport, Color.white));
+                            editFloatMenu.Add(new FloatMenuOption("MTP.DuplicateRule".Translate(),
                                 () =>
                                 {
                                     var ruleCopy = autoRule.GetCopy();
                                     ruleCopy.RuleOrder = MarkThatPawnMod.instance.Settings.AutoRules
                                         .OrderByDescending(rule => rule.RuleOrder).First().RuleOrder + 1;
                                     MarkThatPawnMod.instance.Settings.AutoRules.Add(ruleCopy);
-                                }, copyIcon, Color.white),
-                            new FloatMenuOption("MTP.DeleteAutomaticType".Translate(),
-                                () =>
-                                {
-                                    Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                                        "MTP.DeleteAutomaticTypeConfirm".Translate(),
-                                        delegate { MarkThatPawnMod.instance.Settings.AutoRules.Remove(autoRule); }));
-                                }, TexButton.DeleteX, Color.white)
-                        };
+                                }, copyIcon, Color.white));
+                        }
+
+                        editFloatMenu.Add(new FloatMenuOption("MTP.DeleteAutomaticType".Translate(),
+                            () =>
+                            {
+                                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                                    "MTP.DeleteAutomaticTypeConfirm".Translate(),
+                                    delegate
+                                    {
+                                        autoRule.OnDelete();
+                                        MarkThatPawnMod.instance.Settings.AutoRules.Remove(autoRule);
+                                    }));
+                            }, TexButton.DeleteX, Color.white));
 
                         Find.WindowStack.Add(new FloatMenu(editFloatMenu));
                     }
@@ -228,7 +234,8 @@ public class Dialog_AutoMarkingRules : Window
             }
 
             infoRect = workingRect.LeftPart(0.45f).TopHalf().ContractedBy(1f);
-            if (ruleWorkingCopy.ApplicablePawnTypes.Count > 1)
+            if (!ruleWorkingCopy.GetType().Name.EndsWith("TDFindLibRule") &&
+                ruleWorkingCopy.ApplicablePawnTypes.Count > 1)
             {
                 var limitationRect = workingRect.LeftPart(0.45f).BottomHalf().ContractedBy(1f);
                 Widgets.Label(limitationRect.LeftHalf(), "MTP.PawnLimitation".Translate());
@@ -408,6 +415,17 @@ public class Dialog_AutoMarkingRules : Window
                 case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new IdeologyIconMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.TDFindLib
+                    when MarkThatPawn.TDFindLibLoaded && Current.ProgramState == ProgramState.Playing:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(
+                            (MarkerRule)Activator.CreateInstance(MarkThatPawn.TDFindLibRuleType))));
+                    break;
+                case MarkerRule.AutoRuleType.TDFindLib when MarkThatPawn.TDFindLibLoaded:
+                    ruleTypeList.Add(new FloatMenuOption(
+                        $"MTP.AutomaticType.{ruleType}".Translate() + "\n" + "MTP.RequiresAnActiveGame".Translate(),
+                        () => { }));
                     break;
                 default:
                     continue;

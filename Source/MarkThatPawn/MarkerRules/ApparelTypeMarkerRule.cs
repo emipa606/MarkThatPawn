@@ -65,7 +65,7 @@ public class ApparelTypeMarkerRule : MarkerRule
         return new ApparelTypeMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

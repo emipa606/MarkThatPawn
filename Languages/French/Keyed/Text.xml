@@ -144,4 +144,8 @@
   <MTP.OnlyWhenDraftedTT>Ne s'appliquera que lorsque les pions sont dragués</MTP.OnlyWhenDraftedTT>
   <MTP.OrLogic>Or-logique</MTP.OrLogic>
   <MTP.OrLogicTT>Appliquera la règle si l'un des éléments sélectionnés est correct, plutôt que si tous sont corrects.</MTP.OrLogicTT>
+  <MTP.AutomaticType.TDFindLib>Règle avancée (TD Find Lib)</MTP.AutomaticType.TDFindLib>
+  <MTP.TDFindLibRuleLabel>Règle de la marque au gage</MTP.TDFindLibRuleLabel>
+  <MTP.RequiresAnActiveGame>Nécessite un jeu actif</MTP.RequiresAnActiveGame>
+  <MTP.EditTdRule>Editer</MTP.EditTdRule>
 </LanguageData>

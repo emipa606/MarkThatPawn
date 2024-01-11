@@ -7,7 +7,7 @@ namespace MarkThatPawn;
 /// <summary>
 ///     Definition of the settings for the mod
 /// </summary>
-internal class MarkThatPawnSettings : ModSettings
+public class MarkThatPawnSettings : ModSettings
 {
     public List<string> AutoRuleBlobs = [];
     public List<MarkerRule> AutoRules = [];
@@ -20,7 +20,6 @@ internal class MarkThatPawnSettings : ModSettings
     private string enemyMarkerSet = "WowStyle";
     private MarkerDef enemyMarkerSetDef;
     public bool GameIsPaused;
-
     public float IconScalingFactor = 1f;
     public float IconSize = 0.7f;
     public float IconSpacingFactor;
@@ -58,6 +57,7 @@ internal class MarkThatPawnSettings : ModSettings
     public bool SlaveDiffer;
     private string slaveMarkerSet = "WowStyle";
     private MarkerDef slaveMarkerSetDef;
+
     public bool VehiclesDiffer;
     private string vehiclesMarkerSet = "WowStyle";
     private MarkerDef vehiclesMarkerSetDef;
@@ -245,5 +245,15 @@ internal class MarkThatPawnSettings : ModSettings
         IconSize = 0.7f;
         XOffset = 0f;
         ZOffset = 0f;
+    }
+
+    public void ClearRules()
+    {
+        foreach (var markerRule in AutoRules)
+        {
+            markerRule.OnDelete();
+        }
+
+        AutoRules.Clear();
     }
 }

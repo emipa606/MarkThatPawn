@@ -1,5 +1,9 @@
 # Changelog for MarkThatPawn
 
+1.4.33 - Added support for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2895299310]TD Find Lib[/url].
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.4.32 - Fixes an issue with saving the mental state rule.
 Updated chinese translation by hawnhan
 

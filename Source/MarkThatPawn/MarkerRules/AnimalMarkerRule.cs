@@ -64,7 +64,7 @@ public class AnimalMarkerRule : MarkerRule
         return new AnimalMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

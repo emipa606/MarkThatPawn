@@ -144,4 +144,8 @@
   <MTP.OnlyWhenDraftedTT>Gilt nur, wenn Bauern eingezogen werden</MTP.OnlyWhenDraftedTT>
   <MTP.OrLogic>Or-logic</MTP.OrLogic>
   <MTP.OrLogicTT>Wendet die Regel an, wenn eines der ausgewählten Elemente korrekt ist, anstatt wenn alle korrekt sind.</MTP.OrLogicTT>
+  <MTP.AutomaticType.TDFindLib>Erweiterte Regel (TD Find Lib)</MTP.AutomaticType.TDFindLib>
+  <MTP.TDFindLibRuleLabel>Mark That Pawn-Regel</MTP.TDFindLibRuleLabel>
+  <MTP.RequiresAnActiveGame>Erfordert ein aktives Spiel</MTP.RequiresAnActiveGame>
+  <MTP.EditTdRule>bearbeiten</MTP.EditTdRule>
 </LanguageData>

@@ -144,4 +144,8 @@
   <MTP.OnlyWhenDraftedTT>仅在生物被征召时标记</MTP.OnlyWhenDraftedTT>
   <MTP.OrLogic>任意已选</MTP.OrLogic>
   <MTP.OrLogicTT>满足已选定的任一规则时生效，而非满足所有规则才标记。</MTP.OrLogicTT>
+  <MTP.AutomaticType.TDFindLib>高级规则（TD 查找库）</MTP.AutomaticType.TDFindLib>
+  <MTP.TDFindLibRuleLabel>标记典当规则</MTP.TDFindLibRuleLabel>
+  <MTP.RequiresAnActiveGame>需要活跃的游戏</MTP.RequiresAnActiveGame>
+  <MTP.EditTdRule>编辑</MTP.EditTdRule>
 </LanguageData>

@@ -99,7 +99,7 @@ public class DynamicHediffMarkerRule : MarkerRule
         return new DynamicHediffMarkerRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

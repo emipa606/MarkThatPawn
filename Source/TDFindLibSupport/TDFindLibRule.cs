@@ -3,12 +3,12 @@ using Verse;
 
 namespace MarkThatPawn.MarkerRules;
 
-public class GenderMarkerRule : MarkerRule
+public class TDFindLibRule : MarkerRule
 {
     private bool animal;
     private bool male;
 
-    public GenderMarkerRule()
+    public TDFindLibRule()
     {
         RuleType = AutoRuleType.Gender;
         male = true;
@@ -17,7 +17,7 @@ public class GenderMarkerRule : MarkerRule
         SetDefaultValues();
     }
 
-    public GenderMarkerRule(string blob)
+    public TDFindLibRule(string blob)
     {
         RuleType = AutoRuleType.Gender;
         male = true;
@@ -60,10 +60,10 @@ public class GenderMarkerRule : MarkerRule
 
     public override MarkerRule GetCopy()
     {
-        return new GenderMarkerRule(GetBlob());
+        return new TDFindLibRule(GetBlob());
     }
 
-    public override void PopulateRuleParameterObjects()
+    protected override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {
