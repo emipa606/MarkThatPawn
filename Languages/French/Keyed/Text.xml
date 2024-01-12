@@ -148,4 +148,5 @@
   <MTP.TDFindLibRuleLabel>Règle de la marque au gage</MTP.TDFindLibRuleLabel>
   <MTP.RequiresAnActiveGame>Nécessite un jeu actif</MTP.RequiresAnActiveGame>
   <MTP.EditTdRule>Editer</MTP.EditTdRule>
+  <MTP.AutomaticType.Mechanoid>Mécanoïde spécifique</MTP.AutomaticType.Mechanoid>
 </LanguageData>

@@ -55,6 +55,8 @@ There are also priority rules that get applied based on events
 
 
 
+If you have https://steamcommunity.com/sharedfiles/filedetails/?id=2895299310]TD Find Lib active you can add rules that uses its search filters. These filters are saved in the save-game so they require and active game to add or edit.
+
 All applicable rules can also be set to only apply to one category of pawns.
 
 There are default sets of icons for each type of pawn but you can always set any icon for a specific pawn using the custom option. There is also support for vehicles using https://steamcommunity.com/workshop/filedetails/?id=3014915404]Vehicle Framework.

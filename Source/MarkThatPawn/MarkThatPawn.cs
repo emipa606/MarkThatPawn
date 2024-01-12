@@ -74,6 +74,7 @@ public static class MarkThatPawn
     public static readonly List<GeneDef> AllValidGenes;
     public static readonly List<GeneCategoryDef> AllValidGeneCategories;
     public static readonly Material MultiIconOverlay;
+    public static readonly List<ThingDef> AllMechanoids;
 
     static MarkThatPawn()
     {
@@ -97,6 +98,8 @@ public static class MarkThatPawn
         }
 
         AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading.Where(def => def.race?.Animal == true)
+            .OrderBy(def => def.label).ToList();
+        AllMechanoids = DefDatabase<ThingDef>.AllDefsListForReading.Where(def => def.race?.IsMechanoid == true)
             .OrderBy(def => def.label).ToList();
         AllDynamicHediffs = DefDatabase<HediffDef>.AllDefsListForReading
             .Where(def => def.stages != null && def.stages.Any() && def.spawnThingOnRemoved == null ||
@@ -238,6 +241,9 @@ public static class MarkThatPawn
                 case MarkerRule.AutoRuleType.Animal:
                     rule = new AnimalMarkerRule(ruleBlob);
                     break;
+                case MarkerRule.AutoRuleType.Mechanoid:
+                    rule = new MechanoidMarkerRule(ruleBlob);
+                    break;
                 case MarkerRule.AutoRuleType.Gender:
                     rule = new GenderMarkerRule(ruleBlob);
                     break;
@@ -265,7 +271,7 @@ public static class MarkThatPawn
                 case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
                     rule = new IdeologyIconMarkerRule(ruleBlob);
                     break;
-                case MarkerRule.AutoRuleType.TDFindLib when TDFindLibLoaded:
+                case MarkerRule.AutoRuleType.TDFindLib when TDFindLibLoaded && TDFindLibRuleType != null:
                     rule = (MarkerRule)Activator.CreateInstance(TDFindLibRuleType, ruleBlob);
                     break;
                 default:

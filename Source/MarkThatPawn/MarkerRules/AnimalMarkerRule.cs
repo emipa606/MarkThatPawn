@@ -86,6 +86,11 @@ public class AnimalMarkerRule : MarkerRule
         ConfigError = true;
     }
 
+    protected override bool CanEnable()
+    {
+        return base.CanEnable() && animal != null;
+    }
+
     public override bool AppliesToPawn(Pawn pawn)
     {
         if (!base.AppliesToPawn(pawn))
@@ -111,7 +116,7 @@ public class AnimalMarkerRule : MarkerRule
             {
                 RuleParameters = animalToSelect.defName;
                 animal = animalToSelect;
-            }));
+            }, animalToSelect));
         }
 
         Find.WindowStack.Add(new FloatMenu(AnimalList));
