@@ -149,4 +149,5 @@
   <MTP.RequiresAnActiveGame>Nécessite un jeu actif</MTP.RequiresAnActiveGame>
   <MTP.EditTdRule>Editer</MTP.EditTdRule>
   <MTP.AutomaticType.Mechanoid>Mécanoïde spécifique</MTP.AutomaticType.Mechanoid>
+  <MTP.AutomaticType.FactionLeader>Afficher le chef de faction</MTP.AutomaticType.FactionLeader>
 </LanguageData>

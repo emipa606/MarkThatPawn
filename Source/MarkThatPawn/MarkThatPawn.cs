@@ -268,6 +268,9 @@ public static class MarkThatPawn
                 case MarkerRule.AutoRuleType.FactionIcon:
                     rule = new FactionIconMarkerRule(ruleBlob);
                     break;
+                case MarkerRule.AutoRuleType.FactionLeader:
+                    rule = new FactionLeaderMarkerRule(ruleBlob);
+                    break;
                 case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
                     rule = new IdeologyIconMarkerRule(ruleBlob);
                     break;

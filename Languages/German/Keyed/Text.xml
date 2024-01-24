@@ -149,4 +149,5 @@
   <MTP.RequiresAnActiveGame>Erfordert ein aktives Spiel</MTP.RequiresAnActiveGame>
   <MTP.EditTdRule>bearbeiten</MTP.EditTdRule>
   <MTP.AutomaticType.Mechanoid>Spezifischer Mechanoid</MTP.AutomaticType.Mechanoid>
+  <MTP.AutomaticType.FactionLeader>Fraktionsführer anzeigen</MTP.AutomaticType.FactionLeader>
 </LanguageData>

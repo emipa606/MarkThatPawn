@@ -22,6 +22,7 @@ public abstract class MarkerRule
         Trait,
         Skill,
         Relative,
+        FactionLeader,
         PawnType,
         Animal,
         Mechanoid,
