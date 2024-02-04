@@ -142,7 +142,8 @@
   <MTP.AutomaticType.TDFindLib>Advanced rule (TD Find Lib)</MTP.AutomaticType.TDFindLib>
   <MTP.AutomaticType.Mechanoid>Specific mechanoid</MTP.AutomaticType.Mechanoid>
   <MTP.TDFindLibRuleLabel>Mark That Pawn-rule</MTP.TDFindLibRuleLabel>
-  <MTP.RequiresAnActiveGame>Requires an active game</MTP.RequiresAnActiveGame>
+  <MTP.RequiresASpecificGame>Requires an active game</MTP.RequiresASpecificGame>
+  <MTP.IsInWrongGame>Created in another save</MTP.IsInWrongGame>
   <MTP.EditTdRule>Edit</MTP.EditTdRule>
   <MTP.PawnLimitation>Only applies to: {0}</MTP.PawnLimitation>
   <MTP.MentalState.Any>Any state</MTP.MentalState.Any>

@@ -15,6 +15,7 @@ public class GameComponent_TDFindLibRuleComponent : GameComponent
     public override void LoadedGame()
     {
         base.LoadedGame();
+
         foreach (var rule in MarkThatPawnMod.instance.Settings.AutoRules)
         {
             if (rule is not TDFindLibRule tdFindLibRule)
@@ -23,7 +24,30 @@ public class GameComponent_TDFindLibRuleComponent : GameComponent
             }
 
             tdFindLibRule.PopulateRuleParameterObjects();
+            if (tdFindLibRule.ConfigError)
+            {
+                tdFindLibRule.SetEnabled(false);
+                tdFindLibRule.IsInCorrectGame = false;
+                continue;
+            }
+
             tdFindLibRule.SetEnabled(true);
+            tdFindLibRule.IsInCorrectGame = true;
+        }
+    }
+
+    public override void StartedNewGame()
+    {
+        base.StartedNewGame();
+        foreach (var rule in MarkThatPawnMod.instance.Settings.AutoRules)
+        {
+            if (rule is not TDFindLibRule tdFindLibRule)
+            {
+                continue;
+            }
+
+            tdFindLibRule.SetEnabled(false);
+            tdFindLibRule.IsInCorrectGame = false;
         }
     }
 

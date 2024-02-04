@@ -12,7 +12,7 @@ public class TDFindLibRule : MarkerRule
     {
         RuleType = AutoRuleType.TDFindLib;
         SetDefaultValues();
-        RequiresAnActiveGame = true;
+        RequiresASpecificGame = true;
         RuleParameters = randomName();
         tdSearcher = new QuerySearch
         {
@@ -29,7 +29,7 @@ public class TDFindLibRule : MarkerRule
     public TDFindLibRule(string blob)
     {
         RuleType = AutoRuleType.TDFindLib;
-        RequiresAnActiveGame = true;
+        RequiresASpecificGame = true;
         SetBlob(blob);
     }
 
@@ -55,24 +55,30 @@ public class TDFindLibRule : MarkerRule
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var mentalStateTypeArea = rect.LeftPart(0.75f);
+        var leftPart = rect.LeftPart(0.75f);
         if (Current.ProgramState != ProgramState.Playing)
         {
-            Widgets.Label(mentalStateTypeArea.TopHalf().CenteredOnYIn(rect), "MTP.RequiresAnActiveGame".Translate());
+            Widgets.Label(leftPart.TopHalf().CenteredOnYIn(rect), "MTP.RequiresASpecificGame".Translate());
+            return;
+        }
+
+        if (!IsInCorrectGame)
+        {
+            Widgets.Label(leftPart.TopHalf().CenteredOnYIn(rect), "MTP.IsInWrongGame".Translate());
             return;
         }
 
         if (edit)
         {
-            Widgets.Label(mentalStateTypeArea.TopHalf(), tdSearcher.Name);
-            if (Widgets.ButtonText(mentalStateTypeArea.BottomHalf(), "MTP.EditTdRule".Translate()))
+            Widgets.Label(leftPart.TopHalf(), tdSearcher.Name);
+            if (Widgets.ButtonText(leftPart.BottomHalf(), "MTP.EditTdRule".Translate()))
             {
                 Find.WindowStack.Add(new PawnToMarkEditor(tdSearcher));
             }
         }
         else
         {
-            Widgets.Label(mentalStateTypeArea.TopHalf().CenteredOnYIn(rect), tdSearcher.Name);
+            Widgets.Label(leftPart.TopHalf().CenteredOnYIn(rect), tdSearcher.Name);
         }
     }
 
@@ -109,7 +115,8 @@ public class TDFindLibRule : MarkerRule
 
     protected override bool CanEnable()
     {
-        return base.CanEnable() && tdSearcher != null && Current.ProgramState == ProgramState.Playing;
+        return base.CanEnable() && tdSearcher != null && Current.ProgramState == ProgramState.Playing &&
+               IsInCorrectGame;
     }
 
     public override void PopulateRuleParameterObjects()
@@ -134,6 +141,7 @@ public class TDFindLibRule : MarkerRule
         {
             ErrorMessage = $"No findLib rules exists to find {RuleParameters}, disabling rule";
             ConfigError = true;
+            IsInCorrectGame = false;
             return;
         }
 
@@ -145,10 +153,12 @@ public class TDFindLibRule : MarkerRule
             }
 
             tdSearcher = querySearch;
+            IsInCorrectGame = true;
             return;
         }
 
         ErrorMessage = $"Found no saved searcher named {RuleParameters}, disabling rule";
+        IsInCorrectGame = false;
         ConfigError = true;
     }
 
@@ -177,7 +187,7 @@ public class TDFindLibRule : MarkerRule
     public class PawnToMarkEditor : SearchEditorRevertableWindow, ISearchReceiver
     {
         // ISearchReceiver stuff
-        public static string TransferTag = "TD.MTP";
+        public static readonly string TransferTag = "TD.MTP";
 
         public PawnToMarkEditor(QuerySearch search) : base(search, TransferTag)
         {

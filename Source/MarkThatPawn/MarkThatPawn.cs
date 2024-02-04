@@ -110,6 +110,11 @@ public static class MarkThatPawn
             .OrderBy(def => def.label).ToList();
         MarkerDefs = DefDatabase<MarkerDef>.AllDefsListForReading.Where(def => def.Enabled).OrderBy(def => def.label)
             .ToList();
+        foreach (var markerDef in MarkerDefs)
+        {
+            _ = markerDef.Icon;
+        }
+
         pawnMarkerCache = new Dictionary<Pawn, MarkerDef>();
         pawnMeshCache = new Dictionary<Pawn, Mesh>();
         pawnExpandCache = new Dictionary<Pawn, float>();
@@ -185,7 +190,7 @@ public static class MarkThatPawn
             $"{AllPsycastApparel.Count} psycast apparel, {AllEnviromentalProtectionApparel.Count} enviromental protection apparel, " +
             $"{AllMechanatorApparel.Count} mechanator apparel and {AllBasicApparel.Count} basic apparel ");
 
-        TDFindLibLoaded = ModLister.GetActiveModWithIdentifier("Uuugggg.TDFindLib") != null;
+        TDFindLibLoaded = ModLister.GetActiveModWithIdentifier("Uuugggg.TDFindLib", true) != null;
         if (TDFindLibLoaded)
         {
             TDFindLibRuleType = AccessTools.TypeByName("TDFindLibRule");
@@ -296,7 +301,7 @@ public static class MarkThatPawn
         Log.Message(
             $"[MarkThatPawn]: Found {MarkThatPawnMod.instance.Settings.AutoRules.Count} automatic rules defined");
 
-        VehiclesLoaded = ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework") != null;
+        VehiclesLoaded = ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework", true) != null;
         if (!VehiclesLoaded)
         {
             return;

@@ -150,4 +150,6 @@
   <MTP.EditTdRule>bearbeiten</MTP.EditTdRule>
   <MTP.AutomaticType.Mechanoid>Spezifischer Mechanoid</MTP.AutomaticType.Mechanoid>
   <MTP.AutomaticType.FactionLeader>Fraktionsführer anzeigen</MTP.AutomaticType.FactionLeader>
+  <MTP.RequiresASpecificGame>Erfordert ein aktives Spiel</MTP.RequiresASpecificGame>
+  <MTP.IsInWrongGame>Erstellt in einem anderen Speicher</MTP.IsInWrongGame>
 </LanguageData>

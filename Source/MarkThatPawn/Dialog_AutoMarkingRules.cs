@@ -143,7 +143,7 @@ public class Dialog_AutoMarkingRules : Window
                             fullButtonArea.size * MarkThatPawn.ButtonIconSizeFactor))
                     {
                         var editFloatMenu = new List<FloatMenuOption>();
-                        if (!autoRule.RequiresAnActiveGame || Current.ProgramState == ProgramState.Playing)
+                        if (!autoRule.RequiresASpecificGame || autoRule.IsInCorrectGame)
                         {
                             editFloatMenu.Add(new FloatMenuOption("MTP.EditAutomaticType".Translate(),
                                 () =>
@@ -432,7 +432,7 @@ public class Dialog_AutoMarkingRules : Window
                     break;
                 case MarkerRule.AutoRuleType.TDFindLib when MarkThatPawn.TDFindLibLoaded:
                     ruleTypeList.Add(new FloatMenuOption(
-                        $"MTP.AutomaticType.{ruleType}".Translate() + "\n" + "MTP.RequiresAnActiveGame".Translate(),
+                        $"MTP.AutomaticType.{ruleType}".Translate() + "\n" + "MTP.RequiresASpecificGame".Translate(),
                         () => { }));
                     break;
                 default:

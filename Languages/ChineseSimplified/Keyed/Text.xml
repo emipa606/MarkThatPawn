@@ -150,4 +150,6 @@
   <MTP.EditTdRule>编辑</MTP.EditTdRule>
   <MTP.AutomaticType.Mechanoid>特定机械装置</MTP.AutomaticType.Mechanoid>
   <MTP.AutomaticType.FactionLeader>显示派别领袖</MTP.AutomaticType.FactionLeader>
+  <MTP.RequiresASpecificGame>需要活跃的游戏</MTP.RequiresASpecificGame>
+  <MTP.IsInWrongGame>在另一次保存中创建</MTP.IsInWrongGame>
 </LanguageData>

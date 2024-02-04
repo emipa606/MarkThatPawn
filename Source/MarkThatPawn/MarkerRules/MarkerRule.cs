@@ -42,11 +42,12 @@ public abstract class MarkerRule
     public bool ConfigError;
     public bool Enabled;
     public string ErrorMessage;
+    public bool IsInCorrectGame;
     public bool IsOverride;
     public MarkerDef MarkerDef;
     public int MarkerIndex;
     public PawnType PawnLimitation;
-    public bool RequiresAnActiveGame;
+    public bool RequiresASpecificGame;
     public int RuleOrder;
     protected string RuleParameters;
     protected AutoRuleType RuleType;
