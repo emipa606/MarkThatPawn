@@ -24,6 +24,7 @@ public class TDFindLibRule : MarkerRule
         }
 
         Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches.Add(tdSearcher);
+        IsInCorrectGame = true;
     }
 
     public TDFindLibRule(string blob)
