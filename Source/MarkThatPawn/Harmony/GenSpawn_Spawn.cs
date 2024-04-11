@@ -4,7 +4,7 @@ using Verse;
 namespace MarkThatPawn.Harmony;
 
 [HarmonyPatch(typeof(GenSpawn), nameof(GenSpawn.Spawn), typeof(Thing), typeof(IntVec3), typeof(Map), typeof(Rot4),
-    typeof(WipeMode), typeof(bool))]
+    typeof(WipeMode), typeof(bool), typeof(bool))]
 public static class GenSpawn_Spawn
 {
     public static void Postfix(Thing __result, Map map, bool respawningAfterLoad)

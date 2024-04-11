@@ -63,6 +63,13 @@ There are default sets of icons for each type of pawn but you can always set any
 
 It is very simple to add more Icon-sets as only a small xml-definition is needed to make it be selectable in the mod options. If you have suggestions for new icon-sets or new rules, please leave a comment here or on the Discord server and Ill see if I can add it to the mod!
 
+**Extra Icons**
+
+
+- https://steamcommunity.com/sharedfiles/filedetails/?id=3218640675]More Markers by Tonic
+
+
+
 Mod-idea: Cedric
 
 ![Image](https://i.imgur.com/Ds0rBAD.png)

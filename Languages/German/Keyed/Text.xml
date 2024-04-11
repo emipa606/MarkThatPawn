@@ -152,4 +152,7 @@
   <MTP.AutomaticType.FactionLeader>Fraktionsführer anzeigen</MTP.AutomaticType.FactionLeader>
   <MTP.RequiresASpecificGame>Erfordert ein aktives Spiel</MTP.RequiresASpecificGame>
   <MTP.IsInWrongGame>Erstellt in einem anderen Speicher</MTP.IsInWrongGame>
+  <MTP.PawnType.ColonistAnimal>Kolonie Tier</MTP.PawnType.ColonistAnimal>
+  <MTP.PawnType.EnemyAnimal>Feindliches Tier</MTP.PawnType.EnemyAnimal>
+  <MTP.PawnType.NeutralAnimal>Neutrales Tier</MTP.PawnType.NeutralAnimal>
 </LanguageData>

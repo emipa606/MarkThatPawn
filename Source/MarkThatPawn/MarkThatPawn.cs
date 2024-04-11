@@ -18,10 +18,13 @@ public static class MarkThatPawn
     {
         Default,
         Colonist,
+        ColonistAnimal,
         Prisoner,
         Slave,
         Enemy,
+        EnemyAnimal,
         Neutral,
+        NeutralAnimal,
         Vehicle
     }
 
@@ -123,7 +126,7 @@ public static class MarkThatPawn
         standardSize = ThingDefOf.Human.size.z;
         MarkerIcon = ContentFinder<Texture2D>.Get("UI/Marker_Icon");
         CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
-        autoIcon = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Scheduled");
+        autoIcon = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Schedule");
         resetIcon = ContentFinder<Texture2D>.Get("UI/Widgets/RotLeft");
         AddIcon = ContentFinder<Texture2D>.Get("ScaledIcons/Add");
         ExpandIcon = ContentFinder<Texture2D>.Get("ScaledIcons/ArrowRight");
@@ -315,7 +318,7 @@ public static class MarkThatPawn
 
     public static void RenderMarkingOverlay(Pawn pawn, MarkingTracker tracker)
     {
-        if (!pawn.Spawned)
+        if (!pawn.Spawned || !pawn.IsPlayerControlled && pawn.IsPsychologicallyInvisible())
         {
             if (pawnExpandCache.ContainsKey(pawn))
             {
@@ -829,10 +832,15 @@ public static class MarkThatPawn
 
         if (pawn.IsColonist || pawn.Faction == Faction.OfPlayer)
         {
-            return PawnType.Colonist;
+            return pawn.RaceProps?.Animal == true ? PawnType.ColonistAnimal : PawnType.Colonist;
         }
 
-        return pawn.HostileTo(Faction.OfPlayer) ? PawnType.Enemy : PawnType.Neutral;
+        if (pawn.HostileTo(Faction.OfPlayer))
+        {
+            return pawn.RaceProps?.Animal == true ? PawnType.EnemyAnimal : PawnType.Enemy;
+        }
+
+        return pawn.RaceProps?.Animal == true ? PawnType.NeutralAnimal : PawnType.Neutral;
     }
 
     public static bool ValidPawn(Pawn pawn)

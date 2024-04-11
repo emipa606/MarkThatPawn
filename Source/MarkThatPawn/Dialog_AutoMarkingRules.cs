@@ -171,7 +171,7 @@ public class Dialog_AutoMarkingRules : Window
                                         autoRule.OnDelete();
                                         MarkThatPawnMod.instance.Settings.AutoRules.Remove(autoRule);
                                     }));
-                            }, TexButton.DeleteX, Color.white));
+                            }, TexButton.Delete, Color.white));
 
                         Find.WindowStack.Add(new FloatMenu(editFloatMenu));
                     }

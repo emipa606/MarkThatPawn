@@ -152,4 +152,7 @@
   <MTP.AutomaticType.FactionLeader>Afficher le chef de faction</MTP.AutomaticType.FactionLeader>
   <MTP.RequiresASpecificGame>Nécessite un jeu actif</MTP.RequiresASpecificGame>
   <MTP.IsInWrongGame>Créé dans un autre enregistrement</MTP.IsInWrongGame>
+  <MTP.PawnType.ColonistAnimal>Colonie d'animaux</MTP.PawnType.ColonistAnimal>
+  <MTP.PawnType.EnemyAnimal>Animal ennemi</MTP.PawnType.EnemyAnimal>
+  <MTP.PawnType.NeutralAnimal>Animal neutre</MTP.PawnType.NeutralAnimal>
 </LanguageData>

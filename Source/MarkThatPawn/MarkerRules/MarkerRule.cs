@@ -260,35 +260,33 @@ public abstract class MarkerRule
         Enabled = false;
     }
 
-    public bool TrySetMarkerDef(MarkerDef markerDef)
+    public void TrySetMarkerDef(MarkerDef markerDef)
     {
         if (markerDef == null)
         {
             ErrorMessage = "MarkerDef cannot be set to a null value";
-            return false;
+            return;
         }
 
         MarkerDef = markerDef;
         MarkerIndex = 0;
-        return true;
     }
 
-    public bool TrySetMarkerIndex(int markerIndex)
+    public void TrySetMarkerIndex(int markerIndex)
     {
         if (MarkerDef == null)
         {
             ErrorMessage = "MarkerDef is not set";
-            return false;
+            return;
         }
 
         if (MarkerDef.MarkerTextures.Count < MarkerIndex)
         {
             ErrorMessage = "MarkerIndex is higher than the amount of icons";
-            return false;
+            return;
         }
 
         MarkerIndex = markerIndex;
-        return true;
     }
 
     public void IncreasePrio()

@@ -14,9 +14,9 @@ public class AnimalMarkerRule : MarkerRule
         SetDefaultValues();
         ApplicablePawnTypes =
         [
-            MarkThatPawn.PawnType.Colonist,
-            MarkThatPawn.PawnType.Enemy,
-            MarkThatPawn.PawnType.Neutral
+            MarkThatPawn.PawnType.ColonistAnimal,
+            MarkThatPawn.PawnType.EnemyAnimal,
+            MarkThatPawn.PawnType.NeutralAnimal
         ];
     }
 
@@ -26,9 +26,9 @@ public class AnimalMarkerRule : MarkerRule
         SetBlob(blob);
         ApplicablePawnTypes =
         [
-            MarkThatPawn.PawnType.Colonist,
-            MarkThatPawn.PawnType.Enemy,
-            MarkThatPawn.PawnType.Neutral
+            MarkThatPawn.PawnType.ColonistAnimal,
+            MarkThatPawn.PawnType.EnemyAnimal,
+            MarkThatPawn.PawnType.NeutralAnimal
         ];
     }
 

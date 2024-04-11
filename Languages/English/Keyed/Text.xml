@@ -110,11 +110,14 @@
   <MTP.EquippedApparelType.EnviromentalProtection>Environmental protection apparel</MTP.EquippedApparelType.EnviromentalProtection>
   <MTP.EquippedApparelType.Basic>Basic apparel</MTP.EquippedApparelType.Basic>
   <MTP.PawnType.Colonist>Colonist</MTP.PawnType.Colonist>
+  <MTP.PawnType.ColonistAnimal>Colony animal</MTP.PawnType.ColonistAnimal>
   <MTP.PawnType.Slave>Slave</MTP.PawnType.Slave>
   <MTP.PawnType.Prisoner>Prisoner</MTP.PawnType.Prisoner>
   <MTP.PawnType.Vehicle>Vehicle</MTP.PawnType.Vehicle>
   <MTP.PawnType.Enemy>Enemy</MTP.PawnType.Enemy>
+  <MTP.PawnType.EnemyAnimal>Enemy animal</MTP.PawnType.EnemyAnimal>
   <MTP.PawnType.Neutral>Neutral</MTP.PawnType.Neutral>
+  <MTP.PawnType.NeutralAnimal>Neutral animal</MTP.PawnType.NeutralAnimal>
   <MTP.PawnType.Default>Any</MTP.PawnType.Default>
   <MTP.AutomaticType.Weapon>Equipped weapons</MTP.AutomaticType.Weapon>
   <MTP.AutomaticType.Apparel>Equipped apparel</MTP.AutomaticType.Apparel>

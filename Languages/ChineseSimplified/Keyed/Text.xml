@@ -152,4 +152,7 @@
   <MTP.AutomaticType.FactionLeader>显示派别领袖</MTP.AutomaticType.FactionLeader>
   <MTP.RequiresASpecificGame>需要活跃的游戏</MTP.RequiresASpecificGame>
   <MTP.IsInWrongGame>在另一次保存中创建</MTP.IsInWrongGame>
+  <MTP.PawnType.ColonistAnimal>群居动物</MTP.PawnType.ColonistAnimal>
+  <MTP.PawnType.EnemyAnimal>敌方动物</MTP.PawnType.EnemyAnimal>
+  <MTP.PawnType.NeutralAnimal>中性动物</MTP.PawnType.NeutralAnimal>
 </LanguageData>
