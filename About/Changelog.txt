@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.5.1 - Added loading directive
+
+
 1.5.0 - Updated for 1.5, added animal-option to the pawn-type selector for the rules
 Used DeepL to update translations for ChineseSimplified, French, German
 
