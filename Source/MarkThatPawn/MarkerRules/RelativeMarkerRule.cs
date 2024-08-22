@@ -34,7 +34,7 @@ public class RelativeMarkerRule : MarkerRule
             return false;
         }
 
-        PawnRelationUtility.Notify_PawnsSeenByPlayer(new[] { pawn }, out var pawnRelationsInfo, true, false);
+        PawnRelationUtility.Notify_PawnsSeenByPlayer([pawn], out var pawnRelationsInfo, true, false);
 
         return !string.IsNullOrEmpty(pawnRelationsInfo);
     }

@@ -68,6 +68,7 @@ public static class MarkThatPawn
     public static readonly Dictionary<Ideo, Material> IdeoMaterialCache;
     public static readonly bool VehiclesLoaded;
     public static readonly bool TDFindLibLoaded;
+    public static readonly bool CAI5000Loaded;
     public static readonly Type TDFindLibRuleType;
     private static CameraZoomRange lastCameraZoomRange = CameraZoomRange.Far;
     private static readonly int standardSize;
@@ -304,6 +305,8 @@ public static class MarkThatPawn
         Log.Message(
             $"[MarkThatPawn]: Found {MarkThatPawnMod.instance.Settings.AutoRules.Count} automatic rules defined");
 
+        CAI5000Loaded = ModLister.GetActiveModWithIdentifier("Krkr.rule56", true) != null;
+
         VehiclesLoaded = ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework", true) != null;
         if (!VehiclesLoaded)
         {
@@ -318,7 +321,8 @@ public static class MarkThatPawn
 
     public static void RenderMarkingOverlay(Pawn pawn, MarkingTracker tracker)
     {
-        if (!pawn.Spawned || !pawn.IsPlayerControlled && pawn.IsPsychologicallyInvisible())
+        if (!pawn.Spawned || !pawn.IsPlayerControlled && pawn.IsPsychologicallyInvisible() ||
+            pawn.Position.Fogged(pawn.Map) || CAI5000Loaded && CAI5000FogCheck.IsFogged(pawn))
         {
             if (pawnExpandCache.ContainsKey(pawn))
             {

@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.5.2 - Added support for the fog of war in [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2938891185]CAI 5000[/url]
+
+
 1.5.1 - Added loading directive
 
 

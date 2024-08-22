@@ -54,39 +54,41 @@ There are also priority rules that get applied based on events
 
 
 
-If you have [https://steamcommunity.com/sharedfiles/filedetails/?id=2895299310](TD Find Lib) active you can add rules that uses its search filters. These filters are saved in the save-game so they require and active game to add or edit.
+If you have [TD Find Lib](https://steamcommunity.com/sharedfiles/filedetails/?id=2895299310) active you can add rules that uses its search filters. These filters are saved in the save-game so they require and active game to add or edit.
 
 All applicable rules can also be set to only apply to one category of pawns.
 
-There are default sets of icons for each type of pawn but you can always set any icon for a specific pawn using the custom option. There is also support for vehicles using [https://steamcommunity.com/workshop/filedetails/?id=3014915404](Vehicle Framework).
+There are default sets of icons for each type of pawn but you can always set any icon for a specific pawn using the custom option. There is also support for vehicles using [Vehicle Framework](https://steamcommunity.com/workshop/filedetails/?id=3014915404).
 
 It is very simple to add more Icon-sets as only a small xml-definition is needed to make it be selectable in the mod options. If you have suggestions for new icon-sets or new rules, please leave a comment here or on the Discord server and Ill see if I can add it to the mod!
 
 **Extra Icons**
 
 
-- [https://steamcommunity.com/sharedfiles/filedetails/?id=3218640675](More Markers) by Tonic
+- [More Markers](https://steamcommunity.com/sharedfiles/filedetails/?id=3218640675) by Tonic
 
 
 
 Mod-idea: Cedric
 
 ![Image](https://i.imgur.com/Ds0rBAD.png)
-Since modding is just a hobby for me I expect no donations to keep modding. If you still want to show your support you can gift me anything from my [https://store.steampowered.com/wishlist/id/Mlie](Wishlist) or buy me a cup of tea.
 
-[https://ko-fi.com/G2G55DDYD]![Image]((https://i.imgur.com/VWG0yff.png))
+Since modding is just a hobby for me I expect no donations to keep modding. If you still want to show your support you can gift me anything from my [Wishlist](https://store.steampowered.com/wishlist/id/Mlie) or buy me a cup of tea.
+
+[![Image](https://i.imgur.com/VWG0yff.png)](https://ko-fi.com/G2G55DDYD)
 
 ![Image](https://i.imgur.com/5xwDG6H.png)
 
 
+
 -  See if the the error persists if you just have this mod and its requirements active.
 -  If not, try adding your other mods until it happens again.
--  Post your error-log using [https://steamcommunity.com/workshop/filedetails/?id=818773962]HugsLib[/url] or the standalone [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404](Uploader) and command Ctrl+F12
+-  Post your error-log using [HugsLib](https://steamcommunity.com/workshop/filedetails/?id=818773962) or the standalone [Uploader](https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404) and command Ctrl+F12
 -  For best support, please use the Discord-channel for error-reporting.
 -  Do not report errors by making a discussion-thread, I get no notification of that.
 -  If you have the solution for a problem, please post it to the GitHub repository.
--  Use [https://github.com/RimSort/RimSort/releases/latest](RimSort) to sort your mods
+-  Use [RimSort](https://github.com/RimSort/RimSort/releases/latest) to sort your mods
 
 
 
-[https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662]![Image]((https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&style=plastic&labelColor=0070cd&color=white))
+[![Image](https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&style=plastic&labelColor=0070cd&color=white)](https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662)
