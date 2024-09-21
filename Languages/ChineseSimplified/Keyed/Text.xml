@@ -155,4 +155,6 @@
   <MTP.PawnType.ColonistAnimal>群居动物</MTP.PawnType.ColonistAnimal>
   <MTP.PawnType.EnemyAnimal>敌方动物</MTP.PawnType.EnemyAnimal>
   <MTP.PawnType.NeutralAnimal>中性动物</MTP.PawnType.NeutralAnimal>
+  <MTP.AutomaticType.Downed>^ Downed</MTP.AutomaticType.Downed>
+  <MTP.MalformedRule>无法解析规则数据</MTP.MalformedRule>
 </LanguageData>

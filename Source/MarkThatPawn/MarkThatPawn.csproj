@@ -6,7 +6,7 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <DebugType>None</DebugType>
     <LangVersion>latest</LangVersion>
-    <FileVersion>1.5.2</FileVersion>
+    <FileVersion>1.5.3</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
@@ -20,9 +20,14 @@
     </PackageReference>
     <PackageReference Include="Mlie_Rimworld_VersionFromManifest" Version="*" />
     <Reference Include="CAI5000">
-	    <HintPath>..\..\..\..\..\..\workshop\content\294100\2938891185\1.5\Assemblies\CombatAI.dll</HintPath>
-	    <CopyLocal>False</CopyLocal>
-	    <Private>false</Private>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2938891185\1.5\Assemblies\CombatAI.dll</HintPath>
+      <CopyLocal>False</CopyLocal>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="PawnBadge">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2526040241\1.5\Assemblies\RR_PawnBadge-RW1.5.dll</HintPath>
+      <CopyLocal>False</CopyLocal>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
 </Project>

@@ -128,6 +128,7 @@
   <MTP.AutomaticType.Relative>Related to colonist</MTP.AutomaticType.Relative>
   <MTP.AutomaticType.PawnType>Pawntype</MTP.AutomaticType.PawnType>
   <MTP.AutomaticType.Drafted>^ Drafted</MTP.AutomaticType.Drafted>
+  <MTP.AutomaticType.Downed>^ Downed</MTP.AutomaticType.Downed>
   <MTP.AutomaticType.MentalState>^ Mental state</MTP.AutomaticType.MentalState>
   <MTP.AutomaticType.HediffDynamic>^ Temporary hediff</MTP.AutomaticType.HediffDynamic>
   <MTP.AutomaticType.HediffStatic>Permanent hediff</MTP.AutomaticType.HediffStatic>
@@ -152,5 +153,6 @@
   <MTP.MentalState.Any>Any state</MTP.MentalState.Any>
   <MTP.MentalState.Passive>Passive state</MTP.MentalState.Passive>
   <MTP.MentalState.Aggressive>Aggressive state</MTP.MentalState.Aggressive>
+  <MTP.MalformedRule>Cannot parse rule data</MTP.MalformedRule>
   <MTP.OverrideRule>This is an temporary-rule. It will only be shown during the time the condition for it is fulfilled.</MTP.OverrideRule>
 </LanguageData>

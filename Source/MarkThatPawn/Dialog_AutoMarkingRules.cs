@@ -143,7 +143,7 @@ public class Dialog_AutoMarkingRules : Window
                             fullButtonArea.size * MarkThatPawn.ButtonIconSizeFactor))
                     {
                         var editFloatMenu = new List<FloatMenuOption>();
-                        if (!autoRule.RequiresASpecificGame || autoRule.IsInCorrectGame)
+                        if ((!autoRule.RequiresASpecificGame || autoRule.IsInCorrectGame) && !autoRule.ConfigError)
                         {
                             editFloatMenu.Add(new FloatMenuOption("MTP.EditAutomaticType".Translate(),
                                 () =>
@@ -181,6 +181,13 @@ public class Dialog_AutoMarkingRules : Window
                 if (!autoRule.Enabled)
                 {
                     infoLabel = $"{infoLabel} ({"MTP.Disabled".Translate()})";
+                }
+
+                if (autoRule.ConfigError)
+                {
+                    Widgets.Label(workingRect.TopHalf(), "MTP.MalformedRule".Translate());
+                    Widgets.Label(workingRect.BottomHalf(), autoRule.RawBlob);
+                    continue;
                 }
 
                 infoRect = workingRect.LeftPart(0.45f).TopHalf().CenteredOnYIn(workingRect);
@@ -363,6 +370,10 @@ public class Dialog_AutoMarkingRules : Window
                 case MarkerRule.AutoRuleType.Drafted:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new DraftedMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.Downed:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new DownedMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.MentalState:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),

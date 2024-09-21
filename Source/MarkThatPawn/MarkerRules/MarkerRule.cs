@@ -13,6 +13,7 @@ public abstract class MarkerRule
     public enum AutoRuleType
     {
         Drafted,
+        Downed,
         MentalState,
         HediffDynamic,
         Weapon,
@@ -47,6 +48,7 @@ public abstract class MarkerRule
     public MarkerDef MarkerDef;
     public int MarkerIndex;
     public PawnType PawnLimitation;
+    public string RawBlob;
     public bool RequiresASpecificGame;
     public int RuleOrder;
     protected string RuleParameters;
@@ -67,6 +69,11 @@ public abstract class MarkerRule
 
     public void ShowChangeMarkerDefMenu()
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         var markerSetList = new List<FloatMenuOption>();
 
         foreach (var def in MarkerDefs)
@@ -79,6 +86,11 @@ public abstract class MarkerRule
 
     public void ShowChangeMarkerMenu()
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         var markerList = new List<FloatMenuOption>();
 
         for (var marker = 1; marker <= MarkerDef.MarkerTextures.Count; marker++)
@@ -93,6 +105,11 @@ public abstract class MarkerRule
 
     protected virtual bool CanEnable()
     {
+        if (ConfigError)
+        {
+            return false;
+        }
+
         if (MarkerDef == null)
         {
             return false;
@@ -119,6 +136,11 @@ public abstract class MarkerRule
 
     protected void SetDefaultValues()
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         RuleParameters = string.Empty;
         PawnLimitation = PawnType.Default;
         MarkerIndex = 0;
@@ -137,6 +159,8 @@ public abstract class MarkerRule
 
     protected void SetBlob(string blob)
     {
+        RawBlob = blob;
+
         SetDefaultValues();
         var rowSplitted = blob.Split(BlobSplitter);
         if (rowSplitted.Length is < 6 or > 8)
@@ -212,7 +236,9 @@ public abstract class MarkerRule
 
     public string GetBlob()
     {
-        return $"{RuleType};{RuleParameters};{MarkerDef.defName};{MarkerIndex};{Enabled};{RuleOrder};{PawnLimitation}";
+        return ConfigError
+            ? RawBlob
+            : $"{RuleType};{RuleParameters};{MarkerDef.defName};{MarkerIndex};{Enabled};{RuleOrder};{PawnLimitation}";
     }
 
     public string GetTranslatedType()
@@ -227,6 +253,11 @@ public abstract class MarkerRule
 
     public virtual Texture2D GetIconTexture()
     {
+        if (ConfigError)
+        {
+            return BaseContent.BadTex;
+        }
+
         if (MarkerDef != null)
         {
             return MarkerDef.MarkerTextures[MarkerIndex];
@@ -238,11 +269,16 @@ public abstract class MarkerRule
 
     public virtual string GetMarkerBlob()
     {
-        return $"{MarkerDef.defName};{MarkerIndex + 1}";
+        return ConfigError ? "" : $"{MarkerDef.defName};{MarkerIndex + 1}";
     }
 
     public void SetEnabled(bool enabled)
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         if (enabled)
         {
             if (CanEnable())
@@ -262,6 +298,11 @@ public abstract class MarkerRule
 
     public void TrySetMarkerDef(MarkerDef markerDef)
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         if (markerDef == null)
         {
             ErrorMessage = "MarkerDef cannot be set to a null value";
@@ -274,6 +315,11 @@ public abstract class MarkerRule
 
     public void TrySetMarkerIndex(int markerIndex)
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         if (MarkerDef == null)
         {
             ErrorMessage = "MarkerDef is not set";
@@ -291,6 +337,11 @@ public abstract class MarkerRule
 
     public void IncreasePrio()
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         if (RuleOrder == MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
                 .Min(rule => rule.RuleOrder))
         {
@@ -306,6 +357,11 @@ public abstract class MarkerRule
 
     public void DecreasePrio()
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         if (RuleOrder == MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
                 .Max(rule => rule.RuleOrder))
         {
@@ -321,6 +377,11 @@ public abstract class MarkerRule
 
     public void ShowPawnLimitationSelectorMenu()
     {
+        if (ConfigError)
+        {
+            return;
+        }
+
         var pawnTypeList = new List<FloatMenuOption>();
 
         foreach (var typeOfPawn in ApplicablePawnTypes)

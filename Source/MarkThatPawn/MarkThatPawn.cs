@@ -112,6 +112,13 @@ public static class MarkThatPawn
         AllStaticHediffs = DefDatabase<HediffDef>.AllDefsListForReading
             .Where(def => !AllDynamicHediffs.Contains(def))
             .OrderBy(def => def.label).ToList();
+
+        var badgeDefClass = AccessTools.TypeByName("RR_PawnBadge.BadgeDef");
+        if (badgeDefClass != null)
+        {
+            PawnBadgeLoader.LoadAllPawnBadges();
+        }
+
         MarkerDefs = DefDatabase<MarkerDef>.AllDefsListForReading.Where(def => def.Enabled).OrderBy(def => def.label)
             .ToList();
         foreach (var markerDef in MarkerDefs)
@@ -238,6 +245,9 @@ public static class MarkThatPawn
                 case MarkerRule.AutoRuleType.Drafted:
                     rule = new DraftedMarkerRule(ruleBlob);
                     break;
+                case MarkerRule.AutoRuleType.Downed:
+                    rule = new DownedMarkerRule(ruleBlob);
+                    break;
                 case MarkerRule.AutoRuleType.MentalState:
                     rule = new MentalStateMarkerRule(ruleBlob);
                     break;
@@ -295,6 +305,7 @@ public static class MarkThatPawn
                 Log.Warning(
                     $"Failed to load a marker-rule from blob: \n{ruleBlob}\n{rule.ErrorMessage}\nDisabling the rule.");
                 rule.SetEnabled(false);
+                rule.ConfigError = true;
             }
 
             MarkThatPawnMod.instance.Settings.AutoRules.Add(rule);

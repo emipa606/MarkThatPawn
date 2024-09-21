@@ -1,5 +1,11 @@
 # Changelog for MarkThatPawn
 
+1.5.3 - Added downed rule
+Added error handling when rules cannot be loaded correctly
+Added support for importing badgeDefs from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2526040241]Pawn Badge[/url]
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.5.2 - Added support for the fog of war in [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2938891185]CAI 5000[/url]
 
 

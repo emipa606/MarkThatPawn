@@ -7,9 +7,9 @@ namespace MarkThatPawn;
 public class MarkerDef : Def
 {
     private bool? enabled;
-    private string graphicPrefix;
+    public string graphicPrefix;
     private Texture2D icon;
-    private string iconPath;
+    public string iconPath;
     private List<Material> markerMaterials;
 
 
@@ -83,6 +83,28 @@ public class MarkerDef : Def
 
             enabled = true;
             return true;
+        }
+    }
+
+    public void LoadAllTexturesInFolder()
+    {
+        markerTextures = [];
+        markerMaterials = [];
+
+        foreach (var foundTexture in ContentFinder<Texture2D>.GetAllInFolder(graphicPrefix))
+        {
+            if (icon == null)
+            {
+                icon = foundTexture;
+            }
+
+            markerTextures.Add(foundTexture);
+            markerMaterials.Add(MaterialPool.MatFrom(foundTexture));
+        }
+
+        if (MarkerTextures.Any())
+        {
+            Log.Message($"[MarkThatPawn]: Found {MarkerTextures.Count} icons for {LabelCap}");
         }
     }
 
