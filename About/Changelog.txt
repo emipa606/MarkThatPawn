@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.5.4 - Removes dead and destroyed pawns from the Pawn-lists on save, to avoid null-errors on load
+
+
 1.5.3 - Added downed rule
 Added error handling when rules cannot be loaded correctly
 Added support for importing badgeDefs from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2526040241]Pawn Badge[/url]

@@ -132,6 +132,15 @@ public class GlobalMarkingTracker : GameComponent
     public override void ExposeData()
     {
         base.ExposeData();
+        if (Scribe.mode == LoadSaveMode.Saving)
+        {
+            // Remove all null-keys before saving
+            MarkedPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+            AutomaticPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+            CustomPawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+            OverridePawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
+        }
+
         Scribe_Collections.Look(ref MarkedPawns, "MarkedPawns", LookMode.Reference, LookMode.Value, ref markedPawnsKeys,
             ref markedPawnsValues);
         Scribe_Collections.Look(ref AutomaticPawns, "AutomaticPawns", LookMode.Reference, LookMode.Value,

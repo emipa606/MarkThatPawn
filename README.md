@@ -49,6 +49,7 @@ There are also priority rules that get applied based on events
 
 
 - Pawn is drafted
+- Pawn is downed
 - Pawn is in a mental state
 - Pawn has one or more temporary hediffs, like an injury
 
@@ -58,6 +59,7 @@ If you have [TD Find Lib](https://steamcommunity.com/sharedfiles/filedetails/?id
 
 All applicable rules can also be set to only apply to one category of pawns.
 There is also support for the fog of war in [CAI 5000](https://steamcommunity.com/sharedfiles/filedetails/?id=2938891185)
+BadgeDefs from [Pawn Badge](https://steamcommunity.com/sharedfiles/filedetails/?id=2526040241) will be imported as marker-sets
 
 There are default sets of icons for each type of pawn but you can always set any icon for a specific pawn using the custom option. There is also support for vehicles using [Vehicle Framework](https://steamcommunity.com/workshop/filedetails/?id=3014915404).
 
@@ -90,6 +92,6 @@ Since modding is just a hobby for me I expect no donations to keep modding. If y
 -  If you have the solution for a problem, please post it to the GitHub repository.
 -  Use [RimSort](https://github.com/RimSort/RimSort/releases/latest) to sort your mods
 
+ 
 
-
-[![Image](https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&style=plastic&labelColor=0070cd&color=white)](https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662)
+[![Image](https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&style=plastic&labelColor=0070cd&color=white)](https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662) | tags: pawn marking,  icon customization

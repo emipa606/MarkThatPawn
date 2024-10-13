@@ -65,6 +65,7 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 There are also priority rules that get applied based on events
 [list]
 [*]Pawn is drafted
+[*]Pawn is downed
 [*]Pawn is in a mental state
 [*]Pawn has one or more temporary hediffs, like an injury
 [/list]
@@ -73,6 +74,7 @@ If you have [url=https://steamcommunity.com/sharedfiles/filedetails/?id=28952993
 
 All applicable rules can also be set to only apply to one category of pawns.
 There is also support for the fog of war in [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2938891185]CAI 5000[/url]
+BadgeDefs from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2526040241]Pawn Badge[/url] will be imported as marker-sets
 
 There are default sets of icons for each type of pawn but you can always set any icon for a specific pawn using the custom option. There is also support for vehicles using [url=https://steamcommunity.com/workshop/filedetails/?id=3014915404]Vehicle Framework[/url].
 
@@ -110,8 +112,8 @@ Since modding is just a hobby for me I expect no donations to keep modding. If y
 [*] Do not report errors by making a discussion-thread, I get no notification of that.
 [*] If you have the solution for a problem, please post it to the GitHub repository.
 [*] Use [url=https://github.com/RimSort/RimSort/releases/latest]RimSort[/url] to sort your mods
-[/list]
+[/list] 
 
-[url=https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662][img]https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&amp;style=plastic&amp;labelColor=0070cd&amp;color=white[/img][/url]</description>
-  <modVersion IgnoreIfNoMatchingField="True">1.5.3</modVersion>
+[url=https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662][img]https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&amp;style=plastic&amp;labelColor=0070cd&amp;color=white[/img][/url] | tags: pawn marking,  icon customization</description>
+  <modVersion IgnoreIfNoMatchingField="True">1.5.4</modVersion>
 </ModMetaData>
