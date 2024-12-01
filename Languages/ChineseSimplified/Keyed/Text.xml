@@ -157,4 +157,5 @@
   <MTP.PawnType.NeutralAnimal>中性动物</MTP.PawnType.NeutralAnimal>
   <MTP.AutomaticType.Downed>^ Downed</MTP.AutomaticType.Downed>
   <MTP.MalformedRule>无法解析规则数据</MTP.MalformedRule>
+  <MTP.AutomaticType.Guest>表演嘉宾</MTP.AutomaticType.Guest>
 </LanguageData>

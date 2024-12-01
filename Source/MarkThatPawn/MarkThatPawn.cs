@@ -56,7 +56,6 @@ public static class MarkThatPawn
     public static readonly List<ThingDef> AllBasicApparel;
     public static readonly Texture2D MarkerIcon;
     public static readonly Texture2D CancelIcon;
-    public static readonly Texture2D AddIcon;
     public static readonly Texture2D RemoveIcon;
     public static readonly Texture2D ExpandIcon;
     public static readonly List<Mesh> SizeMesh;
@@ -136,7 +135,7 @@ public static class MarkThatPawn
         CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
         autoIcon = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Schedule");
         resetIcon = ContentFinder<Texture2D>.Get("UI/Widgets/RotLeft");
-        AddIcon = ContentFinder<Texture2D>.Get("ScaledIcons/Add");
+        ContentFinder<Texture2D>.Get("ScaledIcons/Add");
         ExpandIcon = ContentFinder<Texture2D>.Get("ScaledIcons/ArrowRight");
         RemoveIcon = ContentFinder<Texture2D>.Get("ScaledIcons/Empty");
         SizeMesh = [];
@@ -289,6 +288,9 @@ public static class MarkThatPawn
                     break;
                 case MarkerRule.AutoRuleType.FactionLeader:
                     rule = new FactionLeaderMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Guest:
+                    rule = new GuestMarkerRule(ruleBlob);
                     break;
                 case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
                     rule = new IdeologyIconMarkerRule(ruleBlob);

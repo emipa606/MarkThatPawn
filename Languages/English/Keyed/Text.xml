@@ -143,6 +143,7 @@
   <MTP.AutomaticType.FactionIcon>Show faction icon</MTP.AutomaticType.FactionIcon>
   <MTP.AutomaticType.IdeologyIcon>Show ideology icon</MTP.AutomaticType.IdeologyIcon>
   <MTP.AutomaticType.FactionLeader>Show faction leader</MTP.AutomaticType.FactionLeader>
+  <MTP.AutomaticType.Guest>Show guest</MTP.AutomaticType.Guest>
   <MTP.AutomaticType.TDFindLib>Advanced rule (TD Find Lib)</MTP.AutomaticType.TDFindLib>
   <MTP.AutomaticType.Mechanoid>Specific mechanoid</MTP.AutomaticType.Mechanoid>
   <MTP.TDFindLibRuleLabel>Mark That Pawn-rule</MTP.TDFindLibRuleLabel>
