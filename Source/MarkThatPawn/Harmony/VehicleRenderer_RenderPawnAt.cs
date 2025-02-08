@@ -6,7 +6,7 @@ public static class VehicleRenderer_RenderPawnAt
 {
     public static void Postfix(Pawn ___vehicle)
     {
-        if (!MarkThatPawn.ValidPawn(___vehicle))
+        if (!MarkThatPawn.ValidPawn(___vehicle, true))
         {
             return;
         }

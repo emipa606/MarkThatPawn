@@ -15,7 +15,7 @@ public static class Corpse_DynamicDrawPhaseAt
 
         var pawn = __instance.InnerPawn;
 
-        if (!MarkThatPawn.ValidPawn(pawn))
+        if (!MarkThatPawn.ValidPawn(pawn, true))
         {
             return;
         }

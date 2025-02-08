@@ -13,7 +13,7 @@ public static class PawnRenderer_RenderPawnAt
             return;
         }
 
-        if (!MarkThatPawn.ValidPawn(___pawn))
+        if (!MarkThatPawn.ValidPawn(___pawn, true))
         {
             return;
         }

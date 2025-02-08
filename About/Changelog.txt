@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.5.8 - Fixed the pawn type-filtering and gizmo hiding
+
+
 1.5.7 - Added Trader and Loyal enemy as pawn types
 Used DeepL to update translations for ChineseSimplified, French, German
 

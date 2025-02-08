@@ -648,7 +648,7 @@ public static class MarkThatPawn
             pawn = corpse.InnerPawn;
         }
 
-        if (!ValidPawn(pawn))
+        if (!ValidPawn(pawn, true))
         {
             return false;
         }
@@ -903,7 +903,7 @@ public static class MarkThatPawn
         return pawn.RaceProps?.Animal == true ? PawnType.NeutralAnimal : PawnType.Neutral;
     }
 
-    public static bool ValidPawn(Pawn pawn)
+    public static bool ValidPawn(Pawn pawn, bool noTypeCheck = false)
     {
         if (pawn == null)
         {
@@ -935,17 +935,27 @@ public static class MarkThatPawn
             }
         }
 
+        if (noTypeCheck)
+        {
+            return true;
+        }
+
         switch (pawn.GetPawnType())
         {
             case PawnType.Colonist:
+            case PawnType.ColonistAnimal:
                 return MarkThatPawnMod.instance.Settings.ShowForColonist;
             case PawnType.Prisoner:
                 return MarkThatPawnMod.instance.Settings.ShowForPrisoner;
             case PawnType.Slave:
                 return MarkThatPawnMod.instance.Settings.ShowForSlave;
             case PawnType.Enemy:
+            case PawnType.EnemyAnimal:
+            case PawnType.EnemyLoyal:
                 return MarkThatPawnMod.instance.Settings.ShowForEnemy;
             case PawnType.Neutral:
+            case PawnType.NeutralAnimal:
+            case PawnType.Trader:
                 return MarkThatPawnMod.instance.Settings.ShowForNeutral;
             case PawnType.Vehicle:
                 return MarkThatPawnMod.instance.Settings.ShowForVehicles;
