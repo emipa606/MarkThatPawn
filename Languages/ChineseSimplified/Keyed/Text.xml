@@ -162,4 +162,6 @@
   <MTP.ShowOnCorpsesTT>如果可能，图标将显示在尸体上方</MTP.ShowOnCorpsesTT>
   <MTP.PawnType.EnemyLoyal>敌人（忠诚）</MTP.PawnType.EnemyLoyal>
   <MTP.PawnType.Trader>中立交易者</MTP.PawnType.Trader>
+  <MTP.AutomaticType.IdeologyRole>具体的意识形态作用</MTP.AutomaticType.IdeologyRole>
+  <MTP.AutomaticType.Title>具体的皇家头衔</MTP.AutomaticType.Title>
 </LanguageData>

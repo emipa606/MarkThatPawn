@@ -162,4 +162,6 @@
   <MTP.ShowOnCorpsesTT>Wenn möglich, werden die Symbole über den Leichen angezeigt.</MTP.ShowOnCorpsesTT>
   <MTP.PawnType.EnemyLoyal>Feind (Loyal)</MTP.PawnType.EnemyLoyal>
   <MTP.PawnType.Trader>Neutraler Händler</MTP.PawnType.Trader>
+  <MTP.AutomaticType.IdeologyRole>Besondere Rolle der Ideologie</MTP.AutomaticType.IdeologyRole>
+  <MTP.AutomaticType.Title>Besondere königliche Titel</MTP.AutomaticType.Title>
 </LanguageData>

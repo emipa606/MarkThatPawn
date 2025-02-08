@@ -162,4 +162,6 @@
   <MTP.ShowOnCorpsesTT>Dans la mesure du possible, les icônes seront affichées sur les cadavres.</MTP.ShowOnCorpsesTT>
   <MTP.PawnType.EnemyLoyal>Ennemi (loyal)</MTP.PawnType.EnemyLoyal>
   <MTP.PawnType.Trader>Négociant neutre</MTP.PawnType.Trader>
+  <MTP.AutomaticType.IdeologyRole>Rôle idéologique spécifique</MTP.AutomaticType.IdeologyRole>
+  <MTP.AutomaticType.Title>Titres royaux spécifiques</MTP.AutomaticType.Title>
 </LanguageData>

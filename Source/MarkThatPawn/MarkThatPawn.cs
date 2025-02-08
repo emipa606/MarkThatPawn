@@ -44,6 +44,8 @@ public static class MarkThatPawn
     public static readonly List<TraitDef> AllTraits;
     public static readonly List<SkillDef> AllSkills;
     public static readonly List<ThingDef> AllAnimals;
+    public static readonly List<RoyalTitleDef> AllTitles;
+    public static readonly List<PreceptDef> AllIdeologyRoles;
     public static readonly List<HediffDef> AllDynamicHediffs;
     public static readonly List<HediffDef> AllStaticHediffs;
     public static readonly List<ThingDef> AllValidWeapons;
@@ -104,6 +106,9 @@ public static class MarkThatPawn
 
         AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading.Where(def => def.race?.Animal == true && !def.IsCorpse)
             .OrderBy(def => def.label).ToList();
+        AllTitles = DefDatabase<RoyalTitleDef>.AllDefsListForReading.OrderBy(def => def.seniority).ToList();
+        AllIdeologyRoles = DefDatabase<PreceptDef>.AllDefsListForReading
+            .Where(def => def.preceptClass.IsSubclassOf(typeof(Precept_Role))).OrderBy(def => def.label).ToList();
         AllMechanoids = DefDatabase<ThingDef>.AllDefsListForReading
             .Where(def => def.race?.IsMechanoid == true && !def.IsCorpse)
             .OrderBy(def => def.label).ToList();
@@ -294,6 +299,12 @@ public static class MarkThatPawn
                     break;
                 case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
                     rule = new IdeologyIconMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.IdeologyRole when ModLister.IdeologyInstalled:
+                    rule = new IdeologyRoleMarkerRule(ruleBlob);
+                    break;
+                case MarkerRule.AutoRuleType.Title when ModLister.RoyaltyInstalled:
+                    rule = new TitleMarkerRule(ruleBlob);
                     break;
                 case MarkerRule.AutoRuleType.TDFindLib when TDFindLibLoaded && TDFindLibRuleType != null:
                     rule = (MarkerRule)Activator.CreateInstance(TDFindLibRuleType, ruleBlob);

@@ -36,8 +36,9 @@ public abstract class MarkerRule
         Xenotype,
         FactionIcon,
         IdeologyIcon,
+        IdeologyRole,
         TDFindLib,
-        PawnRole
+        Title
     }
 
     public List<PawnType> ApplicablePawnTypes;

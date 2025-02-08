@@ -1,5 +1,9 @@
 # Changelog for MarkThatPawn
 
+1.5.9 - Added rules for royalty titles and ideology roles
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.5.8 - Fixed the pawn type-filtering and gizmo hiding
 
 

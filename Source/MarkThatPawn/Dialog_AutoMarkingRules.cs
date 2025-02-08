@@ -439,6 +439,14 @@ public class Dialog_AutoMarkingRules : Window
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
                         () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new IdeologyIconMarkerRule())));
                     break;
+                case MarkerRule.AutoRuleType.IdeologyRole when ModLister.IdeologyInstalled:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new IdeologyRoleMarkerRule())));
+                    break;
+                case MarkerRule.AutoRuleType.Title when ModLister.RoyaltyInstalled:
+                    ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
+                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new TitleMarkerRule())));
+                    break;
                 case MarkerRule.AutoRuleType.TDFindLib
                     when MarkThatPawn.TDFindLibLoaded && Current.ProgramState == ProgramState.Playing:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
