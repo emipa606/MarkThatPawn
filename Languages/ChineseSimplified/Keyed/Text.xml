@@ -160,4 +160,6 @@
   <MTP.AutomaticType.Guest>表演嘉宾</MTP.AutomaticType.Guest>
   <MTP.ShowOnCorpses>在尸体上显示图标</MTP.ShowOnCorpses>
   <MTP.ShowOnCorpsesTT>如果可能，图标将显示在尸体上方</MTP.ShowOnCorpsesTT>
+  <MTP.PawnType.EnemyLoyal>敌人（忠诚）</MTP.PawnType.EnemyLoyal>
+  <MTP.PawnType.Trader>中立交易者</MTP.PawnType.Trader>
 </LanguageData>

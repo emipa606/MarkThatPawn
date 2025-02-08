@@ -160,4 +160,6 @@
   <MTP.AutomaticType.Guest>Gast anzeigen</MTP.AutomaticType.Guest>
   <MTP.ShowOnCorpses>Icons auf Leichen anzeigen</MTP.ShowOnCorpses>
   <MTP.ShowOnCorpsesTT>Wenn möglich, werden die Symbole über den Leichen angezeigt.</MTP.ShowOnCorpsesTT>
+  <MTP.PawnType.EnemyLoyal>Feind (Loyal)</MTP.PawnType.EnemyLoyal>
+  <MTP.PawnType.Trader>Neutraler Händler</MTP.PawnType.Trader>
 </LanguageData>

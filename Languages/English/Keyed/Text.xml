@@ -117,10 +117,12 @@
   <MTP.PawnType.Prisoner>Prisoner</MTP.PawnType.Prisoner>
   <MTP.PawnType.Vehicle>Vehicle</MTP.PawnType.Vehicle>
   <MTP.PawnType.Enemy>Enemy</MTP.PawnType.Enemy>
+  <MTP.PawnType.EnemyLoyal>Enemy (Loyal)</MTP.PawnType.EnemyLoyal>
   <MTP.PawnType.EnemyAnimal>Enemy animal</MTP.PawnType.EnemyAnimal>
   <MTP.PawnType.Neutral>Neutral</MTP.PawnType.Neutral>
   <MTP.PawnType.NeutralAnimal>Neutral animal</MTP.PawnType.NeutralAnimal>
   <MTP.PawnType.Default>Any</MTP.PawnType.Default>
+  <MTP.PawnType.Trader>Neutral trader</MTP.PawnType.Trader>
   <MTP.AutomaticType.Weapon>Equipped weapons</MTP.AutomaticType.Weapon>
   <MTP.AutomaticType.Apparel>Equipped apparel</MTP.AutomaticType.Apparel>
   <MTP.AutomaticType.WeaponType>Equipped weapon-type</MTP.AutomaticType.WeaponType>

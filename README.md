@@ -19,6 +19,7 @@ Mod-options:
 - Show all applicable icons
 - Rotating the active icon between the applicable icons
 - Show all icons when hovering the icons or selecting the pawn
+- Show on corpses
 
 
 

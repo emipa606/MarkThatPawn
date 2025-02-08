@@ -22,10 +22,12 @@ public static class MarkThatPawn
         Prisoner,
         Slave,
         Enemy,
+        EnemyLoyal,
         EnemyAnimal,
         Neutral,
         NeutralAnimal,
-        Vehicle
+        Vehicle,
+        Trader
     }
 
     public const char BlobSplitter = ';';
@@ -885,7 +887,17 @@ public static class MarkThatPawn
 
         if (pawn.HostileTo(Faction.OfPlayer))
         {
-            return pawn.RaceProps?.Animal == true ? PawnType.EnemyAnimal : PawnType.Enemy;
+            if (pawn.RaceProps?.Animal == true)
+            {
+                return PawnType.EnemyAnimal;
+            }
+
+            return pawn.guest?.Recruitable == false ? PawnType.EnemyLoyal : PawnType.Enemy;
+        }
+
+        if (pawn.CanTradeNow)
+        {
+            return PawnType.Trader;
         }
 
         return pawn.RaceProps?.Animal == true ? PawnType.NeutralAnimal : PawnType.Neutral;

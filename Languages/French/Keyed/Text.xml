@@ -160,4 +160,6 @@
   <MTP.AutomaticType.Guest>Afficher l'invité</MTP.AutomaticType.Guest>
   <MTP.ShowOnCorpses>Afficher les icônes sur les cadavres</MTP.ShowOnCorpses>
   <MTP.ShowOnCorpsesTT>Dans la mesure du possible, les icônes seront affichées sur les cadavres.</MTP.ShowOnCorpsesTT>
+  <MTP.PawnType.EnemyLoyal>Ennemi (loyal)</MTP.PawnType.EnemyLoyal>
+  <MTP.PawnType.Trader>Négociant neutre</MTP.PawnType.Trader>
 </LanguageData>
