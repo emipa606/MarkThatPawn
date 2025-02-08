@@ -37,11 +37,6 @@ public class GuestMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         return pawn.GuestStatus == GuestStatus.Guest || pawn.IsQuestLodger();
     }
 }

@@ -60,9 +60,9 @@ public static class MarkThatPawn
     public static readonly Texture2D ExpandIcon;
     public static readonly List<Mesh> SizeMesh;
     public static readonly List<MarkerDef> MarkerDefs;
-    private static readonly Dictionary<Pawn, MarkerDef> pawnMarkerCache;
-    private static readonly Dictionary<Pawn, Mesh> pawnMeshCache;
-    private static readonly Dictionary<Pawn, float> pawnExpandCache;
+    private static readonly Dictionary<ThingWithComps, MarkerDef> pawnMarkerCache;
+    private static readonly Dictionary<ThingWithComps, Mesh> pawnMeshCache;
+    private static readonly Dictionary<ThingWithComps, float> pawnExpandCache;
     public static readonly Dictionary<Faction, Material> FactionMaterialCache;
     public static readonly Dictionary<Ideo, Material> IdeoMaterialCache;
     public static readonly bool VehiclesLoaded;
@@ -100,9 +100,10 @@ public static class MarkThatPawn
             AllValidGeneCategories = [];
         }
 
-        AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading.Where(def => def.race?.Animal == true)
+        AllAnimals = DefDatabase<ThingDef>.AllDefsListForReading.Where(def => def.race?.Animal == true && !def.IsCorpse)
             .OrderBy(def => def.label).ToList();
-        AllMechanoids = DefDatabase<ThingDef>.AllDefsListForReading.Where(def => def.race?.IsMechanoid == true)
+        AllMechanoids = DefDatabase<ThingDef>.AllDefsListForReading
+            .Where(def => def.race?.IsMechanoid == true && !def.IsCorpse)
             .OrderBy(def => def.label).ToList();
         AllDynamicHediffs = DefDatabase<HediffDef>.AllDefsListForReading
             .Where(def => def.stages != null && def.stages.Any() && def.spawnThingOnRemoved == null ||
@@ -125,9 +126,9 @@ public static class MarkThatPawn
             _ = markerDef.Icon;
         }
 
-        pawnMarkerCache = new Dictionary<Pawn, MarkerDef>();
-        pawnMeshCache = new Dictionary<Pawn, Mesh>();
-        pawnExpandCache = new Dictionary<Pawn, float>();
+        pawnMarkerCache = new Dictionary<ThingWithComps, MarkerDef>();
+        pawnMeshCache = new Dictionary<ThingWithComps, Mesh>();
+        pawnExpandCache = new Dictionary<ThingWithComps, float>();
         FactionMaterialCache = new Dictionary<Faction, Material>();
         IdeoMaterialCache = new Dictionary<Ideo, Material>();
         standardSize = ThingDefOf.Human.size.z;
@@ -144,17 +145,14 @@ public static class MarkThatPawn
             SizeMesh.Add(MeshMakerPlanes.NewPlaneMesh(i / 10f));
         }
 
-        //Log.Message("[MarkThatPawn]: Caching all valid weapons");
         AllValidWeapons = DefDatabase<ThingDef>.AllDefsListForReading
             .Where(def => !string.IsNullOrEmpty(def.label) && def.IsWeapon)
             .OrderBy(def => def.label).ToList();
 
-        //Log.Message("[MarkThatPawn]: Caching all valid explosive weapons");
         AllExplosiveRangedWeapons = AllValidWeapons
             .Where(def => def.IsRangedWeapon && def.Verbs != null && def.Verbs.Any(properties =>
                 properties.CausesExplosion && properties.defaultProjectile?.projectile.arcHeightFactor == 0)).ToList();
 
-        //Log.Message("[MarkThatPawn]: Caching all valid thrown weapons");
         AllThrownWeapons = AllValidWeapons.Where(def =>
             def.Verbs.Any(properties => properties.defaultProjectile?.projectile?.arcHeightFactor > 0)).ToList();
 
@@ -332,20 +330,33 @@ public static class MarkThatPawn
         harmony.Patch(original, postfix: new HarmonyMethod(postfix));
     }
 
-    public static void RenderMarkingOverlay(Pawn pawn, MarkingTracker tracker)
+    public static void RenderMarkingOverlay(ThingWithComps thing, MarkingTracker tracker)
     {
-        if (!pawn.Spawned || !pawn.IsPlayerControlled && pawn.IsPsychologicallyInvisible() ||
-            pawn.Position.Fogged(pawn.Map) || CAI5000Loaded && CAI5000FogCheck.IsFogged(pawn))
+        var isCorpse = false;
+        if (thing is not Pawn pawn)
         {
-            if (pawnExpandCache.ContainsKey(pawn))
+            if (thing is not Corpse corpse)
             {
-                pawnExpandCache.Remove(pawn);
+                return;
+            }
+
+            pawn = corpse.InnerPawn;
+            isCorpse = true;
+        }
+
+
+        if (!isCorpse && (!pawn.Spawned || !pawn.IsPlayerControlled && pawn.IsPsychologicallyInvisible()) ||
+            pawn.Position.Fogged(thing.Map) || CAI5000Loaded && CAI5000FogCheck.IsFogged(pawn))
+        {
+            if (pawnExpandCache.ContainsKey(thing))
+            {
+                pawnExpandCache.Remove(thing);
             }
 
             return;
         }
 
-        pawnExpandCache.TryAdd(pawn, 1f);
+        pawnExpandCache.TryAdd(thing, 1f);
 
         var passedTest = !(MarkThatPawnMod.instance.Settings.ShiftIsPressed ||
                            MarkThatPawnMod.instance.Settings.GameIsPaused ||
@@ -374,29 +385,29 @@ public static class MarkThatPawn
         var baseMaterials = new List<Material>();
         var overrideMaterials = new List<Material>();
 
-        var marker = tracker.GlobalMarkingTracker.GetPawnMarking(pawn);
+        var marker = tracker.GlobalMarkingTracker.GetPawnMarking(thing);
         switch (marker)
         {
             case > 0:
-                var markerSet = GetMarkerDefForPawn(pawn);
+                var markerSet = GetMarkerDefForPawn(thing);
                 if (markerSet == null)
                 {
-                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
                     break;
                 }
 
                 if (markerSet.MarkerMaterials.Count < marker)
                 {
-                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
                     break;
                 }
 
                 baseMaterials.Add(markerSet.MarkerMaterials[marker - 1]);
                 break;
             case -1:
-                if (!tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(pawn, out var autoString))
+                if (!tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(thing, out var autoString))
                 {
-                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
                     break;
                 }
 
@@ -417,15 +428,15 @@ public static class MarkThatPawn
 
                 break;
             case -2:
-                if (!tracker.GlobalMarkingTracker.CustomPawns.TryGetValue(pawn, out var customString))
+                if (!tracker.GlobalMarkingTracker.CustomPawns.TryGetValue(thing, out var customString))
                 {
-                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
                     break;
                 }
 
                 if (!TryToConvertStringToMaterial(customString, out var customMaterial))
                 {
-                    tracker.GlobalMarkingTracker.MarkedPawns[pawn] = 0;
+                    tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
                     break;
                 }
 
@@ -433,7 +444,7 @@ public static class MarkThatPawn
                 break;
         }
 
-        if (tracker.GlobalMarkingTracker.OverridePawns.TryGetValue(pawn, out var overrideString))
+        if (tracker.GlobalMarkingTracker.OverridePawns.TryGetValue(thing, out var overrideString))
         {
             foreach (var overrideRuleString in overrideString.Split(MarkerBlobSplitter))
             {
@@ -462,7 +473,7 @@ public static class MarkThatPawn
             pawnHeight = standardSize + (int)Math.Floor((pawn.def.size.z - standardSize) / 2f);
         }
 
-        var drawPos = pawn.DrawPos;
+        var drawPos = thing.DrawPos;
         drawPos.x += MarkThatPawnMod.instance.Settings.XOffset;
         drawPos.y = AltitudeLayer.MetaOverlays.AltitudeFor() + 0.28125f;
         drawPos.z += pawnHeight + (MarkThatPawnMod.instance.Settings.IconSize / 3);
@@ -472,11 +483,11 @@ public static class MarkThatPawn
         var icons = overrideMaterials.Count + baseMaterials.Count;
         var iconSpaces = icons - 1;
 
-        if (icons > 1 && tracker.GlobalMarkingTracker.ShouldShowMultiMarking(pawn))
+        if (icons > 1 && tracker.GlobalMarkingTracker.ShouldShowMultiMarking(thing))
         {
             var iconWidth = mesh.vertices[2].x / 0.5f;
             var shouldExpand = MarkThatPawnMod.instance.Settings.ShowWhenSelected &&
-                               Find.Selector.SelectedPawns.Contains(pawn);
+                               Find.Selector.SelectedObjects.Contains(thing);
 
             if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowOnShift &&
                 Event.current.shift)
@@ -492,7 +503,7 @@ public static class MarkThatPawn
 
             if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowWhenHover)
             {
-                var tempWidth = (2f + (pawnExpandCache[pawn] * MarkThatPawnMod.instance.Settings.IconSpacingFactor)) *
+                var tempWidth = (2f + (pawnExpandCache[thing] * MarkThatPawnMod.instance.Settings.IconSpacingFactor)) *
                                 iconWidth * iconSpaces;
 
                 var mouseOverRect = new Rect(drawPos.x - (tempWidth / 2), drawPos.z - mesh.vertices[2].z, tempWidth,
@@ -508,7 +519,7 @@ public static class MarkThatPawn
                 overrideMaterials.Reverse();
             }
 
-            if (!shouldExpand && MarkThatPawnMod.instance.Settings.RotateIcons && pawnExpandCache[pawn] == 1f)
+            if (!shouldExpand && MarkThatPawnMod.instance.Settings.RotateIcons && pawnExpandCache[thing] == 1f)
             {
                 var tickInterval = rotationInterval;
                 if (!Find.TickManager.Paused)
@@ -518,40 +529,40 @@ public static class MarkThatPawn
 
                 var amountOfTickGroups = GenTicks.TicksGame / tickInterval;
                 var material = overrideMaterials[amountOfTickGroups % overrideMaterials.Count];
-                renderMarker(pawn, material, drawPos, mesh);
+                renderMarker(thing, material, drawPos, mesh);
                 if (overrideMaterials.Count <= 1)
                 {
                     return;
                 }
 
                 drawPos.y += 0.00001f;
-                renderMarker(pawn, MultiIconOverlay, drawPos, mesh);
+                renderMarker(thing, MultiIconOverlay, drawPos, mesh);
 
                 return;
             }
 
             if (!shouldExpand)
             {
-                if (pawnExpandCache[pawn] < 1f)
+                if (pawnExpandCache[thing] < 1f)
                 {
-                    pawnExpandCache[pawn] += 0.1f;
+                    pawnExpandCache[thing] += 0.1f;
                 }
             }
             else
             {
-                if (pawnExpandCache[pawn] > 0)
+                if (pawnExpandCache[thing] > 0)
                 {
-                    pawnExpandCache[pawn] -= 0.1f;
+                    pawnExpandCache[thing] -= 0.1f;
                 }
             }
 
-            iconWidth *= 1f + (pawnExpandCache[pawn] * MarkThatPawnMod.instance.Settings.IconSpacingFactor);
+            iconWidth *= 1f + (pawnExpandCache[thing] * MarkThatPawnMod.instance.Settings.IconSpacingFactor);
 
             var totalWidth = iconWidth * iconSpaces;
             drawPos.x -= totalWidth / 2;
             foreach (var material in overrideMaterials)
             {
-                renderMarker(pawn, material, drawPos, mesh);
+                renderMarker(thing, material, drawPos, mesh);
                 drawPos.x += iconWidth;
                 drawPos.y += 0.00001f;
             }
@@ -561,11 +572,11 @@ public static class MarkThatPawn
 
         if (overrideMaterials.Any())
         {
-            renderMarker(pawn, overrideMaterials[0], drawPos, mesh);
+            renderMarker(thing, overrideMaterials[0], drawPos, mesh);
             return;
         }
 
-        renderMarker(pawn, baseMaterials[0], drawPos, mesh);
+        renderMarker(thing, baseMaterials[0], drawPos, mesh);
     }
 
     private static Mesh getRightSizeMesh(Pawn pawn)
@@ -601,7 +612,7 @@ public static class MarkThatPawn
         return pawnMeshCache[pawn];
     }
 
-    private static void renderMarker(Pawn pawn, Material material, Vector3 drawPos, Mesh mesh)
+    private static void renderMarker(ThingWithComps thing, Material material, Vector3 drawPos, Mesh mesh)
     {
         if (!MarkThatPawnMod.instance.Settings.PulsatingIcons)
         {
@@ -609,7 +620,7 @@ public static class MarkThatPawn
             return;
         }
 
-        var iterator = (Time.realtimeSinceStartup + (397f * (pawn.thingIDNumber % 571))) * 4f;
+        var iterator = (Time.realtimeSinceStartup + (397f * (thing.thingIDNumber % 571))) * 4f;
         var pulsatingCyclePlace = ((float)Math.Sin(iterator) + 1f) * 0.5f;
         pulsatingCyclePlace = 0.3f + (pulsatingCyclePlace * 0.7f);
 
@@ -617,12 +628,22 @@ public static class MarkThatPawn
         Graphics.DrawMesh(mesh, drawPos, Quaternion.identity, fadedMaterial, 0);
     }
 
-    public static bool TryGetAutoMarkerForPawn(Pawn pawn, out string result)
+    public static bool TryGetAutoMarkerForPawn(ThingWithComps thing, out string result)
     {
         result = null;
         if (MarkThatPawnMod.instance.Settings.AutoRules == null || !MarkThatPawnMod.instance.Settings.AutoRules.Any())
         {
             return false;
+        }
+
+        if (thing is not Pawn pawn)
+        {
+            if (thing is not Corpse corpse)
+            {
+                return false;
+            }
+
+            pawn = corpse.InnerPawn;
         }
 
         if (!ValidPawn(pawn))
@@ -774,43 +795,53 @@ public static class MarkThatPawn
         return true;
     }
 
-    public static MarkerDef GetMarkerDefForPawn(Pawn pawn)
+    public static MarkerDef GetMarkerDefForPawn(ThingWithComps thing)
     {
-        if (!pawn.IsHashIntervalTick(GenTicks.TickLongInterval) &&
-            pawnMarkerCache.TryGetValue(pawn, out var markerDefForPawn))
+        if (thing is not Pawn pawn)
         {
-            return markerDefForPawn;
+            if (thing is not Corpse corpse)
+            {
+                return null;
+            }
+
+            pawn = corpse.InnerPawn;
+        }
+
+        if (!thing.IsHashIntervalTick(GenTicks.TickLongInterval) &&
+            pawnMarkerCache.TryGetValue(thing, out var markerDefForThing))
+        {
+            return markerDefForThing;
         }
 
         switch (pawn.GetPawnType())
         {
             case PawnType.Colonist when MarkThatPawnMod.instance.Settings.ColonistDiffer:
-                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
+                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
                 break;
             case PawnType.Prisoner when MarkThatPawnMod.instance.Settings.PrisonerDiffer:
-                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
+                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
                 break;
             case PawnType.Slave when MarkThatPawnMod.instance.Settings.SlaveDiffer:
-                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
+                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
                 break;
             case PawnType.Enemy when MarkThatPawnMod.instance.Settings.EnemyDiffer:
-                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
+                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
                 break;
             case PawnType.Neutral when MarkThatPawnMod.instance.Settings.NeutralDiffer:
-                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
+                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
                 break;
             case PawnType.Vehicle when MarkThatPawnMod.instance.Settings.VehiclesDiffer:
-                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.VehiclesMarkerSet;
+                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.VehiclesMarkerSet;
                 break;
             default:
-                pawnMarkerCache[pawn] = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
+                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
                 break;
         }
 
-        return pawnMarkerCache[pawn];
+        return pawnMarkerCache[thing];
     }
 
-    public static void ResetCache(Pawn pawn = null)
+    public static void ResetCache(ThingWithComps pawn = null)
     {
         if (pawn == null)
         {
@@ -867,14 +898,29 @@ public static class MarkThatPawn
             return false;
         }
 
-        if (!pawn.Spawned)
+        if (pawn.Dead)
         {
-            return false;
-        }
+            if (!MarkThatPawnMod.instance.Settings.ShowOnCorpses)
+            {
+                return false;
+            }
 
-        if (pawn.Map == null)
+            if (pawn.MapHeld == null)
+            {
+                return false;
+            }
+        }
+        else
         {
-            return false;
+            if (!pawn.Spawned)
+            {
+                return false;
+            }
+
+            if (pawn.Map == null)
+            {
+                return false;
+            }
         }
 
         switch (pawn.GetPawnType())
@@ -919,44 +965,44 @@ public static class MarkThatPawn
     }
 
     public static List<FloatMenuOption> GetMarkingOptions(int currentMarking, MarkingTracker tracker,
-        MarkerDef markerSet, Pawn pawn)
+        MarkerDef markerSet, ThingWithComps thing)
     {
         var returnList = new List<FloatMenuOption>();
         if (tracker.GlobalMarkingTracker.AutomaticPawns == null)
         {
-            tracker.GlobalMarkingTracker.AutomaticPawns = new Dictionary<Pawn, string>();
+            tracker.GlobalMarkingTracker.AutomaticPawns = new Dictionary<ThingWithComps, string>();
         }
 
         if (tracker.GlobalMarkingTracker.CustomPawns == null)
         {
-            tracker.GlobalMarkingTracker.CustomPawns = new Dictionary<Pawn, string>();
+            tracker.GlobalMarkingTracker.CustomPawns = new Dictionary<ThingWithComps, string>();
         }
 
         returnList.Add(new FloatMenuOption("MTP.CustomIcon".Translate(), CustomAction, TexButton.NewItem,
             Color.white));
 
-        if (tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(pawn, out _))
+        if (tracker.GlobalMarkingTracker.AutomaticPawns.TryGetValue(thing, out _))
         {
             void AutoAction()
             {
-                tracker.GlobalMarkingTracker.SetPawnMarking(pawn, -1, currentMarking);
+                tracker.GlobalMarkingTracker.SetPawnMarking(thing, -1, currentMarking);
             }
 
             void ResetAction()
             {
-                tracker.GlobalMarkingTracker.AutomaticPawns.Remove(pawn);
-                if (tracker.GlobalMarkingTracker.MarkedPawns.TryGetValue(pawn, out var marking) && marking == -1)
+                tracker.GlobalMarkingTracker.AutomaticPawns.Remove(thing);
+                if (tracker.GlobalMarkingTracker.MarkedPawns.TryGetValue(thing, out var marking) && marking == -1)
                 {
-                    tracker.GlobalMarkingTracker.MarkedPawns.Remove(pawn);
+                    tracker.GlobalMarkingTracker.MarkedPawns.Remove(thing);
                 }
 
-                var mapTracker = pawn.Map.GetComponent<MarkingTracker>();
-                if (mapTracker?.PawnsToEvaluate.Contains(pawn) == true)
+                var mapTracker = thing.Map.GetComponent<MarkingTracker>();
+                if (mapTracker?.PawnsToEvaluate.Contains(thing) == true)
                 {
                     return;
                 }
 
-                mapTracker?.PawnsToEvaluate.Add(pawn);
+                mapTracker?.PawnsToEvaluate.Add(thing);
             }
 
             returnList.Add(new FloatMenuOption("MTP.UseAutoIcon".Translate(), AutoAction, autoIcon, Color.white));
@@ -985,7 +1031,7 @@ public static class MarkThatPawn
 
             void Action()
             {
-                tracker.GlobalMarkingTracker.SetPawnMarking(pawn, mark, currentMarking);
+                tracker.GlobalMarkingTracker.SetPawnMarking(thing, mark, currentMarking);
             }
         }
 
@@ -1009,7 +1055,7 @@ public static class MarkThatPawn
 
                         void Action()
                         {
-                            tracker.GlobalMarkingTracker.SetPawnMarking(pawn, -2, currentMarking,
+                            tracker.GlobalMarkingTracker.SetPawnMarking(thing, -2, currentMarking,
                                 customMarkerString: $"{markerDef.defName};{mark}");
                         }
                     }

@@ -28,11 +28,6 @@ public class AnyStaticHediffMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         var pawnHediffs = pawn.health?.hediffSet?.hediffs;
 
         return pawnHediffs != null && pawnHediffs.Any(hediff => hediff.IsPermanent() && hediff.def.isBad);

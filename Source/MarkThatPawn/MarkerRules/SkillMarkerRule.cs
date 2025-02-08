@@ -202,11 +202,6 @@ public class SkillMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         var pawnSkills = pawn.skills?.skills;
 
         if (pawnSkills == null)

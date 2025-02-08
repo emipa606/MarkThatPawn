@@ -6,7 +6,7 @@ namespace MarkThatPawn;
 
 public class MarkingTracker(Map map) : MapComponent(map)
 {
-    public readonly List<Pawn> PawnsToEvaluate = [];
+    public readonly List<ThingWithComps> PawnsToEvaluate = [];
     public GlobalMarkingTracker GlobalMarkingTracker = Current.Game.GetComponent<GlobalMarkingTracker>();
 
     public override void MapComponentTick()
@@ -23,33 +23,33 @@ public class MarkingTracker(Map map) : MapComponent(map)
             return;
         }
 
-        var firstPawn = PawnsToEvaluate.First();
-        PawnsToEvaluate.Remove(firstPawn);
+        var firstThing = PawnsToEvaluate.First();
+        PawnsToEvaluate.Remove(firstThing);
 
-        if (!MarkThatPawn.TryGetAutoMarkerForPawn(firstPawn, out var result))
+        if (!MarkThatPawn.TryGetAutoMarkerForPawn(firstThing, out var result))
         {
-            if (GlobalMarkingTracker.AutomaticPawns.ContainsKey(firstPawn))
+            if (GlobalMarkingTracker.AutomaticPawns.ContainsKey(firstThing))
             {
-                GlobalMarkingTracker.AutomaticPawns.Remove(firstPawn);
+                GlobalMarkingTracker.AutomaticPawns.Remove(firstThing);
             }
 
-            if (GlobalMarkingTracker.MarkedPawns.TryGetValue(firstPawn, out var currentValue) && currentValue == -1)
+            if (GlobalMarkingTracker.MarkedPawns.TryGetValue(firstThing, out var currentValue) && currentValue == -1)
             {
-                GlobalMarkingTracker.MarkedPawns[firstPawn] = 0;
+                GlobalMarkingTracker.MarkedPawns[firstThing] = 0;
             }
 
-            MarkThatPawn.ResetCache(firstPawn);
+            MarkThatPawn.ResetCache(firstThing);
             return;
         }
 
-        if (!GlobalMarkingTracker.HasAnyDefinedMarking(firstPawn) ||
-            GlobalMarkingTracker.MarkedPawns.TryGetValue(firstPawn, out var currentMarkValue) && currentMarkValue == 0)
+        if (!GlobalMarkingTracker.HasAnyDefinedMarking(firstThing) ||
+            GlobalMarkingTracker.MarkedPawns.TryGetValue(firstThing, out var currentMarkValue) && currentMarkValue == 0)
         {
-            GlobalMarkingTracker.MarkedPawns[firstPawn] = -1;
+            GlobalMarkingTracker.MarkedPawns[firstThing] = -1;
         }
 
-        GlobalMarkingTracker.AutomaticPawns[firstPawn] = result;
-        MarkThatPawn.ResetCache(firstPawn);
+        GlobalMarkingTracker.AutomaticPawns[firstThing] = result;
+        MarkThatPawn.ResetCache(firstThing);
     }
 
 
@@ -126,14 +126,14 @@ public class MarkingTracker(Map map) : MapComponent(map)
         CustomPawns.Clear();
     }
 
-    private Dictionary<Pawn, string> AutomaticPawns = new Dictionary<Pawn, string>();
-    private List<Pawn> automaticPawnsKeys = [];
+    private Dictionary<ThingWithComps, string> AutomaticPawns = new Dictionary<ThingWithComps, string>();
+    private List<ThingWithComps> automaticPawnsKeys = [];
     private List<string> automaticPawnsValues = [];
-    private Dictionary<Pawn, string> CustomPawns = new Dictionary<Pawn, string>();
-    private List<Pawn> customPawnsKeys = [];
+    private Dictionary<ThingWithComps, string> CustomPawns = new Dictionary<ThingWithComps, string>();
+    private List<ThingWithComps> customPawnsKeys = [];
     private List<string> customPawnsValues = [];
-    private Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
-    private List<Pawn> markedPawnsKeys = [];
+    private Dictionary<ThingWithComps, int> MarkedPawns = new Dictionary<ThingWithComps, int>();
+    private List<ThingWithComps> markedPawnsKeys = [];
     private List<int> markedPawnsValues = [];
 
     #endregion

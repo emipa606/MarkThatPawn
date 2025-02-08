@@ -98,11 +98,6 @@ public class MechanoidMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         return pawn.def == mechanoid;
     }
 

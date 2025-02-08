@@ -28,11 +28,6 @@ public class FactionLeaderMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         if (pawn.Faction == null)
         {
             return false;

@@ -75,11 +75,6 @@ public class PawnTypeMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         if (pawnType == MarkThatPawn.PawnType.Default)
         {
             return false;

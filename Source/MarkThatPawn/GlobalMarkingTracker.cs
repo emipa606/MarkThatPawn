@@ -7,65 +7,98 @@ namespace MarkThatPawn;
 
 public class GlobalMarkingTracker : GameComponent
 {
-    public readonly List<Pawn> PawnsToEvaluate = [];
-    public Dictionary<Pawn, string> AutomaticPawns = new Dictionary<Pawn, string>();
-    private List<Pawn> automaticPawnsKeys = [];
+    public readonly List<ThingWithComps> ThingsToEvaluate = [];
+    public Dictionary<ThingWithComps, string> AutomaticPawns = new Dictionary<ThingWithComps, string>();
+    private List<ThingWithComps> automaticPawnsKeys = [];
     private List<string> automaticPawnsValues = [];
-    public Dictionary<Pawn, string> CustomPawns = new Dictionary<Pawn, string>();
-    private List<Pawn> customPawnsKeys = [];
+    public Dictionary<ThingWithComps, string> CustomPawns = new Dictionary<ThingWithComps, string>();
+    private List<ThingWithComps> customPawnsKeys = [];
     private List<string> customPawnsValues = [];
-    public Dictionary<Pawn, int> MarkedPawns = new Dictionary<Pawn, int>();
-    private List<Pawn> markedPawnsKeys = [];
+    public Dictionary<ThingWithComps, int> MarkedPawns = new Dictionary<ThingWithComps, int>();
+    private List<ThingWithComps> markedPawnsKeys = [];
     private List<int> markedPawnsValues = [];
-    public Dictionary<Pawn, string> OverridePawns = new Dictionary<Pawn, string>();
-    private List<Pawn> overridePawnsKeys = [];
+    public Dictionary<ThingWithComps, string> OverridePawns = new Dictionary<ThingWithComps, string>();
+    private List<ThingWithComps> overridePawnsKeys = [];
     private List<string> overridePawnsValues = [];
 
     public GlobalMarkingTracker(Game game)
     {
     }
 
-    public int GetPawnMarking(Pawn pawn)
+    public int GetPawnMarking(ThingWithComps thing)
     {
-        return MarkedPawns.GetValueOrDefault(pawn, 0);
+        return MarkedPawns.GetValueOrDefault(thing, 0);
     }
 
-    public bool HasAnyDefinedMarking(Pawn pawn)
+    public void ReplacePawnWithCorpse(Pawn pawn, Corpse corpse)
     {
-        return MarkedPawns.ContainsKey(pawn) || CustomPawns.ContainsKey(pawn) || AutomaticPawns.ContainsKey(pawn) ||
-               OverridePawns.ContainsKey(pawn);
+        if (AutomaticPawns.ContainsKey(pawn))
+        {
+            AutomaticPawns[corpse] = AutomaticPawns[pawn];
+            AutomaticPawns.Remove(pawn);
+        }
+
+        if (ThingsToEvaluate.Contains(pawn))
+        {
+            ThingsToEvaluate.Add(corpse);
+            ThingsToEvaluate.Remove(pawn);
+        }
+
+        if (CustomPawns.ContainsKey(pawn))
+        {
+            CustomPawns[corpse] = CustomPawns[pawn];
+            CustomPawns.Remove(pawn);
+        }
+
+        if (MarkedPawns.ContainsKey(pawn))
+        {
+            MarkedPawns[corpse] = MarkedPawns[pawn];
+            MarkedPawns.Remove(pawn);
+        }
+
+        if (OverridePawns.ContainsKey(pawn))
+        {
+            OverridePawns[corpse] = OverridePawns[pawn];
+            OverridePawns.Remove(pawn);
+        }
     }
 
-    public bool ShouldShowMultiMarking(Pawn pawn)
+    public bool HasAnyDefinedMarking(ThingWithComps thing)
+    {
+        return MarkedPawns.ContainsKey(thing) || CustomPawns.ContainsKey(thing) || AutomaticPawns.ContainsKey(thing) ||
+               OverridePawns.ContainsKey(thing);
+    }
+
+    public bool ShouldShowMultiMarking(ThingWithComps thing)
     {
         if (!MarkThatPawnMod.instance.Settings.SeparateTemporary)
         {
             return false;
         }
 
-        var currentMarking = GetPawnMarking(pawn);
-        return currentMarking != 0 && OverridePawns.ContainsKey(pawn) ||
-               OverridePawns.TryGetValue(pawn, out var overrideValue) &&
+        var currentMarking = GetPawnMarking(thing);
+        return currentMarking != 0 && OverridePawns.ContainsKey(thing) ||
+               OverridePawns.TryGetValue(thing, out var overrideValue) &&
                overrideValue.Split(MarkThatPawn.MarkerBlobSplitter).Length > 1 ||
-               AutomaticPawns.TryGetValue(pawn, out var automaticValue) &&
+               AutomaticPawns.TryGetValue(thing, out var automaticValue) &&
                automaticValue.Split(MarkThatPawn.MarkerBlobSplitter).Length > 1;
     }
 
-    public void SetPawnMarking(Pawn pawn, int mark, int currentMarking, bool onlySelectedPawn = false,
+    public void SetPawnMarking(ThingWithComps thing, int mark, int currentMarking, bool onlySelectedPawn = false,
         string customMarkerString = null)
     {
         if (onlySelectedPawn)
         {
-            if (CustomPawns.ContainsKey(pawn))
+            if (CustomPawns.ContainsKey(thing))
             {
-                CustomPawns.Remove(pawn);
+                CustomPawns.Remove(thing);
             }
 
             if (mark == 0)
             {
-                if (MarkedPawns.ContainsKey(pawn))
+                if (MarkedPawns.ContainsKey(thing))
                 {
-                    MarkedPawns.Remove(pawn);
+                    MarkedPawns.Remove(thing);
                 }
 
                 return;
@@ -73,55 +106,57 @@ public class GlobalMarkingTracker : GameComponent
 
             if (customMarkerString != null)
             {
-                CustomPawns[pawn] = customMarkerString;
+                CustomPawns[thing] = customMarkerString;
             }
 
-            MarkedPawns[pawn] = mark;
+            MarkedPawns[thing] = mark;
             return;
         }
 
-        var pawnSelector = MarkThatPawn.GetMarkerDefForPawn(pawn);
+        var pawnSelector = MarkThatPawn.GetMarkerDefForPawn(thing);
         foreach (var selectorSelectedObject in Find.Selector.SelectedObjects)
         {
-            if (selectorSelectedObject is not Pawn selectedPawn)
+            if (selectorSelectedObject is not Pawn and not Corpse)
             {
                 continue;
             }
 
-            if (selectedPawn != pawn)
+            var thingSelected = selectorSelectedObject as ThingWithComps;
+
+            if (selectorSelectedObject != thing)
             {
-                if (MarkThatPawn.GetMarkerDefForPawn(selectedPawn) != pawnSelector && mark > -2)
+                if (MarkThatPawn.GetMarkerDefForPawn(thingSelected) != pawnSelector && mark > -2)
                 {
                     continue;
                 }
 
-                if (GetPawnMarking(selectedPawn) != currentMarking)
+                if (GetPawnMarking(thingSelected) != currentMarking)
                 {
                     continue;
                 }
             }
 
-            if (CustomPawns.ContainsKey(selectedPawn))
+            if (CustomPawns.ContainsKey(thingSelected))
             {
-                CustomPawns.Remove(selectedPawn);
+                CustomPawns.Remove(thingSelected);
             }
 
             switch (mark)
             {
                 case -2:
-                case -1 when AutomaticPawns?.ContainsKey(selectedPawn) == true:
+                case -1 when AutomaticPawns?.ContainsKey(thingSelected) == true:
                 case > 0:
-                    MarkedPawns[selectedPawn] = mark;
+                    MarkedPawns[thingSelected] = mark;
                     if (customMarkerString != null)
                     {
-                        CustomPawns[selectedPawn] = customMarkerString;
+                        CustomPawns[thingSelected] = customMarkerString;
                     }
 
                     break;
                 case 0:
-                    if (MarkedPawns.ContainsKey(selectedPawn))
+                    if (MarkedPawns.ContainsKey(thingSelected))
                     {
-                        MarkedPawns.Remove(selectedPawn);
+                        MarkedPawns.Remove(thingSelected);
                     }
 
                     break;
@@ -157,22 +192,22 @@ public class GlobalMarkingTracker : GameComponent
 
         if (MarkedPawns == null)
         {
-            MarkedPawns = new Dictionary<Pawn, int>();
+            MarkedPawns = new Dictionary<ThingWithComps, int>();
         }
 
         if (AutomaticPawns == null)
         {
-            AutomaticPawns = new Dictionary<Pawn, string>();
+            AutomaticPawns = new Dictionary<ThingWithComps, string>();
         }
 
         if (CustomPawns == null)
         {
-            CustomPawns = new Dictionary<Pawn, string>();
+            CustomPawns = new Dictionary<ThingWithComps, string>();
         }
 
         if (OverridePawns == null)
         {
-            OverridePawns = new Dictionary<Pawn, string>();
+            OverridePawns = new Dictionary<ThingWithComps, string>();
         }
     }
 
@@ -188,13 +223,13 @@ public class GlobalMarkingTracker : GameComponent
             OverridePawns?.RemoveAll(pair => pair.Key == null || pair.Key.Destroyed);
         }
 
-        if (PawnsToEvaluate?.Any() != true)
+        if (ThingsToEvaluate?.Any() != true)
         {
             return;
         }
 
-        var firstPawn = PawnsToEvaluate.First();
-        PawnsToEvaluate.Remove(firstPawn);
+        var thing = ThingsToEvaluate.First();
+        ThingsToEvaluate.Remove(thing);
 
         if (MarkThatPawnMod.instance.Settings.AutoRules == null || !MarkThatPawnMod.instance.Settings.AutoRules.Any())
         {
@@ -206,15 +241,30 @@ public class GlobalMarkingTracker : GameComponent
             OverridePawns = [];
         }
 
-        var mapTracker = firstPawn.Map?.GetComponent<MarkingTracker>();
-        if (mapTracker?.PawnsToEvaluate != null && !mapTracker.PawnsToEvaluate.Contains(firstPawn))
+        if (thing is not Pawn pawn)
         {
-            mapTracker.PawnsToEvaluate.Add(firstPawn);
+            if (thing is not Corpse corpse)
+            {
+                return;
+            }
+
+            pawn = corpse.InnerPawn;
+        }
+
+        if (pawn == null || thing.Map == null)
+        {
+            return;
+        }
+
+        var mapTracker = thing.Map.GetComponent<MarkingTracker>();
+        if (mapTracker?.PawnsToEvaluate != null && !mapTracker.PawnsToEvaluate.Contains(thing))
+        {
+            mapTracker.PawnsToEvaluate.Add(thing);
         }
 
         var overrideRules = new List<string>();
         foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules
-                     .Where(rule => rule.Enabled && rule.IsOverride && rule.AppliesToPawn(firstPawn))
+                     .Where(rule => rule.Enabled && rule.IsOverride && rule.AppliesToPawn(pawn))
                      .OrderBy(rule => rule.RuleOrder))
         {
             overrideRules.Add(markerRule.GetMarkerBlob());
@@ -222,16 +272,16 @@ public class GlobalMarkingTracker : GameComponent
 
         if (overrideRules.Any())
         {
-            OverridePawns[firstPawn] = string.Join(MarkThatPawn.MarkerBlobSplitter.ToString(), overrideRules);
+            OverridePawns[thing] = string.Join(MarkThatPawn.MarkerBlobSplitter.ToString(), overrideRules);
         }
         else
         {
-            if (OverridePawns.ContainsKey(firstPawn))
+            if (OverridePawns.ContainsKey(thing))
             {
-                OverridePawns.Remove(firstPawn);
+                OverridePawns.Remove(thing);
             }
         }
 
-        MarkThatPawn.ResetCache(firstPawn);
+        MarkThatPawn.ResetCache(thing);
     }
 }

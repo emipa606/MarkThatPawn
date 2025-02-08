@@ -28,6 +28,8 @@
   <MTP.RelativeIconSizeTT>Changes the relative size of the icons based on the pawns size</MTP.RelativeIconSizeTT>
   <MTP.UnsavedRule>There is an unsaved rule, do you want to save your changes before closing?</MTP.UnsavedRule>
   <MTP.ResetAll>Reset rules</MTP.ResetAll>
+  <MTP.ShowOnCorpses>Show icons on corpses</MTP.ShowOnCorpses>
+  <MTP.ShowOnCorpsesTT>If possible, icons will be shown over corpses</MTP.ShowOnCorpsesTT>
   <MTP.ResetAllConfirm>Really remove all defined rules?</MTP.ResetAllConfirm>
   <MTP.NoneSelected>None selected</MTP.NoneSelected>
   <MTP.SomeSelected>{0} selected</MTP.SomeSelected>

@@ -12,6 +12,7 @@ public static class Pawn_GetGizmos
     private static IEnumerable<MethodBase> TargetMethods()
     {
         yield return AccessTools.Method(typeof(Pawn), nameof(Pawn.GetGizmos));
+        yield return AccessTools.Method(typeof(Corpse), nameof(Corpse.GetGizmos));
 
         if (ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework") != null)
         {
@@ -20,7 +21,7 @@ public static class Pawn_GetGizmos
     }
 
 
-    public static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> values, Pawn __instance)
+    public static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> values, ThingWithComps __instance)
     {
         if (values?.Any() == true)
         {
@@ -30,7 +31,17 @@ public static class Pawn_GetGizmos
             }
         }
 
-        if (!MarkThatPawn.ValidPawn(__instance))
+        if (__instance is not Pawn pawn)
+        {
+            if (__instance is not Corpse corpse)
+            {
+                yield break;
+            }
+
+            pawn = corpse.InnerPawn;
+        }
+
+        if (!MarkThatPawn.ValidPawn(pawn))
         {
             yield break;
         }
@@ -48,8 +59,8 @@ public static class Pawn_GetGizmos
         if (currentMarking > currentMarkerSet.MarkerTextures.Count)
         {
             Log.Warning(
-                $"[MarkThatPawn]: {__instance.NameFullColored} had marker number {currentMarking} but there are only {currentMarkerSet.MarkerTextures.Count} markers loaded. Removing marker.");
-            tracker.GlobalMarkingTracker.SetPawnMarking(__instance, 0, currentMarking, true);
+                $"[MarkThatPawn]: {pawn.NameFullColored} had marker number {currentMarking} but there are only {currentMarkerSet.MarkerTextures.Count} markers loaded. Removing marker.");
+            tracker.GlobalMarkingTracker.SetPawnMarking(pawn, 0, currentMarking, true);
             currentMarking = tracker.GlobalMarkingTracker.GetPawnMarking(__instance);
         }
 
@@ -73,7 +84,7 @@ public static class Pawn_GetGizmos
                 }
 
                 var firstAutoString = autoString.Split(MarkThatPawn.MarkerBlobSplitter)[0];
-                if (!MarkThatPawn.TryToConvertStringToTexture2D(firstAutoString, out icon, __instance))
+                if (!MarkThatPawn.TryToConvertStringToTexture2D(firstAutoString, out icon, pawn))
                 {
                     icon = BaseContent.BadTex;
                 }

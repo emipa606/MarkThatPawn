@@ -1,5 +1,3 @@
-using Verse;
-
 namespace MarkThatPawn.MarkerRules;
 
 public class FactionIconMarkerRule : MarkerRule
@@ -26,15 +24,5 @@ public class FactionIconMarkerRule : MarkerRule
     public override string GetMarkerBlob()
     {
         return "__custom__;FactionIcon";
-    }
-
-    public override bool AppliesToPawn(Pawn pawn)
-    {
-        if (!base.AppliesToPawn(pawn))
-        {
-            return false;
-        }
-
-        return pawn is { Destroyed: false, Spawned: true };
     }
 }

@@ -75,31 +75,36 @@ public class GenderMarkerRule : MarkerRule
             return;
         }
 
-        var genderPart = RuleParameters;
-        var animalPart = $"{false}";
-        if (RuleParameters.Contains(MarkThatPawn.RuleItemsSplitter.ToString()))
+        try
         {
-            genderPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[0];
-            animalPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[1];
-        }
+            var genderPart = RuleParameters;
+            var animalPart = $"{false}";
+            if (RuleParameters.Contains(MarkThatPawn.RuleItemsSplitter.ToString()))
+            {
+                genderPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[0];
+                animalPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[1];
+            }
 
-        if (bool.TryParse(genderPart, out male) && bool.TryParse(animalPart, out animal))
+            if (!bool.TryParse(genderPart, out male))
+            {
+                male = true;
+            }
+
+            if (!bool.TryParse(animalPart, out animal))
+            {
+                animal = false;
+            }
+        }
+        catch
         {
-            return;
+            ErrorMessage = $"Could not parse gender-type {RuleParameters}, disabling rule";
+            ConfigError = true;
         }
-
-        ErrorMessage = $"Could not parse gender-type {RuleParameters}, disabling rule";
-        ConfigError = true;
     }
 
     public override bool AppliesToPawn(Pawn pawn)
     {
         if (!base.AppliesToPawn(pawn))
-        {
-            return false;
-        }
-
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
         {
             return false;
         }

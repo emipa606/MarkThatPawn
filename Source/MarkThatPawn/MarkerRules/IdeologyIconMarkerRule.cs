@@ -43,14 +43,4 @@ public class IdeologyIconMarkerRule : MarkerRule
     {
         return "__custom__;IdeologyIcon";
     }
-
-    public override bool AppliesToPawn(Pawn pawn)
-    {
-        if (!base.AppliesToPawn(pawn))
-        {
-            return false;
-        }
-
-        return pawn is { Destroyed: false, Spawned: true };
-    }
 }

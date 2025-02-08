@@ -170,7 +170,7 @@ public class TDFindLibRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned || pawn.Map == null)
+        if (pawn.Map == null)
         {
             return false;
         }

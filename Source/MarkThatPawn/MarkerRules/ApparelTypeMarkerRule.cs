@@ -93,11 +93,6 @@ public class ApparelTypeMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         if (pawn.apparel is not { AnyApparel: true })
         {
             return equippedApparelType == EquippedApparelType.None;

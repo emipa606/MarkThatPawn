@@ -227,6 +227,21 @@ public abstract class MarkerRule
 
     public virtual bool AppliesToPawn(Pawn pawn)
     {
+        if (pawn.Dead)
+        {
+            if (!MarkThatPawnMod.instance.Settings.ShowOnCorpses)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (pawn is not { Spawned: true })
+            {
+                return false;
+            }
+        }
+
         if (PawnLimitation == PawnType.Default)
         {
             return true;

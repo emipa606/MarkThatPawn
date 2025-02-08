@@ -163,11 +163,6 @@ public class GeneMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         if (pawn.genes == null)
         {
             return false;

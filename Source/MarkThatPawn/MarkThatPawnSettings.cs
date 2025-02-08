@@ -50,6 +50,7 @@ public class MarkThatPawnSettings : ModSettings
     public bool ShowForSlave = true;
 
     public bool ShowForVehicles = true;
+    public bool ShowOnCorpses;
     public bool ShowOnPaused;
     public bool ShowOnShift;
     public bool ShowWhenHover;
@@ -201,6 +202,7 @@ public class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref IconSpacingFactor, "IconSpacingFactor");
         Scribe_Values.Look(ref XOffset, "XOffset");
         Scribe_Values.Look(ref ZOffset, "ZOffset");
+        Scribe_Values.Look(ref ShowOnCorpses, "ShowOnCorpses");
     }
 
     public void Reset()
@@ -242,6 +244,7 @@ public class MarkThatPawnSettings : ModSettings
         NeutralDiffer = false;
         VehiclesDiffer = false;
         InvertOrder = false;
+        ShowOnCorpses = false;
         IconSize = 0.7f;
         XOffset = 0f;
         ZOffset = 0f;

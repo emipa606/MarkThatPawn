@@ -148,11 +148,6 @@ public class StaticHediffMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         var pawnHediffs = pawn.health?.hediffSet?.hediffs;
 
         if (pawnHediffs == null)

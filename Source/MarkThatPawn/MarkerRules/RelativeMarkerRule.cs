@@ -29,11 +29,6 @@ public class RelativeMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         PawnRelationUtility.Notify_PawnsSeenByPlayer([pawn], out var pawnRelationsInfo, true, false);
 
         return !string.IsNullOrEmpty(pawnRelationsInfo);

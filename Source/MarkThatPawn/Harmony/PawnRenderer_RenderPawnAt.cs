@@ -8,6 +8,11 @@ public static class PawnRenderer_RenderPawnAt
 {
     public static void Postfix(Pawn ___pawn)
     {
+        if (___pawn.Dead)
+        {
+            return;
+        }
+
         if (!MarkThatPawn.ValidPawn(___pawn))
         {
             return;

@@ -79,6 +79,8 @@ public class MarkThatPawnMod : Mod
         listing_Standard.Gap();
         listing_Standard.CheckboxLabeled("MTP.RefreshRules".Translate(), ref Settings.RefreshRules,
             "MTP.RefreshRulesTT".Translate());
+        listing_Standard.CheckboxLabeled("MTP.ShowOnCorpses".Translate(), ref Settings.ShowOnCorpses,
+            "MTP.ShowOnCorpsesTT".Translate());
         listing_Standard.CheckboxLabeled("MTP.SeparateTemporary".Translate(), ref Settings.SeparateTemporary,
             "MTP.SeparateTemporaryTT".Translate());
         if (Settings.SeparateTemporary)

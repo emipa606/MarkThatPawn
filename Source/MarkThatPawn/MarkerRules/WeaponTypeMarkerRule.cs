@@ -91,11 +91,6 @@ public class WeaponTypeMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         if (pawn.equipment == null || !pawn.equipment.HasAnything())
         {
             return equippedWeaponType == EquippedWeaponType.Melee;

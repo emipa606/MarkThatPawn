@@ -165,11 +165,6 @@ public class TraitMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         var pawnTraits = pawn.story?.traits?.allTraits;
 
         if (pawnTraits == null)

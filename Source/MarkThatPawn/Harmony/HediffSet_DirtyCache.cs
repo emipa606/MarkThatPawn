@@ -9,7 +9,7 @@ public static class HediffSet_DirtyCache
     public static void Postfix(Pawn ___pawn)
     {
         var globalMarkingTracker = Current.Game.GetComponent<GlobalMarkingTracker>();
-        globalMarkingTracker?.PawnsToEvaluate.Add(___pawn);
+        globalMarkingTracker?.ThingsToEvaluate.Add(___pawn);
 
         var tracker = ___pawn.Map?.GetComponent<MarkingTracker>();
         if (tracker?.PawnsToEvaluate.Contains(___pawn) == true)

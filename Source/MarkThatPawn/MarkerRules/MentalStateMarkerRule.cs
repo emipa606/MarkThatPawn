@@ -75,11 +75,6 @@ public class MentalStateMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         switch (mentalStateType)
         {
             case MentalStateType.Passive:

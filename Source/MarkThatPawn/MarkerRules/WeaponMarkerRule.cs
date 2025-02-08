@@ -183,11 +183,6 @@ public class WeaponMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawn == null || pawn.Destroyed || !pawn.Spawned)
-        {
-            return false;
-        }
-
         if (pawn.equipment == null || !pawn.equipment.HasAnything())
         {
             return false;
