@@ -58,9 +58,11 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 [*]Pawn has any bad permanent hediff, like a scar
 [*]Animal type
 [*]Faction icon
-[*]Ideology icon (Ideology)
-[*]Xenotype (Biotech)
-[*]Genes (Biotech)
+[*]Ideology icon (Ideology DLC)
+[*]Ideology role (Ideology DLC)
+[*]Royalty titles (Royalty DLC)
+[*]Xenotype (Biotech DLC)
+[*]Genes (Biotech DLC)
 [/list]
 
 There are also priority rules that get applied based on events
@@ -116,5 +118,5 @@ Since modding is just a hobby for me I expect no donations to keep modding. If y
 [/list] 
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662][img]https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&amp;style=plastic&amp;labelColor=0070cd&amp;color=white[/img][/url] | tags: pawn marking,  icon customization</description>
-  <modVersion IgnoreIfNoMatchingField="True">1.5.9</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">1.5.10</modVersion>
 </ModMetaData>

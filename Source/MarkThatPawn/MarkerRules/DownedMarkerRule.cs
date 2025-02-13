@@ -25,6 +25,11 @@ public class DownedMarkerRule : MarkerRule
 
     public override bool AppliesToPawn(Pawn pawn)
     {
-        return base.AppliesToPawn(pawn) && pawn.Downed;
+        if (!base.AppliesToPawn(pawn))
+        {
+            return false;
+        }
+
+        return pawn.Downed && !LifeStageUtility.AlwaysDowned(pawn);
     }
 }

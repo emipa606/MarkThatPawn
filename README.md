@@ -40,9 +40,11 @@ You can define rules to make spawning pawns get marked automatically. The rules 
 - Pawn has any bad permanent hediff, like a scar
 - Animal type
 - Faction icon
-- Ideology icon (Ideology)
-- Xenotype (Biotech)
-- Genes (Biotech)
+- Ideology icon (Ideology DLC)
+- Ideology role (Ideology DLC)
+- Royalty titles (Royalty DLC)
+- Xenotype (Biotech DLC)
+- Genes (Biotech DLC)
 
 
 
