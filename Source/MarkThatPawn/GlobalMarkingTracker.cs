@@ -56,11 +56,13 @@ public class GlobalMarkingTracker : GameComponent
             MarkedPawns.Remove(pawn);
         }
 
-        if (OverridePawns.ContainsKey(pawn))
+        if (!OverridePawns.ContainsKey(pawn))
         {
-            OverridePawns[corpse] = OverridePawns[pawn];
-            OverridePawns.Remove(pawn);
+            return;
         }
+
+        OverridePawns[corpse] = OverridePawns[pawn];
+        OverridePawns.Remove(pawn);
     }
 
     public bool HasAnyDefinedMarking(ThingWithComps thing)

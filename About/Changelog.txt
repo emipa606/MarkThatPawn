@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.5.11 - Pawns can now match multiple pawn-types correctly
+
+
 1.5.10 - Downed rule should no longer apply to pawns whos age cause them to be always downed, like babies
 
 

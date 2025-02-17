@@ -244,12 +244,7 @@ public abstract class MarkerRule
             }
         }
 
-        if (PawnLimitation == PawnType.Default)
-        {
-            return true;
-        }
-
-        return pawn.GetPawnType() == PawnLimitation;
+        return PawnLimitation == PawnType.Default || pawn.GetPawnTypes().Contains(PawnLimitation);
     }
 
     public string GetBlob()

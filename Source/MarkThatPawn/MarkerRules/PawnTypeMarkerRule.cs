@@ -75,12 +75,7 @@ public class PawnTypeMarkerRule : MarkerRule
             return false;
         }
 
-        if (pawnType == MarkThatPawn.PawnType.Default)
-        {
-            return false;
-        }
-
-        return pawn.GetPawnType() == pawnType;
+        return pawnType != MarkThatPawn.PawnType.Default && pawn.GetPawnTypes().Contains(pawnType);
     }
 
     private void showPawnTypeSelectorMenu()

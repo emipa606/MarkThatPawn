@@ -826,31 +826,45 @@ public static class MarkThatPawn
             return markerDefForThing;
         }
 
-        switch (pawn.GetPawnType())
+        var pawnTypes = pawn.GetPawnTypes();
+
+        if (pawnTypes.Contains(PawnType.Colonist) && MarkThatPawnMod.instance.Settings.ColonistDiffer)
         {
-            case PawnType.Colonist when MarkThatPawnMod.instance.Settings.ColonistDiffer:
-                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
-                break;
-            case PawnType.Prisoner when MarkThatPawnMod.instance.Settings.PrisonerDiffer:
-                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
-                break;
-            case PawnType.Slave when MarkThatPawnMod.instance.Settings.SlaveDiffer:
-                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
-                break;
-            case PawnType.Enemy when MarkThatPawnMod.instance.Settings.EnemyDiffer:
-                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
-                break;
-            case PawnType.Neutral when MarkThatPawnMod.instance.Settings.NeutralDiffer:
-                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
-                break;
-            case PawnType.Vehicle when MarkThatPawnMod.instance.Settings.VehiclesDiffer:
-                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.VehiclesMarkerSet;
-                break;
-            default:
-                pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
-                break;
+            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
+            return pawnMarkerCache[thing];
         }
 
+        if (pawnTypes.Contains(PawnType.Prisoner) && MarkThatPawnMod.instance.Settings.PrisonerDiffer)
+        {
+            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
+            return pawnMarkerCache[thing];
+        }
+
+        if (pawnTypes.Contains(PawnType.Slave) && MarkThatPawnMod.instance.Settings.SlaveDiffer)
+        {
+            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
+            return pawnMarkerCache[thing];
+        }
+
+        if (pawnTypes.Contains(PawnType.Enemy) && MarkThatPawnMod.instance.Settings.EnemyDiffer)
+        {
+            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
+            return pawnMarkerCache[thing];
+        }
+
+        if (pawnTypes.Contains(PawnType.Neutral) && MarkThatPawnMod.instance.Settings.NeutralDiffer)
+        {
+            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
+            return pawnMarkerCache[thing];
+        }
+
+        if (VehiclesLoaded && pawnTypes.Contains(PawnType.Vehicle) && MarkThatPawnMod.instance.Settings.VehiclesDiffer)
+        {
+            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.VehiclesMarkerSet;
+            return pawnMarkerCache[thing];
+        }
+
+        pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
         return pawnMarkerCache[thing];
     }
 
@@ -874,44 +888,60 @@ public static class MarkThatPawn
         }
     }
 
-    public static PawnType GetPawnType(this Pawn pawn)
+    public static List<PawnType> GetPawnTypes(this Pawn pawn)
     {
+        var pawnTypes = new List<PawnType>();
         if (VehiclesLoaded && pawn.def.thingClass.Name.EndsWith("VehiclePawn"))
         {
-            return PawnType.Vehicle;
+            pawnTypes.Add(PawnType.Vehicle);
         }
 
         if (ModLister.RoyaltyInstalled && pawn.IsSlaveOfColony)
         {
-            return PawnType.Slave;
+            pawnTypes.Add(PawnType.Slave);
         }
 
         if (pawn.IsPrisonerOfColony)
         {
-            return PawnType.Prisoner;
+            pawnTypes.Add(PawnType.Prisoner);
         }
 
-        if (pawn.IsColonist || pawn.Faction == Faction.OfPlayer)
+        if (pawn.IsColonist)
         {
-            return pawn.RaceProps?.Animal == true ? PawnType.ColonistAnimal : PawnType.Colonist;
+            pawnTypes.Add(PawnType.Colonist);
+        }
+
+        if (pawn.Faction == Faction.OfPlayer && pawn.RaceProps?.Animal == true)
+        {
+            pawnTypes.Add(PawnType.ColonistAnimal);
         }
 
         if (pawn.HostileTo(Faction.OfPlayer))
         {
             if (pawn.RaceProps?.Animal == true)
             {
-                return PawnType.EnemyAnimal;
+                pawnTypes.Add(PawnType.EnemyAnimal);
             }
-
-            return pawn.guest?.Recruitable == false ? PawnType.EnemyLoyal : PawnType.Enemy;
+            else
+            {
+                pawnTypes.Add(PawnType.Enemy);
+                if (pawn.guest?.Recruitable == false)
+                {
+                    pawnTypes.Add(PawnType.EnemyLoyal);
+                }
+            }
+        }
+        else
+        {
+            pawnTypes.Add(pawn.RaceProps?.Animal == true ? PawnType.NeutralAnimal : PawnType.Neutral);
         }
 
         if (pawn.CanTradeNow)
         {
-            return PawnType.Trader;
+            pawnTypes.Add(PawnType.Trader);
         }
 
-        return pawn.RaceProps?.Animal == true ? PawnType.NeutralAnimal : PawnType.Neutral;
+        return pawnTypes;
     }
 
     public static bool ValidPawn(Pawn pawn, bool noTypeCheck = false)
@@ -951,28 +981,38 @@ public static class MarkThatPawn
             return true;
         }
 
-        switch (pawn.GetPawnType())
+        var pawnTypes = pawn.GetPawnTypes();
+        if (VehiclesLoaded && pawnTypes.Contains(PawnType.Vehicle))
         {
-            case PawnType.Colonist:
-            case PawnType.ColonistAnimal:
-                return MarkThatPawnMod.instance.Settings.ShowForColonist;
-            case PawnType.Prisoner:
-                return MarkThatPawnMod.instance.Settings.ShowForPrisoner;
-            case PawnType.Slave:
-                return MarkThatPawnMod.instance.Settings.ShowForSlave;
-            case PawnType.Enemy:
-            case PawnType.EnemyAnimal:
-            case PawnType.EnemyLoyal:
-                return MarkThatPawnMod.instance.Settings.ShowForEnemy;
-            case PawnType.Neutral:
-            case PawnType.NeutralAnimal:
-            case PawnType.Trader:
-                return MarkThatPawnMod.instance.Settings.ShowForNeutral;
-            case PawnType.Vehicle:
-                return MarkThatPawnMod.instance.Settings.ShowForVehicles;
-            default:
-                return true;
+            return MarkThatPawnMod.instance.Settings.ShowForVehicles;
         }
+
+        if (pawnTypes.Contains(PawnType.Prisoner))
+        {
+            return MarkThatPawnMod.instance.Settings.ShowForPrisoner;
+        }
+
+        if (pawnTypes.Contains(PawnType.Slave))
+        {
+            return MarkThatPawnMod.instance.Settings.ShowForSlave;
+        }
+
+        if (pawnTypes.Contains(PawnType.Colonist) || pawnTypes.Contains(PawnType.ColonistAnimal))
+        {
+            return MarkThatPawnMod.instance.Settings.ShowForColonist;
+        }
+
+        if (pawnTypes.Contains(PawnType.Enemy) || pawnTypes.Contains(PawnType.Enemy))
+        {
+            return MarkThatPawnMod.instance.Settings.ShowForEnemy;
+        }
+
+        if (pawnTypes.Contains(PawnType.Neutral) || pawnTypes.Contains(PawnType.NeutralAnimal))
+        {
+            return MarkThatPawnMod.instance.Settings.ShowForNeutral;
+        }
+
+        return true;
     }
 
     public static TaggedString GetDistinctHediffName(HediffDef original, List<HediffDef> hediffList)
