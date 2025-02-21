@@ -896,25 +896,11 @@ public static class MarkThatPawn
             pawnTypes.Add(PawnType.Vehicle);
         }
 
-        if (ModLister.RoyaltyInstalled && pawn.IsSlaveOfColony)
+        if (pawn.CanTradeNow)
         {
-            pawnTypes.Add(PawnType.Slave);
+            pawnTypes.Add(PawnType.Trader);
         }
 
-        if (pawn.IsPrisonerOfColony)
-        {
-            pawnTypes.Add(PawnType.Prisoner);
-        }
-
-        if (pawn.IsColonist)
-        {
-            pawnTypes.Add(PawnType.Colonist);
-        }
-
-        if (pawn.Faction == Faction.OfPlayer && pawn.RaceProps?.Animal == true)
-        {
-            pawnTypes.Add(PawnType.ColonistAnimal);
-        }
 
         if (pawn.HostileTo(Faction.OfPlayer))
         {
@@ -930,16 +916,35 @@ public static class MarkThatPawn
                     pawnTypes.Add(PawnType.EnemyLoyal);
                 }
             }
-        }
-        else
-        {
-            pawnTypes.Add(pawn.RaceProps?.Animal == true ? PawnType.NeutralAnimal : PawnType.Neutral);
+
+            return pawnTypes;
         }
 
-        if (pawn.CanTradeNow)
+        if (ModLister.RoyaltyInstalled && pawn.IsSlaveOfColony)
         {
-            pawnTypes.Add(PawnType.Trader);
+            pawnTypes.Add(PawnType.Slave);
+            return pawnTypes;
         }
+
+        if (pawn.IsPrisonerOfColony)
+        {
+            pawnTypes.Add(PawnType.Prisoner);
+            return pawnTypes;
+        }
+
+        if (pawn.IsColonist)
+        {
+            pawnTypes.Add(PawnType.Colonist);
+            return pawnTypes;
+        }
+
+        if (pawn.Faction == Faction.OfPlayer && pawn.RaceProps?.Animal == true)
+        {
+            pawnTypes.Add(PawnType.ColonistAnimal);
+            return pawnTypes;
+        }
+
+        pawnTypes.Add(pawn.RaceProps?.Animal == true ? PawnType.NeutralAnimal : PawnType.Neutral);
 
         return pawnTypes;
     }

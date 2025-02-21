@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.5.12 - Fixed the pawntypes application order
+
+
 1.5.11 - Pawns can now match multiple pawn-types correctly
 
 
