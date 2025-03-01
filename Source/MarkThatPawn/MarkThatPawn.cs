@@ -346,6 +346,7 @@ public static class MarkThatPawn
     public static void RenderMarkingOverlay(ThingWithComps thing, MarkingTracker tracker)
     {
         var isCorpse = false;
+        var drawPos = thing.DrawPos;
         if (thing is not Pawn pawn)
         {
             if (thing is not Corpse corpse)
@@ -354,12 +355,12 @@ public static class MarkThatPawn
             }
 
             pawn = corpse.InnerPawn;
+            drawPos = corpse.DrawPosHeld ?? pawn.DrawPos;
             isCorpse = true;
         }
 
-
         if (!isCorpse && (!pawn.Spawned || !pawn.IsPlayerControlled && pawn.IsPsychologicallyInvisible()) ||
-            pawn.Position.Fogged(thing.Map) || CAI5000Loaded && CAI5000FogCheck.IsFogged(pawn))
+            pawn.Position.Fogged(tracker.map) || CAI5000Loaded && CAI5000FogCheck.IsFogged(pawn))
         {
             if (pawnExpandCache.ContainsKey(thing))
             {
@@ -486,7 +487,6 @@ public static class MarkThatPawn
             pawnHeight = standardSize + (int)Math.Floor((pawn.def.size.z - standardSize) / 2f);
         }
 
-        var drawPos = thing.DrawPos;
         drawPos.x += MarkThatPawnMod.instance.Settings.XOffset;
         drawPos.y = AltitudeLayer.MetaOverlays.AltitudeFor() + 0.28125f;
         drawPos.z += pawnHeight + (MarkThatPawnMod.instance.Settings.IconSize / 3);
@@ -958,11 +958,6 @@ public static class MarkThatPawn
 
         if (pawn.Dead)
         {
-            if (!MarkThatPawnMod.instance.Settings.ShowOnCorpses)
-            {
-                return false;
-            }
-
             if (pawn.MapHeld == null)
             {
                 return false;

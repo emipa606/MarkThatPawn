@@ -8,9 +8,15 @@ public static class PawnRenderer_RenderPawnAt
 {
     public static void Postfix(Pawn ___pawn)
     {
+        ThingWithComps pawn = ___pawn;
         if (___pawn.Dead)
         {
-            return;
+            if (!MarkThatPawnMod.instance.Settings.ShowOnCorpses)
+            {
+                return;
+            }
+
+            pawn = ___pawn.Corpse;
         }
 
         if (!MarkThatPawn.ValidPawn(___pawn, true))
@@ -18,18 +24,20 @@ public static class PawnRenderer_RenderPawnAt
             return;
         }
 
-        var tracker = ___pawn.Map.GetComponent<MarkingTracker>();
+        var map = pawn.Map ?? pawn.MapHeld;
+
+        var tracker = map?.GetComponent<MarkingTracker>();
 
         if (tracker == null)
         {
             return;
         }
 
-        if (!tracker.GlobalMarkingTracker.HasAnyDefinedMarking(___pawn))
+        if (!tracker.GlobalMarkingTracker.HasAnyDefinedMarking(pawn))
         {
             return;
         }
 
-        MarkThatPawn.RenderMarkingOverlay(___pawn, tracker);
+        MarkThatPawn.RenderMarkingOverlay(pawn, tracker);
     }
 }
