@@ -20,12 +20,12 @@ public static class Pawn_Tick
             markingTracker.PawnsToEvaluate.Add(__instance);
         }
 
-        if (__instance.Faction != null && MarkThatPawn.FactionMaterialCache.ContainsKey(__instance.Faction))
+        if (__instance.Faction != null)
         {
             MarkThatPawn.FactionMaterialCache.Remove(__instance.Faction);
         }
 
-        if (__instance.Ideo != null && MarkThatPawn.IdeoMaterialCache.ContainsKey(__instance.Ideo))
+        if (__instance.Ideo != null)
         {
             MarkThatPawn.IdeoMaterialCache.Remove(__instance.Ideo);
         }

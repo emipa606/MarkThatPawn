@@ -22,12 +22,12 @@ public static class Corpse_TickRare
 
         var pawn = __instance.InnerPawn;
 
-        if (pawn?.Faction != null && MarkThatPawn.FactionMaterialCache.ContainsKey(pawn.Faction))
+        if (pawn?.Faction != null)
         {
             MarkThatPawn.FactionMaterialCache.Remove(pawn.Faction);
         }
 
-        if (pawn?.Ideo != null && MarkThatPawn.IdeoMaterialCache.ContainsKey(pawn.Ideo))
+        if (pawn?.Ideo != null)
         {
             MarkThatPawn.IdeoMaterialCache.Remove(pawn.Ideo);
         }

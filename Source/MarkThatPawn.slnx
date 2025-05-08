@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Release" />
+  </Configurations>
+  <Project Path="MarkThatPawn/MarkThatPawn.csproj" />
+  <Project Path="TDFindLibRule/TDFindLibRule.csproj" />
+</Solution>

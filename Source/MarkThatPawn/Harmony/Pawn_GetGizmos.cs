@@ -23,11 +23,15 @@ public static class Pawn_GetGizmos
 
     public static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> values, ThingWithComps __instance)
     {
-        if (values?.Any() == true)
+        var enumerable = values as Gizmo[] ?? values.ToArray();
+        if (enumerable.Any())
         {
-            foreach (var gizmo in values)
+            foreach (var gizmo in enumerable)
             {
-                yield return gizmo;
+                if (gizmo is not null)
+                {
+                    yield return gizmo;
+                }
             }
         }
 
@@ -46,8 +50,7 @@ public static class Pawn_GetGizmos
             yield break;
         }
 
-        var tracker = __instance.Map.GetComponent<MarkingTracker>();
-
+        var tracker = pawn.MapHeld.GetComponent<MarkingTracker>();
         if (tracker == null)
         {
             yield break;

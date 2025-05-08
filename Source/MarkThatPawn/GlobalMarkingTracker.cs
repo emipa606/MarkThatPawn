@@ -91,17 +91,11 @@ public class GlobalMarkingTracker : GameComponent
     {
         if (onlySelectedPawn)
         {
-            if (CustomPawns.ContainsKey(thing))
-            {
-                CustomPawns.Remove(thing);
-            }
+            CustomPawns.Remove(thing);
 
             if (mark == 0)
             {
-                if (MarkedPawns.ContainsKey(thing))
-                {
-                    MarkedPawns.Remove(thing);
-                }
+                MarkedPawns.Remove(thing);
 
                 return;
             }
@@ -138,10 +132,7 @@ public class GlobalMarkingTracker : GameComponent
                 }
             }
 
-            if (CustomPawns.ContainsKey(thingSelected))
-            {
-                CustomPawns.Remove(thingSelected);
-            }
+            CustomPawns.Remove(thingSelected);
 
             switch (mark)
             {
@@ -156,10 +147,7 @@ public class GlobalMarkingTracker : GameComponent
 
                     break;
                 case 0:
-                    if (MarkedPawns.ContainsKey(thingSelected))
-                    {
-                        MarkedPawns.Remove(thingSelected);
-                    }
+                    MarkedPawns.Remove(thingSelected);
 
                     break;
             }
@@ -264,13 +252,11 @@ public class GlobalMarkingTracker : GameComponent
             mapTracker.PawnsToEvaluate.Add(thing);
         }
 
-        var overrideRules = new List<string>();
-        foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules
-                     .Where(rule => rule.Enabled && rule.IsOverride && rule.AppliesToPawn(pawn))
-                     .OrderBy(rule => rule.RuleOrder))
-        {
-            overrideRules.Add(markerRule.GetMarkerBlob());
-        }
+        var overrideRules = MarkThatPawnMod.instance.Settings.AutoRules
+            .Where(rule => rule.Enabled && rule.IsOverride && rule.AppliesToPawn(pawn))
+            .OrderBy(rule => rule.RuleOrder)
+            .Select(markerRule => markerRule.GetMarkerBlob())
+            .ToList();
 
         if (overrideRules.Any())
         {
@@ -278,10 +264,7 @@ public class GlobalMarkingTracker : GameComponent
         }
         else
         {
-            if (OverridePawns.ContainsKey(thing))
-            {
-                OverridePawns.Remove(thing);
-            }
+            OverridePawns.Remove(thing);
         }
 
         MarkThatPawn.ResetCache(thing);

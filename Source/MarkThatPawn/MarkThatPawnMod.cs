@@ -292,7 +292,7 @@ public class MarkThatPawnMod : Mod
         MarkThatPawn.ResetCache();
     }
 
-    public static bool MarkerSelector(Rect rowRect, MarkerDef marker)
+    private static bool MarkerSelector(Rect rowRect, MarkerDef marker)
     {
         var imageRect = rowRect;
         var buttonRect = rowRect.LeftPart(0.75f).RightPart(0.95f);

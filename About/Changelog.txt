@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.5.14 - Fixed issue with death refusal corpses
+
+
 1.5.13 - Fixed markings for corpses both on map and in containers like the gibblet cage
 
 

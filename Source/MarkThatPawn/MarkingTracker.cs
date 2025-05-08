@@ -28,10 +28,7 @@ public class MarkingTracker(Map map) : MapComponent(map)
 
         if (!MarkThatPawn.TryGetAutoMarkerForPawn(firstThing, out var result))
         {
-            if (GlobalMarkingTracker.AutomaticPawns.ContainsKey(firstThing))
-            {
-                GlobalMarkingTracker.AutomaticPawns.Remove(firstThing);
-            }
+            GlobalMarkingTracker.AutomaticPawns.Remove(firstThing);
 
             if (GlobalMarkingTracker.MarkedPawns.TryGetValue(firstThing, out var currentValue) && currentValue == -1)
             {

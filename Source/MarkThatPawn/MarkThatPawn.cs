@@ -362,10 +362,7 @@ public static class MarkThatPawn
         if (!isCorpse && (!pawn.Spawned || !pawn.IsPlayerControlled && pawn.IsPsychologicallyInvisible()) ||
             pawn.Position.Fogged(tracker.map) || CAI5000Loaded && CAI5000FogCheck.IsFogged(pawn))
         {
-            if (pawnExpandCache.ContainsKey(thing))
-            {
-                pawnExpandCache.Remove(thing);
-            }
+            pawnExpandCache.Remove(thing);
 
             return;
         }
@@ -442,13 +439,8 @@ public static class MarkThatPawn
 
                 break;
             case -2:
-                if (!tracker.GlobalMarkingTracker.CustomPawns.TryGetValue(thing, out var customString))
-                {
-                    tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
-                    break;
-                }
-
-                if (!TryToConvertStringToMaterial(customString, out var customMaterial))
+                if (!tracker.GlobalMarkingTracker.CustomPawns.TryGetValue(thing, out var customString) ||
+                    !TryToConvertStringToMaterial(customString, out var customMaterial))
                 {
                     tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
                     break;
@@ -686,7 +678,7 @@ public static class MarkThatPawn
         return true;
     }
 
-    public static bool TryToConvertStringToMaterial(string markerString, out Material result, Pawn pawn = null)
+    private static bool TryToConvertStringToMaterial(string markerString, out Material result, Pawn pawn = null)
     {
         result = null;
         if (markerString == null || !markerString.Contains(";"))
@@ -700,7 +692,7 @@ public static class MarkThatPawn
             {
                 case "FactionIcon":
 
-                    if (pawn?.Faction?.def?.FactionIcon == null)
+                    if (pawn?.Faction?.def?.FactionIcon is null)
                     {
                         return false;
                     }
@@ -715,7 +707,7 @@ public static class MarkThatPawn
                     FactionMaterialCache[pawn.Faction] = result;
                     return true;
                 case "IdeologyIcon":
-                    if (pawn?.Ideo?.Icon == null)
+                    if (pawn?.Ideo?.Icon is null)
                     {
                         return false;
                     }
@@ -768,21 +760,21 @@ public static class MarkThatPawn
             {
                 case "FactionIcon":
 
-                    if (pawn?.Faction?.def?.FactionIcon == null)
+                    if (pawn?.Faction?.def?.FactionIcon is null)
                     {
                         return false;
                     }
 
                     result = pawn.Faction.def.FactionIcon;
-                    return false;
+                    break;
                 case "IdeologyIcon":
-                    if (pawn?.Ideo?.Icon == null)
+                    if (pawn?.Ideo?.Icon is null)
                     {
                         return false;
                     }
 
                     result = pawn.Ideo.Icon;
-                    return false;
+                    break;
             }
 
             return false;
@@ -877,15 +869,9 @@ public static class MarkThatPawn
             return;
         }
 
-        if (pawnMeshCache.ContainsKey(pawn))
-        {
-            pawnMeshCache.Remove(pawn);
-        }
+        pawnMeshCache.Remove(pawn);
 
-        if (pawnMarkerCache.ContainsKey(pawn))
-        {
-            pawnMarkerCache.Remove(pawn);
-        }
+        pawnMarkerCache.Remove(pawn);
     }
 
     public static List<PawnType> GetPawnTypes(this Pawn pawn)

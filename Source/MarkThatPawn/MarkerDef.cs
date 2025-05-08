@@ -46,7 +46,7 @@ public class MarkerDef : Def
     {
         get
         {
-            if (icon == null)
+            if (icon is null)
             {
                 loadTextures();
             }
@@ -119,7 +119,7 @@ public class MarkerDef : Def
         {
             counter++;
             var foundTexture = ContentFinder<Texture2D>.Get($"{graphicPrefix}_{counter}", false);
-            if (foundTexture == null)
+            if (foundTexture is null)
             {
                 break;
             }
