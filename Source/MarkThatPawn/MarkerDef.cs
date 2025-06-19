@@ -64,7 +64,7 @@ public class MarkerDef : Def
                 return (bool)enabled;
             }
 
-            if (mayRequire == null || mayRequire.Any() == false)
+            if (mayRequire == null || !mayRequire.Any())
             {
                 enabled = true;
                 return true;
@@ -72,7 +72,7 @@ public class MarkerDef : Def
 
             foreach (var modId in mayRequire)
             {
-                if (ModLister.GetActiveModWithIdentifier(modId) != null)
+                if (ModLister.GetActiveModWithIdentifier(modId, true) != null)
                 {
                     continue;
                 }

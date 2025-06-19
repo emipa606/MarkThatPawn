@@ -7,7 +7,7 @@ namespace MarkThatPawn.MarkerRules;
 
 public class XenotypeMarkerRule : MarkerRule
 {
-    private XenotypeDef RuleXenotype;
+    private XenotypeDef ruleXenotype;
 
     public XenotypeMarkerRule()
     {
@@ -23,7 +23,7 @@ public class XenotypeMarkerRule : MarkerRule
 
     protected override bool CanEnable()
     {
-        return base.CanEnable() && ModLister.BiotechInstalled && RuleXenotype != null;
+        return base.CanEnable() && ModLister.BiotechInstalled && ruleXenotype != null;
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
@@ -31,24 +31,24 @@ public class XenotypeMarkerRule : MarkerRule
         var xenotypeArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
         if (edit)
         {
-            if (Widgets.ButtonText(xenotypeArea, RuleXenotype?.LabelCap ?? "MTP.NoneSelected".Translate()))
+            if (Widgets.ButtonText(xenotypeArea, ruleXenotype?.LabelCap ?? "MTP.NoneSelected".Translate()))
             {
                 showXenotypeSelectorMenu();
             }
         }
         else
         {
-            Widgets.Label(xenotypeArea, RuleXenotype?.LabelCap ?? "MTP.NoneSelected".Translate());
+            Widgets.Label(xenotypeArea, ruleXenotype?.LabelCap ?? "MTP.NoneSelected".Translate());
         }
 
-        if (RuleXenotype == null)
+        if (ruleXenotype == null)
         {
             return;
         }
 
         var xenotypeImageRect = rect.RightPartPixels(rect.height).ContractedBy(1f);
-        TooltipHandler.TipRegion(xenotypeImageRect, RuleXenotype.description);
-        GUI.DrawTexture(xenotypeImageRect, RuleXenotype.Icon);
+        TooltipHandler.TipRegion(xenotypeImageRect, ruleXenotype.description);
+        GUI.DrawTexture(xenotypeImageRect, ruleXenotype.Icon);
     }
 
     public override MarkerRule GetCopy()
@@ -75,8 +75,8 @@ public class XenotypeMarkerRule : MarkerRule
             return;
         }
 
-        RuleXenotype = DefDatabase<XenotypeDef>.GetNamedSilentFail(RuleParameters);
-        if (RuleXenotype != null)
+        ruleXenotype = DefDatabase<XenotypeDef>.GetNamedSilentFail(RuleParameters);
+        if (ruleXenotype != null)
         {
             return;
         }
@@ -92,7 +92,7 @@ public class XenotypeMarkerRule : MarkerRule
             return false;
         }
 
-        return pawn.genes?.Xenotype == RuleXenotype;
+        return pawn.genes?.Xenotype == ruleXenotype;
     }
 
 
@@ -105,7 +105,7 @@ public class XenotypeMarkerRule : MarkerRule
             xenotypeList.Add(new FloatMenuOption(xenotype.LabelCap, () =>
             {
                 RuleParameters = xenotype.defName;
-                RuleXenotype = xenotype;
+                ruleXenotype = xenotype;
             }, xenotype.Icon, Color.white));
         }
 

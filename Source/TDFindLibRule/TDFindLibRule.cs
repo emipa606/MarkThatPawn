@@ -18,16 +18,16 @@ public class TDFindLibRule : MarkerRule
         {
             name = RuleParameters
         };
-        if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches == null)
+        if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches == null)
         {
-            Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches = [];
+            Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches = [];
         }
 
-        Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches.Add(tdSearcher);
+        Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches.Add(tdSearcher);
         IsInCorrectGame = true;
     }
 
-    public TDFindLibRule(string blob)
+    private TDFindLibRule(string blob)
     {
         RuleType = AutoRuleType.TDFindLib;
         RequiresASpecificGame = true;
@@ -51,7 +51,7 @@ public class TDFindLibRule : MarkerRule
     public override void OnDelete()
     {
         base.OnDelete();
-        Current.Game?.GetComponent<GameComponent_TDFindLibRuleComponent>()?.TDFindLibSearches.Remove(tdSearcher);
+        Current.Game?.GetComponent<GameComponent_TDFindLibRuleComponent>()?.TdFindLibSearches.Remove(tdSearcher);
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
@@ -100,12 +100,12 @@ public class TDFindLibRule : MarkerRule
             parameters = tdSearcher.parameters
         };
 
-        if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches == null)
+        if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches == null)
         {
-            Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches = [];
+            Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches = [];
         }
 
-        Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches.Add(returnRule.tdSearcher);
+        Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches.Add(returnRule.tdSearcher);
         return returnRule;
     }
 
@@ -137,8 +137,8 @@ public class TDFindLibRule : MarkerRule
             return;
         }
 
-        if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches == null ||
-            Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches.Any() == false)
+        if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches == null ||
+            !Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches.Any())
         {
             ErrorMessage = $"No findLib rules exists to find {RuleParameters}, disabling rule";
             ConfigError = true;
@@ -146,7 +146,7 @@ public class TDFindLibRule : MarkerRule
             return;
         }
 
-        foreach (var querySearch in Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TDFindLibSearches)
+        foreach (var querySearch in Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches)
         {
             if (querySearch.name != RuleParameters)
             {
@@ -185,10 +185,10 @@ public class TDFindLibRule : MarkerRule
         return tdSearcher.result.allThings.Contains(pawn);
     }
 
-    public class PawnToMarkEditor : SearchEditorRevertableWindow, ISearchReceiver
+    private class PawnToMarkEditor : SearchEditorRevertableWindow, ISearchReceiver
     {
         // ISearchReceiver stuff
-        public static readonly string TransferTag = "TD.MTP";
+        private static readonly string TransferTag = "TD.MTP";
 
         public PawnToMarkEditor(QuerySearch search) : base(search, TransferTag)
         {

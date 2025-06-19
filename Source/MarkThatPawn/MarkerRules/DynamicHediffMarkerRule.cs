@@ -134,19 +134,8 @@ public class DynamicHediffMarkerRule : MarkerRule
 
             var hediffDef =
                 DefDatabase<HediffDef>.GetNamedSilentFail(traitSplitted[0]);
-            if (hediffDef == null)
-            {
-                ConfigError = true;
-                continue;
-            }
-
-            if (!int.TryParse(traitSplitted[1], out var hediffStage))
-            {
-                ConfigError = true;
-                continue;
-            }
-
-            if (hediffDef.stages != null && hediffDef.stages.Count <= hediffStage)
+            if (hediffDef == null || !int.TryParse(traitSplitted[1], out var hediffStage) ||
+                hediffDef.stages != null && hediffDef.stages.Count <= hediffStage)
             {
                 ConfigError = true;
                 continue;

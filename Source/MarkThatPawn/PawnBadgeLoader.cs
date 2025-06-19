@@ -19,7 +19,7 @@ public static class PawnBadgeLoader
 
         foreach (var badgeDef in badgeDefs)
         {
-            var iconBasePath = badgeDef.icon.Substring(0, badgeDef.icon.LastIndexOf('/'));
+            var iconBasePath = badgeDef.icon[..badgeDef.icon.LastIndexOf('/')];
             if (listOfBadgeFolders.Contains(iconBasePath))
             {
                 continue;
@@ -33,7 +33,7 @@ public static class PawnBadgeLoader
             var iconName = badgeFolder;
             if (badgeFolder.Contains("/"))
             {
-                iconName = badgeFolder.Substring(badgeFolder.LastIndexOf('/') + 1);
+                iconName = badgeFolder[(badgeFolder.LastIndexOf('/') + 1)..];
             }
 
             var badgeMarkerDef = new MarkerDef

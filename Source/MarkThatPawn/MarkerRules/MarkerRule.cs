@@ -49,7 +49,7 @@ public abstract class MarkerRule
     public bool IsInCorrectGame;
     public bool IsOverride;
     public MarkerDef MarkerDef;
-    public int MarkerIndex;
+    private int markerIndex;
     public PawnType PawnLimitation;
     public string RawBlob;
     public bool RequiresASpecificGame;
@@ -81,7 +81,7 @@ public abstract class MarkerRule
 
         foreach (var def in MarkerDefs)
         {
-            markerSetList.Add(new FloatMenuOption(def.LabelCap, () => TrySetMarkerDef(def), def.Icon, Color.white));
+            markerSetList.Add(new FloatMenuOption(def.LabelCap, () => trySetMarkerDef(def), def.Icon, Color.white));
         }
 
         Find.WindowStack.Add(new FloatMenu(markerSetList));
@@ -100,7 +100,7 @@ public abstract class MarkerRule
         {
             var localVariable = marker;
             markerList.Add(new FloatMenuOption("MTP.MarkerNumber".Translate(marker),
-                () => TrySetMarkerIndex(localVariable - 1), MarkerDef.MarkerTextures[marker - 1], Color.white));
+                () => trySetMarkerIndex(localVariable - 1), MarkerDef.MarkerTextures[marker - 1], Color.white));
         }
 
         Find.WindowStack.Add(new FloatMenu(markerList));
@@ -118,7 +118,7 @@ public abstract class MarkerRule
             return false;
         }
 
-        return MarkerIndex < MarkerDef.MarkerTextures.Count;
+        return markerIndex < MarkerDef.MarkerTextures.Count;
     }
 
     public virtual void ShowTypeParametersRect(Rect rect, bool edit)
@@ -146,13 +146,13 @@ public abstract class MarkerRule
 
         RuleParameters = string.Empty;
         PawnLimitation = PawnType.Default;
-        MarkerIndex = 0;
-        MarkerDef = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
+        markerIndex = 0;
+        MarkerDef = MarkThatPawnMod.Instance.Settings.DefaultMarkerSet;
         Enabled = false;
         ApplicablePawnTypes = Enum.GetValues(typeof(PawnType)).Cast<PawnType>().ToList();
-        if (MarkThatPawnMod.instance.Settings.AutoRules?.Any() == true)
+        if (MarkThatPawnMod.Instance.Settings.AutoRules?.Any() == true)
         {
-            RuleOrder = MarkThatPawnMod.instance.Settings.AutoRules.Max(rule => rule.RuleOrder) + 1;
+            RuleOrder = MarkThatPawnMod.Instance.Settings.AutoRules.Max(rule => rule.RuleOrder) + 1;
         }
         else
         {
@@ -166,16 +166,15 @@ public abstract class MarkerRule
 
         SetDefaultValues();
         var rowSplitted = blob.Split(BlobSplitter);
-        if (rowSplitted.Length is < 6 or > 8)
+        switch (rowSplitted.Length)
         {
-            ErrorMessage = $"Blob is malformed, cannot split into correct parts, got {rowSplitted.Length}";
-            ConfigError = true;
-            return;
-        }
-
-        if (rowSplitted.Length == 6)
-        {
-            rowSplitted = $"{blob}{BlobSplitter}Default".Split(BlobSplitter);
+            case < 6 or > 8:
+                ErrorMessage = $"Blob is malformed, cannot split into correct parts, got {rowSplitted.Length}";
+                ConfigError = true;
+                return;
+            case 6:
+                rowSplitted = $"{blob}{BlobSplitter}Default".Split(BlobSplitter);
+                break;
         }
 
         RuleParameters = rowSplitted[1];
@@ -187,7 +186,7 @@ public abstract class MarkerRule
             return;
         }
 
-        if (!int.TryParse(rowSplitted[3], out MarkerIndex))
+        if (!int.TryParse(rowSplitted[3], out markerIndex))
         {
             ErrorMessage = "Cannot parse MarkerIndex";
             ConfigError = true;
@@ -231,7 +230,7 @@ public abstract class MarkerRule
     {
         if (pawn.Dead)
         {
-            if (!MarkThatPawnMod.instance.Settings.ShowOnCorpses)
+            if (!MarkThatPawnMod.Instance.Settings.ShowOnCorpses)
             {
                 return false;
             }
@@ -251,7 +250,7 @@ public abstract class MarkerRule
     {
         return ConfigError
             ? RawBlob
-            : $"{RuleType};{RuleParameters};{MarkerDef.defName};{MarkerIndex};{Enabled};{RuleOrder};{PawnLimitation}";
+            : $"{RuleType};{RuleParameters};{MarkerDef.defName};{markerIndex};{Enabled};{RuleOrder};{PawnLimitation}";
     }
 
     public string GetTranslatedType()
@@ -261,7 +260,7 @@ public abstract class MarkerRule
 
     public string GetTranslatedMarkerIndex()
     {
-        return "MTP.MarkerNumber".Translate(MarkerIndex + 1);
+        return "MTP.MarkerNumber".Translate(markerIndex + 1);
     }
 
     public virtual Texture2D GetIconTexture()
@@ -273,7 +272,7 @@ public abstract class MarkerRule
 
         if (MarkerDef != null)
         {
-            return MarkerDef.MarkerTextures[MarkerIndex];
+            return MarkerDef.MarkerTextures[markerIndex];
         }
 
         ErrorMessage = "There is no MarkerDef defined";
@@ -282,7 +281,7 @@ public abstract class MarkerRule
 
     public virtual string GetMarkerBlob()
     {
-        return ConfigError ? "" : $"{MarkerDef.defName};{MarkerIndex + 1}";
+        return ConfigError ? "" : $"{MarkerDef.defName};{markerIndex + 1}";
     }
 
     public void SetEnabled(bool enabled)
@@ -309,7 +308,7 @@ public abstract class MarkerRule
         Enabled = false;
     }
 
-    public void TrySetMarkerDef(MarkerDef markerDef)
+    private void trySetMarkerDef(MarkerDef markerDef)
     {
         if (ConfigError)
         {
@@ -323,10 +322,10 @@ public abstract class MarkerRule
         }
 
         MarkerDef = markerDef;
-        MarkerIndex = 0;
+        markerIndex = 0;
     }
 
-    public void TrySetMarkerIndex(int markerIndex)
+    private void trySetMarkerIndex(int index)
     {
         if (ConfigError)
         {
@@ -339,13 +338,13 @@ public abstract class MarkerRule
             return;
         }
 
-        if (MarkerDef.MarkerTextures.Count < MarkerIndex)
+        if (MarkerDef.MarkerTextures.Count < markerIndex)
         {
             ErrorMessage = "MarkerIndex is higher than the amount of icons";
             return;
         }
 
-        MarkerIndex = markerIndex;
+        markerIndex = index;
     }
 
     public void IncreasePrio()
@@ -355,13 +354,13 @@ public abstract class MarkerRule
             return;
         }
 
-        if (RuleOrder == MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
+        if (RuleOrder == MarkThatPawnMod.Instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
                 .Min(rule => rule.RuleOrder))
         {
             return;
         }
 
-        var ruleToSwitchWith = MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
+        var ruleToSwitchWith = MarkThatPawnMod.Instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
             .OrderByDescending(rule => rule.RuleOrder)
             .First(rule => rule.RuleOrder < RuleOrder);
 
@@ -375,13 +374,13 @@ public abstract class MarkerRule
             return;
         }
 
-        if (RuleOrder == MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
+        if (RuleOrder == MarkThatPawnMod.Instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
                 .Max(rule => rule.RuleOrder))
         {
             return;
         }
 
-        var ruleToSwitchWith = MarkThatPawnMod.instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
+        var ruleToSwitchWith = MarkThatPawnMod.Instance.Settings.AutoRules.Where(rule => rule.IsOverride == IsOverride)
             .OrderBy(rule => rule.RuleOrder)
             .First(rule => rule.RuleOrder > RuleOrder);
 

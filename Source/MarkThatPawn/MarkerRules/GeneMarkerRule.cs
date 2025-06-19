@@ -214,12 +214,13 @@ public class GeneMarkerRule : MarkerRule
         }
 
         var allUndefinedGenes = MarkThatPawn.AllValidGenes.Where(def => def.displayCategory == null);
-        if (allUndefinedGenes.Any())
+        var undefinedGenes = allUndefinedGenes as GeneDef[] ?? allUndefinedGenes.ToArray();
+        if (undefinedGenes.Any())
         {
             geneList.Add(new FloatMenuOption("MTP.AutomaticType.GeneUndefinedCategory".Translate(), () =>
             {
                 var geneCategoryList = new List<FloatMenuOption>();
-                foreach (var gene in allUndefinedGenes.OrderBy(def => def.label))
+                foreach (var gene in undefinedGenes.OrderBy(def => def.label))
                 {
                     if (geneDefs.Contains(gene))
                     {

@@ -118,19 +118,8 @@ public class TraitMarkerRule : MarkerRule
 
             var traitDef =
                 DefDatabase<TraitDef>.GetNamedSilentFail(traitSplitted[0]);
-            if (traitDef == null)
-            {
-                ConfigError = true;
-                continue;
-            }
-
-            if (!int.TryParse(traitSplitted[1], out var traitDegree))
-            {
-                ConfigError = true;
-                continue;
-            }
-
-            if (!traitDef.degreeDatas.Any(data => data.degree == traitDegree))
+            if (traitDef == null || !int.TryParse(traitSplitted[1], out var traitDegree) ||
+                !traitDef.degreeDatas.Any(data => data.degree == traitDegree))
             {
                 ConfigError = true;
                 continue;

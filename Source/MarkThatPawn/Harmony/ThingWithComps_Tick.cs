@@ -3,12 +3,12 @@ using Verse;
 
 namespace MarkThatPawn.Harmony;
 
-[HarmonyPatch(typeof(Pawn), nameof(Pawn.Tick))]
+[HarmonyPatch(typeof(Pawn), "Tick")]
 public static class Pawn_Tick
 {
     public static void Postfix(Pawn __instance)
     {
-        if (!MarkThatPawnMod.instance.Settings.RefreshRules || __instance == null ||
+        if (!MarkThatPawnMod.Instance.Settings.RefreshRules || __instance == null ||
             !__instance.IsHashIntervalTick(GenTicks.TickLongInterval))
         {
             return;

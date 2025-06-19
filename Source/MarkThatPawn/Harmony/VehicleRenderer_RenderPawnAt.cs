@@ -11,11 +11,7 @@ public static class VehicleRenderer_RenderPawnAt
             return;
         }
 
-        var map = ___vehicle.Map;
-        if (map == null)
-        {
-            map = ___vehicle.MapHeld;
-        }
+        var map = ___vehicle.Map ?? ___vehicle.MapHeld;
 
         var tracker = map?.GetComponent<MarkingTracker>();
 

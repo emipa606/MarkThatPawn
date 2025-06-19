@@ -145,13 +145,8 @@ public class SkillMarkerRule : MarkerRule
             var skillDef =
                 DefDatabase<SkillDef>.GetNamedSilentFail(
                     skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter)[0]);
-            if (skillDef == null)
-            {
-                ConfigError = true;
-                continue;
-            }
-
-            if (!int.TryParse(skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter)[1], out var skillLevel))
+            if (skillDef == null || !int.TryParse(skillKeyPair.Split(MarkThatPawn.RuleInternalSplitter)[1],
+                    out var skillLevel))
             {
                 ConfigError = true;
                 continue;
@@ -248,7 +243,7 @@ public class SkillMarkerRule : MarkerRule
                     {
                         var subSubMenu = new List<FloatMenuOption>
                         {
-                            new FloatMenuOption("PassionNone".Translate(), () =>
+                            new("PassionNone".Translate(), () =>
                             {
                                 skillDefs[skillDef] = level;
                                 passionDefs[skillDef] = Passion.None;
@@ -256,7 +251,7 @@ public class SkillMarkerRule : MarkerRule
                                     skillDefs.Select(pair =>
                                         $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}{MarkThatPawn.RuleInternalSplitter}{passionDefs[pair.Key].ToString()}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                             }),
-                            new FloatMenuOption("PassionMinor".Translate(), () =>
+                            new("PassionMinor".Translate(), () =>
                             {
                                 skillDefs[skillDef] = level;
                                 passionDefs[skillDef] = Passion.Minor;
@@ -264,7 +259,7 @@ public class SkillMarkerRule : MarkerRule
                                     skillDefs.Select(pair =>
                                         $"{pair.Key.defName}{MarkThatPawn.RuleInternalSplitter}{pair.Value}{MarkThatPawn.RuleInternalSplitter}{passionDefs[pair.Key].ToString()}"))}{MarkThatPawn.RuleItemsSplitter}{or}";
                             }, SkillUI.PassionMinorIcon, Color.white),
-                            new FloatMenuOption("PassionMajor".Translate(), () =>
+                            new("PassionMajor".Translate(), () =>
                             {
                                 skillDefs[skillDef] = level;
                                 passionDefs[skillDef] = Passion.Major;

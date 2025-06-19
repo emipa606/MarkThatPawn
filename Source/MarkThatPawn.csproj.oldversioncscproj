@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputPath>..\..\1.4\Assemblies</OutputPath>
-    <TargetFramework>net48</TargetFramework>
+    <OutputPath>..\..\1.5\Assemblies</OutputPath>
+    <TargetFramework>net481</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <DebugType>None</DebugType>
     <LangVersion>latest</LangVersion>
-    <FileVersion>1.4.37</FileVersion>
+    <FileVersion>1.5.14</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
@@ -19,5 +19,15 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Mlie_Rimworld_VersionFromManifest" Version="*" />
+    <Reference Include="CAI5000">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2938891185\1.5\Assemblies\CombatAI.dll</HintPath>
+      <CopyLocal>False</CopyLocal>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="PawnBadge">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2526040241\1.5\Assemblies\RR_PawnBadge-RW1.5.dll</HintPath>
+      <CopyLocal>False</CopyLocal>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 </Project>

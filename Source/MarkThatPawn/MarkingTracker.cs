@@ -123,13 +123,13 @@ public class MarkingTracker(Map map) : MapComponent(map)
         CustomPawns.Clear();
     }
 
-    private Dictionary<ThingWithComps, string> AutomaticPawns = new Dictionary<ThingWithComps, string>();
+    private Dictionary<ThingWithComps, string> AutomaticPawns = new();
     private List<ThingWithComps> automaticPawnsKeys = [];
     private List<string> automaticPawnsValues = [];
-    private Dictionary<ThingWithComps, string> CustomPawns = new Dictionary<ThingWithComps, string>();
+    private Dictionary<ThingWithComps, string> CustomPawns = new();
     private List<ThingWithComps> customPawnsKeys = [];
     private List<string> customPawnsValues = [];
-    private Dictionary<ThingWithComps, int> MarkedPawns = new Dictionary<ThingWithComps, int>();
+    private Dictionary<ThingWithComps, int> MarkedPawns = new();
     private List<ThingWithComps> markedPawnsKeys = [];
     private List<int> markedPawnsValues = [];
 

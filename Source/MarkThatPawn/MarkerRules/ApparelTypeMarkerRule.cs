@@ -7,17 +7,6 @@ namespace MarkThatPawn.MarkerRules;
 
 public class ApparelTypeMarkerRule : MarkerRule
 {
-    public enum EquippedApparelType
-    {
-        None,
-        Royal,
-        Psycast,
-        Mechanator,
-        Armored,
-        EnviromentalProtection,
-        Basic
-    }
-
     private EquippedApparelType equippedApparelType;
 
     public ApparelTypeMarkerRule()
@@ -40,10 +29,10 @@ public class ApparelTypeMarkerRule : MarkerRule
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var ApparelArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
+        var apparelArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
         if (edit)
         {
-            if (Widgets.ButtonText(ApparelArea,
+            if (Widgets.ButtonText(apparelArea,
                     equippedApparelType == EquippedApparelType.None
                         ? "MTP.NoneSelected".Translate()
                         : $"MTP.EquippedApparelType.{equippedApparelType}".Translate()))
@@ -53,7 +42,7 @@ public class ApparelTypeMarkerRule : MarkerRule
         }
         else
         {
-            Widgets.Label(ApparelArea,
+            Widgets.Label(apparelArea,
                 equippedApparelType == EquippedApparelType.None
                     ? "MTP.NoneSelected".Translate()
                     : $"MTP.EquippedApparelType.{equippedApparelType}".Translate());
@@ -120,32 +109,43 @@ public class ApparelTypeMarkerRule : MarkerRule
 
     private void showApparelTypeSelectorMenu()
     {
-        var ApparelList = new List<FloatMenuOption>();
+        var apparelList = new List<FloatMenuOption>();
 
-        foreach (var ApparelType in (EquippedApparelType[])Enum.GetValues(typeof(EquippedApparelType)))
+        foreach (var apparelType in (EquippedApparelType[])Enum.GetValues(typeof(EquippedApparelType)))
         {
-            if (ApparelType == EquippedApparelType.None)
+            if (apparelType == EquippedApparelType.None)
             {
                 continue;
             }
 
-            if (!ModLister.BiotechInstalled && ApparelType == EquippedApparelType.Mechanator)
+            if (!ModLister.BiotechInstalled && apparelType == EquippedApparelType.Mechanator)
             {
                 continue;
             }
 
-            if (!ModLister.RoyaltyInstalled && ApparelType is EquippedApparelType.Psycast or EquippedApparelType.Royal)
+            if (!ModLister.RoyaltyInstalled && apparelType is EquippedApparelType.Psycast or EquippedApparelType.Royal)
             {
                 continue;
             }
 
-            ApparelList.Add(new FloatMenuOption($"MTP.EquippedApparelType.{ApparelType}".Translate(), () =>
+            apparelList.Add(new FloatMenuOption($"MTP.EquippedApparelType.{apparelType}".Translate(), () =>
             {
-                RuleParameters = ApparelType.ToString();
-                equippedApparelType = ApparelType;
+                RuleParameters = apparelType.ToString();
+                equippedApparelType = apparelType;
             }));
         }
 
-        Find.WindowStack.Add(new FloatMenu(ApparelList));
+        Find.WindowStack.Add(new FloatMenu(apparelList));
+    }
+
+    private enum EquippedApparelType
+    {
+        None,
+        Royal,
+        Psycast,
+        Mechanator,
+        Armored,
+        EnviromentalProtection,
+        Basic
     }
 }

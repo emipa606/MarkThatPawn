@@ -7,15 +7,6 @@ namespace MarkThatPawn.MarkerRules;
 
 public class WeaponTypeMarkerRule : MarkerRule
 {
-    public enum EquippedWeaponType
-    {
-        None,
-        Melee,
-        Ranged,
-        RangedExplosive,
-        Thrown
-    }
-
     private EquippedWeaponType equippedWeaponType;
 
     public WeaponTypeMarkerRule()
@@ -131,5 +122,14 @@ public class WeaponTypeMarkerRule : MarkerRule
         }
 
         Find.WindowStack.Add(new FloatMenu(weaponList));
+    }
+
+    private enum EquippedWeaponType
+    {
+        None,
+        Melee,
+        Ranged,
+        RangedExplosive,
+        Thrown
     }
 }

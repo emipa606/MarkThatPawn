@@ -8,7 +8,7 @@ public static class Corpse_TickRare
 {
     public static void Postfix(Corpse __instance)
     {
-        if (!MarkThatPawnMod.instance.Settings.RefreshRules || !MarkThatPawnMod.instance.Settings.ShowOnCorpses ||
+        if (!MarkThatPawnMod.Instance.Settings.RefreshRules || !MarkThatPawnMod.Instance.Settings.ShowOnCorpses ||
             __instance == null)
         {
             return;

@@ -6,8 +6,7 @@ namespace MarkThatPawn;
 
 public static class CAI5000FogCheck
 {
-    private static readonly Dictionary<Map, MapComponent>
-        fogGrids = new Dictionary<Map, MapComponent>();
+    private static readonly Dictionary<Map, MapComponent> fogGrids = new();
 
     public static bool IsFogged(Pawn pawn)
     {
@@ -18,10 +17,10 @@ public static class CAI5000FogCheck
         }
 
         var cell = pawn.Position;
-        return cell != IntVec3.Invalid && ((MapComponent_FogGrid)GetFogGrid(map)).IsFogged(cell);
+        return cell != IntVec3.Invalid && ((MapComponent_FogGrid)getFogGrid(map)).IsFogged(cell);
     }
 
-    private static MapComponent GetFogGrid(Map map)
+    private static MapComponent getFogGrid(Map map)
     {
         if (fogGrids.TryGetValue(map, out var fogGrid))
         {

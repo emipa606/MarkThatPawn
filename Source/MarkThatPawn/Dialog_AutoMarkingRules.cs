@@ -9,15 +9,15 @@ namespace MarkThatPawn;
 
 public class Dialog_AutoMarkingRules : Window
 {
-    private static readonly Color inactiveColor = new Color(0.3f, 0.3f, 0.3f, 0.6f);
-    private static readonly Color overrideColor = new Color(0.1f, 0.3f, 0.3f, 0.6f);
+    private static readonly Color inactiveColor = new(0.3f, 0.3f, 0.3f, 0.6f);
+    private static readonly Color overrideColor = new(0.1f, 0.3f, 0.3f, 0.6f);
     private static readonly float rowHeight = 62f;
     private readonly Texture2D copyIcon;
 
     private MarkerRule originalRule;
     private MarkerRule ruleWorkingCopy;
 
-    public Vector2 ScrollPosition;
+    private Vector2 scrollPosition;
 
     public Dialog_AutoMarkingRules()
     {
@@ -30,7 +30,7 @@ public class Dialog_AutoMarkingRules : Window
         copyIcon = ContentFinder<Texture2D>.Get("UI/Commands/CopySettings");
     }
 
-    public override Vector2 InitialSize => new Vector2(900f, 800f);
+    public override Vector2 InitialSize => new(900f, 800f);
 
     public override void DoWindowContents(Rect inRect)
     {
@@ -46,23 +46,23 @@ public class Dialog_AutoMarkingRules : Window
                 showNewRuleMenu();
             }
 
-            if (MarkThatPawnMod.instance.Settings.AutoRules.Any() &&
+            if (MarkThatPawnMod.Instance.Settings.AutoRules.Any() &&
                 Widgets.ButtonText(labelRect.RightPart(0.35f).RightHalf().ContractedBy(1f), "MTP.ResetAll".Translate()))
             {
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
                     "MTP.ResetAllConfirm".Translate(),
-                    MarkThatPawnMod.instance.Settings.ClearRules));
+                    MarkThatPawnMod.Instance.Settings.ClearRules));
             }
         }
 
         var rulesOuterRect = new Rect(0f, 40f, inRect.width, inRect.height - 40f - CloseButSize.y);
         var rulesInnerRect = new Rect(0f, 0f, rulesOuterRect.width - 20f,
-            rowHeight * (MarkThatPawnMod.instance.Settings.AutoRules.Count + 1));
+            rowHeight * (MarkThatPawnMod.Instance.Settings.AutoRules.Count + 1));
 
         var rulesListing = new Listing_Standard();
-        Widgets.BeginScrollView(rulesOuterRect, ref ScrollPosition, rulesInnerRect);
+        Widgets.BeginScrollView(rulesOuterRect, ref scrollPosition, rulesInnerRect);
         rulesListing.Begin(rulesInnerRect);
-        foreach (var autoRule in MarkThatPawnMod.instance.Settings.AutoRules.OrderByDescending(rule => rule.IsOverride)
+        foreach (var autoRule in MarkThatPawnMod.Instance.Settings.AutoRules.OrderByDescending(rule => rule.IsOverride)
                      .ThenBy(rule => rule.RuleOrder))
         {
             rulesListing.GapLine();
@@ -79,7 +79,7 @@ public class Dialog_AutoMarkingRules : Window
             {
                 var increaseButtonArea = prioButtonsArea.TopPartPixels(24f);
                 var decreaseButtonArea = prioButtonsArea.BottomPartPixels(24f);
-                if (autoRule.RuleOrder != MarkThatPawnMod.instance.Settings.AutoRules
+                if (autoRule.RuleOrder != MarkThatPawnMod.Instance.Settings.AutoRules
                         .Where(rule => rule.IsOverride == autoRule.IsOverride).Min(rule => rule.RuleOrder))
                 {
                     TooltipHandler.TipRegion(increaseButtonArea, "MTP.IncreasePrio".Translate());
@@ -90,7 +90,7 @@ public class Dialog_AutoMarkingRules : Window
                     }
                 }
 
-                if (autoRule.RuleOrder != MarkThatPawnMod.instance.Settings.AutoRules
+                if (autoRule.RuleOrder != MarkThatPawnMod.Instance.Settings.AutoRules
                         .Where(rule => rule.IsOverride == autoRule.IsOverride).Max(rule => rule.RuleOrder))
                 {
                     TooltipHandler.TipRegion(decreaseButtonArea, "MTP.DecreasePrio".Translate());
@@ -155,9 +155,9 @@ public class Dialog_AutoMarkingRules : Window
                                 () =>
                                 {
                                     var ruleCopy = autoRule.GetCopy();
-                                    ruleCopy.RuleOrder = MarkThatPawnMod.instance.Settings.AutoRules
+                                    ruleCopy.RuleOrder = MarkThatPawnMod.Instance.Settings.AutoRules
                                         .OrderByDescending(rule => rule.RuleOrder).First().RuleOrder + 1;
-                                    MarkThatPawnMod.instance.Settings.AutoRules.Add(ruleCopy);
+                                    MarkThatPawnMod.Instance.Settings.AutoRules.Add(ruleCopy);
                                 }, copyIcon, Color.white));
                         }
 
@@ -169,7 +169,7 @@ public class Dialog_AutoMarkingRules : Window
                                     delegate
                                     {
                                         autoRule.OnDelete();
-                                        MarkThatPawnMod.instance.Settings.AutoRules.Remove(autoRule);
+                                        MarkThatPawnMod.Instance.Settings.AutoRules.Remove(autoRule);
                                     }));
                             }, TexButton.Delete, Color.white));
 
@@ -323,8 +323,8 @@ public class Dialog_AutoMarkingRules : Window
             "MTP.UnsavedRule".Translate(),
             delegate
             {
-                MarkThatPawnMod.instance.Settings
-                    .AutoRules[MarkThatPawnMod.instance.Settings.AutoRules.IndexOf(originalRule)]
+                MarkThatPawnMod.Instance.Settings
+                    .AutoRules[MarkThatPawnMod.Instance.Settings.AutoRules.IndexOf(originalRule)]
                     .SaveFromCopy(ruleWorkingCopy);
                 ruleWorkingCopy = null;
                 originalRule = null;
@@ -345,112 +345,112 @@ public class Dialog_AutoMarkingRules : Window
             {
                 case MarkerRule.AutoRuleType.Weapon:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new WeaponMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new WeaponMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.WeaponType:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new WeaponTypeMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new WeaponTypeMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Trait:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new TraitMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new TraitMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Skill:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new SkillMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new SkillMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Relative:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new RelativeMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new RelativeMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.PawnType:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new PawnTypeMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new PawnTypeMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Drafted:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new DraftedMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new DraftedMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Downed:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new DownedMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new DownedMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.MentalState:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new MentalStateMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new MentalStateMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.HediffDynamic:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new DynamicHediffMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new DynamicHediffMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.HediffStatic:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new StaticHediffMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new StaticHediffMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Animal:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AnimalMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new AnimalMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Mechanoid:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new MechanoidMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new MechanoidMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Gender:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new GenderMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new GenderMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Age:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AgeMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new AgeMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Xenotype when ModLister.BiotechInstalled:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new XenotypeMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new XenotypeMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Gene when ModLister.BiotechInstalled:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new GeneMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new GeneMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Apparel:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new ApparelMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new ApparelMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.ApparelType:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new ApparelTypeMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new ApparelTypeMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.AnyHediffStatic:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new AnyStaticHediffMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new AnyStaticHediffMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.FactionIcon:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new FactionIconMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new FactionIconMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.FactionLeader:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new FactionLeaderMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new FactionLeaderMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Guest:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new GuestMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new GuestMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.IdeologyIcon when ModLister.IdeologyInstalled:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new IdeologyIconMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new IdeologyIconMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.IdeologyRole when ModLister.IdeologyInstalled:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new IdeologyRoleMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new IdeologyRoleMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.Title when ModLister.RoyaltyInstalled:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(new TitleMarkerRule())));
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(new TitleMarkerRule())));
                     break;
                 case MarkerRule.AutoRuleType.TDFindLib
                     when MarkThatPawn.TDFindLibLoaded && Current.ProgramState == ProgramState.Playing:
                     ruleTypeList.Add(new FloatMenuOption($"MTP.AutomaticType.{ruleType}".Translate(),
-                        () => MarkThatPawnMod.instance.Settings.AutoRules.Add(
+                        () => MarkThatPawnMod.Instance.Settings.AutoRules.Add(
                             (MarkerRule)Activator.CreateInstance(MarkThatPawn.TDFindLibRuleType))));
                     break;
                 case MarkerRule.AutoRuleType.TDFindLib when MarkThatPawn.TDFindLibLoaded:

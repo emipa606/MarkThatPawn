@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- EN: GDI -->
+  <GDI.label>GDI</GDI.label>
+  <!-- EN: Marker based on the GDI-faction from the game Command and Conquer -->
+  <GDI.description>Marker based on the GDI-faction from the game Command and Conquer</GDI.description>
+  <!-- EN: Ideology -->
+  <Ideology.label>Ideology</Ideology.label>
+  <!-- EN: Markers from Ideology, made by Yoann -->
+  <Ideology.description>Markers from Ideology, made by Yoann</Ideology.description>
+  <!-- EN: Jobs -->
+  <Jobs.label>Jobs</Jobs.label>
+  <!-- EN: Markers to indicate job designations, made by [✚] Survivalmaster -->
+  <Jobs.description>Markers to indicate job designations, made by [✚] Survivalmaster</Jobs.description>
+  <!-- EN: Militar -->
+  <Militar.label>Militar</Militar.label>
+  <!-- EN: Marker based on the united states military -->
+  <Militar.description>Marker based on the united states military</Militar.description>
+  <!-- EN: Nod -->
+  <Nod.label>Nod</Nod.label>
+  <!-- EN: Marker based on the Nod-faction from the game Command and Conquer -->
+  <Nod.description>Marker based on the Nod-faction from the game Command and Conquer</Nod.description>
+  <!-- EN: Numbers -->
+  <Numbers.label>Numbers</Numbers.label>
+  <!-- EN: Markers with simple numbering -->
+  <Numbers.description>Markers with simple numbering</Numbers.description>
+  <!-- EN: Skills -->
+  <Skills.label>Skills</Skills.label>
+  <!-- EN: Markers to indicate work-skills -->
+  <Skills.description>Markers to indicate work-skills</Skills.description>
+  <!-- EN: Symbols -->
+  <Symbols.label>Symbols</Symbols.label>
+  <!-- EN: Markers with generic symbols -->
+  <Symbols.description>Markers with generic symbols</Symbols.description>
+  <!-- EN: Weapons -->
+  <Weapons.label>Weapons</Weapons.label>
+  <!-- EN: Generic weapon-types, made by max.icons on flaticon.com -->
+  <Weapons.description>Generic weapon-types, made by max.icons on flaticon.com</Weapons.description>
+  <!-- EN: WOW Style -->
+  <WowStyle.label>WOW Style</WowStyle.label>
+  <!-- EN: Markers inspired by the Raid-markers in World of Warcraft -->
+  <WowStyle.description>Markers inspired by the Raid-markers in World of Warcraft</WowStyle.description>
+  <!-- EN: XCOM -->
+  <XCOM.label>XCOM</XCOM.label>
+  <!-- EN: Marker based on the game XCOM, made by Botaxalim -->
+  <XCOM.description>Marker based on the game XCOM, made by Botaxalim</XCOM.description>
+  <!-- EN: XCOM Medieval -->
+  <XCOMMedieval.label>XCOM Medieval</XCOMMedieval.label>
+  <!-- EN: Marker based on the game XCOM but in a medieval style, made by Botaxalim -->
+  <XCOMMedieval.description>Marker based on the game XCOM but in a medieval style, made by Botaxalim</XCOMMedieval.description>
+  <!-- EN: XCOM 2 -->
+  <XCOMTwo.label>XCOM 2</XCOMTwo.label>
+  <!-- EN: Marker based on the game XCOM 2, cutesy of Lekoda -->
+  <XCOMTwo.description>Marker based on the game XCOM 2, cutesy of Lekoda</XCOMTwo.description>
+</LanguageData>

@@ -6,7 +6,7 @@ namespace MarkThatPawn.MarkerRules;
 
 public class GameComponent_TDFindLibRuleComponent : GameComponent
 {
-    public List<QuerySearch> TDFindLibSearches;
+    public List<QuerySearch> TdFindLibSearches;
 
     public GameComponent_TDFindLibRuleComponent(Game game)
     {
@@ -16,7 +16,7 @@ public class GameComponent_TDFindLibRuleComponent : GameComponent
     {
         base.LoadedGame();
 
-        foreach (var rule in MarkThatPawnMod.instance.Settings.AutoRules)
+        foreach (var rule in MarkThatPawnMod.Instance.Settings.AutoRules)
         {
             if (rule is not TDFindLibRule tdFindLibRule)
             {
@@ -39,7 +39,7 @@ public class GameComponent_TDFindLibRuleComponent : GameComponent
     public override void StartedNewGame()
     {
         base.StartedNewGame();
-        foreach (var rule in MarkThatPawnMod.instance.Settings.AutoRules)
+        foreach (var rule in MarkThatPawnMod.Instance.Settings.AutoRules)
         {
             if (rule is not TDFindLibRule tdFindLibRule)
             {
@@ -55,6 +55,6 @@ public class GameComponent_TDFindLibRuleComponent : GameComponent
     {
         base.ExposeData();
 
-        Scribe_Collections.Look(ref TDFindLibSearches, "TDFindLibSearches", LookMode.Deep);
+        Scribe_Collections.Look(ref TdFindLibSearches, "TDFindLibSearches", LookMode.Deep);
     }
 }

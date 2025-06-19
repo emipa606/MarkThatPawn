@@ -8,16 +8,16 @@ namespace MarkThatPawn;
 public class GlobalMarkingTracker : GameComponent
 {
     public readonly List<ThingWithComps> ThingsToEvaluate = [];
-    public Dictionary<ThingWithComps, string> AutomaticPawns = new Dictionary<ThingWithComps, string>();
+    public Dictionary<ThingWithComps, string> AutomaticPawns = new();
     private List<ThingWithComps> automaticPawnsKeys = [];
     private List<string> automaticPawnsValues = [];
-    public Dictionary<ThingWithComps, string> CustomPawns = new Dictionary<ThingWithComps, string>();
+    public Dictionary<ThingWithComps, string> CustomPawns = new();
     private List<ThingWithComps> customPawnsKeys = [];
     private List<string> customPawnsValues = [];
-    public Dictionary<ThingWithComps, int> MarkedPawns = new Dictionary<ThingWithComps, int>();
+    public Dictionary<ThingWithComps, int> MarkedPawns = new();
     private List<ThingWithComps> markedPawnsKeys = [];
     private List<int> markedPawnsValues = [];
-    public Dictionary<ThingWithComps, string> OverridePawns = new Dictionary<ThingWithComps, string>();
+    public Dictionary<ThingWithComps, string> OverridePawns = new();
     private List<ThingWithComps> overridePawnsKeys = [];
     private List<string> overridePawnsValues = [];
 
@@ -73,7 +73,7 @@ public class GlobalMarkingTracker : GameComponent
 
     public bool ShouldShowMultiMarking(ThingWithComps thing)
     {
-        if (!MarkThatPawnMod.instance.Settings.SeparateTemporary)
+        if (!MarkThatPawnMod.Instance.Settings.SeparateTemporary)
         {
             return false;
         }
@@ -180,25 +180,13 @@ public class GlobalMarkingTracker : GameComponent
             return;
         }
 
-        if (MarkedPawns == null)
-        {
-            MarkedPawns = new Dictionary<ThingWithComps, int>();
-        }
+        MarkedPawns ??= new Dictionary<ThingWithComps, int>();
 
-        if (AutomaticPawns == null)
-        {
-            AutomaticPawns = new Dictionary<ThingWithComps, string>();
-        }
+        AutomaticPawns ??= new Dictionary<ThingWithComps, string>();
 
-        if (CustomPawns == null)
-        {
-            CustomPawns = new Dictionary<ThingWithComps, string>();
-        }
+        CustomPawns ??= new Dictionary<ThingWithComps, string>();
 
-        if (OverridePawns == null)
-        {
-            OverridePawns = new Dictionary<ThingWithComps, string>();
-        }
+        OverridePawns ??= new Dictionary<ThingWithComps, string>();
     }
 
     public override void GameComponentTick()
@@ -221,15 +209,12 @@ public class GlobalMarkingTracker : GameComponent
         var thing = ThingsToEvaluate.First();
         ThingsToEvaluate.Remove(thing);
 
-        if (MarkThatPawnMod.instance.Settings.AutoRules == null || !MarkThatPawnMod.instance.Settings.AutoRules.Any())
+        if (MarkThatPawnMod.Instance.Settings.AutoRules == null || !MarkThatPawnMod.Instance.Settings.AutoRules.Any())
         {
             return;
         }
 
-        if (OverridePawns == null)
-        {
-            OverridePawns = [];
-        }
+        OverridePawns ??= [];
 
         if (thing is not Pawn pawn)
         {
@@ -252,7 +237,7 @@ public class GlobalMarkingTracker : GameComponent
             mapTracker.PawnsToEvaluate.Add(thing);
         }
 
-        var overrideRules = MarkThatPawnMod.instance.Settings.AutoRules
+        var overrideRules = MarkThatPawnMod.Instance.Settings.AutoRules
             .Where(rule => rule.Enabled && rule.IsOverride && rule.AppliesToPawn(pawn))
             .OrderBy(rule => rule.RuleOrder)
             .Select(markerRule => markerRule.GetMarkerBlob())

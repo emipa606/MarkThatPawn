@@ -11,7 +11,7 @@ public static class PawnRenderer_RenderPawnAt
         ThingWithComps pawn = ___pawn;
         if (___pawn.Dead)
         {
-            if (!MarkThatPawnMod.instance.Settings.ShowOnCorpses)
+            if (!MarkThatPawnMod.Instance.Settings.ShowOnCorpses)
             {
                 return;
             }

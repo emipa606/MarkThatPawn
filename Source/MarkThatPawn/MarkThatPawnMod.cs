@@ -13,7 +13,7 @@ public class MarkThatPawnMod : Mod
     /// <summary>
     ///     The instance of the settings to be read by the mod
     /// </summary>
-    public static MarkThatPawnMod instance;
+    public static MarkThatPawnMod Instance;
 
     private static string currentVersion;
 
@@ -25,12 +25,9 @@ public class MarkThatPawnMod : Mod
     /// <param name="content"></param>
     public MarkThatPawnMod(ModContentPack content) : base(content)
     {
-        instance = this;
+        Instance = this;
         Settings = GetSettings<MarkThatPawnSettings>();
-        if (Settings.AutoRuleBlobs == null)
-        {
-            Settings.AutoRuleBlobs = [];
-        }
+        Settings.AutoRuleBlobs ??= [];
 
         currentVersion = VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
         Settings.AutoRules = [];
@@ -161,7 +158,7 @@ public class MarkThatPawnMod : Mod
         var selectorRect = listing_Standard.GetRect(selectorHeight);
         Widgets.Label(selectorRect.LeftHalf(),
             "MTP.DefaultMarkerSet".Translate(Settings.DefaultMarkerSet.LabelCap));
-        if (MarkerSelector(selectorRect.RightHalf(), Settings.DefaultMarkerSet))
+        if (markerSelector(selectorRect.RightHalf(), Settings.DefaultMarkerSet))
         {
             Find.WindowStack.Add(
                 new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Default)));
@@ -176,7 +173,7 @@ public class MarkThatPawnMod : Mod
                 "MTP.ColonistDiffer".Translate(Settings.ColonistMarkerSet.LabelCap), ref Settings.ColonistDiffer);
             if (Settings.ColonistDiffer)
             {
-                if (MarkerSelector(selectorRect.RightHalf(), Settings.ColonistMarkerSet))
+                if (markerSelector(selectorRect.RightHalf(), Settings.ColonistMarkerSet))
                 {
                     Find.WindowStack.Add(
                         new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Colonist)));
@@ -193,7 +190,7 @@ public class MarkThatPawnMod : Mod
                 "MTP.PrisonerDiffer".Translate(Settings.PrisonerMarkerSet.LabelCap), ref Settings.PrisonerDiffer);
             if (Settings.PrisonerDiffer)
             {
-                if (MarkerSelector(selectorRect.RightHalf(), Settings.PrisonerMarkerSet))
+                if (markerSelector(selectorRect.RightHalf(), Settings.PrisonerMarkerSet))
                 {
                     Find.WindowStack.Add(
                         new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Prisoner)));
@@ -212,7 +209,7 @@ public class MarkThatPawnMod : Mod
                     "MTP.SlaveDiffer".Translate(Settings.SlaveMarkerSet.LabelCap), ref Settings.SlaveDiffer);
                 if (Settings.SlaveDiffer)
                 {
-                    if (MarkerSelector(selectorRect.RightHalf(), Settings.SlaveMarkerSet))
+                    if (markerSelector(selectorRect.RightHalf(), Settings.SlaveMarkerSet))
                     {
                         Find.WindowStack.Add(
                             new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Slave)));
@@ -230,7 +227,7 @@ public class MarkThatPawnMod : Mod
                 "MTP.EnemyDiffer".Translate(Settings.EnemyMarkerSet.LabelCap), ref Settings.EnemyDiffer);
             if (Settings.EnemyDiffer)
             {
-                if (MarkerSelector(selectorRect.RightHalf(), Settings.EnemyMarkerSet))
+                if (markerSelector(selectorRect.RightHalf(), Settings.EnemyMarkerSet))
                 {
                     Find.WindowStack.Add(
                         new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Enemy)));
@@ -247,7 +244,7 @@ public class MarkThatPawnMod : Mod
                 "MTP.NeutralDiffer".Translate(Settings.NeutralMarkerSet.LabelCap), ref Settings.NeutralDiffer);
             if (Settings.NeutralDiffer)
             {
-                if (MarkerSelector(selectorRect.RightHalf(), Settings.NeutralMarkerSet))
+                if (markerSelector(selectorRect.RightHalf(), Settings.NeutralMarkerSet))
                 {
                     Find.WindowStack.Add(
                         new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Neutral)));
@@ -266,7 +263,7 @@ public class MarkThatPawnMod : Mod
                     "MTP.VehiclesDiffer".Translate(Settings.VehiclesMarkerSet.LabelCap), ref Settings.VehiclesDiffer);
                 if (Settings.VehiclesDiffer)
                 {
-                    if (MarkerSelector(selectorRect.RightHalf(), Settings.VehiclesMarkerSet))
+                    if (markerSelector(selectorRect.RightHalf(), Settings.VehiclesMarkerSet))
                     {
                         Find.WindowStack.Add(
                             new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Vehicle)));
@@ -292,7 +289,7 @@ public class MarkThatPawnMod : Mod
         MarkThatPawn.ResetCache();
     }
 
-    private static bool MarkerSelector(Rect rowRect, MarkerDef marker)
+    private static bool markerSelector(Rect rowRect, MarkerDef marker)
     {
         var imageRect = rowRect;
         var buttonRect = rowRect.LeftPart(0.75f).RightPart(0.95f);

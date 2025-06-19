@@ -35,7 +35,7 @@ public static class MarkThatPawn
     public const char RuleAlternateItemsSplitter = '€';
     public const char RuleInternalSplitter = '$';
     public const char MarkerBlobSplitter = '£';
-    public const char OverrideRuleSplitter = '§';
+    private const char OverrideRuleSplitter = '§';
 
     public const float ButtonIconSizeFactor = 0.8f;
 
@@ -62,7 +62,7 @@ public static class MarkThatPawn
     public static readonly Texture2D CancelIcon;
     public static readonly Texture2D RemoveIcon;
     public static readonly Texture2D ExpandIcon;
-    public static readonly List<Mesh> SizeMesh;
+    private static readonly List<Mesh> SizeMesh;
     public static readonly List<MarkerDef> MarkerDefs;
     private static readonly Dictionary<ThingWithComps, MarkerDef> pawnMarkerCache;
     private static readonly Dictionary<ThingWithComps, Mesh> pawnMeshCache;
@@ -71,7 +71,7 @@ public static class MarkThatPawn
     public static readonly Dictionary<Ideo, Material> IdeoMaterialCache;
     public static readonly bool VehiclesLoaded;
     public static readonly bool TDFindLibLoaded;
-    public static readonly bool CAI5000Loaded;
+    private static readonly bool CAI5000Loaded;
     public static readonly Type TDFindLibRuleType;
     private static CameraZoomRange lastCameraZoomRange = CameraZoomRange.Far;
     private static readonly int standardSize;
@@ -217,7 +217,7 @@ public static class MarkThatPawn
             }
         }
 
-        foreach (var ruleBlob in MarkThatPawnMod.instance.Settings.AutoRuleBlobs)
+        foreach (var ruleBlob in MarkThatPawnMod.Instance.Settings.AutoRuleBlobs)
         {
             MarkerRule rule;
             if (!MarkerRule.TryGetRuleTypeFromBlob(ruleBlob, out var type))
@@ -321,13 +321,13 @@ public static class MarkThatPawn
                 rule.ConfigError = true;
             }
 
-            MarkThatPawnMod.instance.Settings.AutoRules.Add(rule);
+            MarkThatPawnMod.Instance.Settings.AutoRules.Add(rule);
         }
 
         MultiIconOverlay = MaterialPool.MatFrom("UI/MultipleImageOverlay", ShaderDatabase.MetaOverlay);
 
         Log.Message(
-            $"[MarkThatPawn]: Found {MarkThatPawnMod.instance.Settings.AutoRules.Count} automatic rules defined");
+            $"[MarkThatPawn]: Found {MarkThatPawnMod.Instance.Settings.AutoRules.Count} automatic rules defined");
 
         CAI5000Loaded = ModLister.GetActiveModWithIdentifier("Krkr.rule56", true) != null;
 
@@ -369,21 +369,21 @@ public static class MarkThatPawn
 
         pawnExpandCache.TryAdd(thing, 1f);
 
-        var passedTest = !(MarkThatPawnMod.instance.Settings.ShiftIsPressed ||
-                           MarkThatPawnMod.instance.Settings.GameIsPaused ||
-                           MarkThatPawnMod.instance.Settings.PawnIsSelected);
+        var passedTest = !(MarkThatPawnMod.Instance.Settings.ShiftIsPressed ||
+                           MarkThatPawnMod.Instance.Settings.GameIsPaused ||
+                           MarkThatPawnMod.Instance.Settings.PawnIsSelected);
 
-        if (!passedTest && MarkThatPawnMod.instance.Settings.ShiftIsPressed)
+        if (!passedTest && MarkThatPawnMod.Instance.Settings.ShiftIsPressed)
         {
             passedTest = Event.current.shift;
         }
 
-        if (!passedTest && MarkThatPawnMod.instance.Settings.GameIsPaused)
+        if (!passedTest && MarkThatPawnMod.Instance.Settings.GameIsPaused)
         {
             passedTest = Find.TickManager.Paused;
         }
 
-        if (!passedTest && MarkThatPawnMod.instance.Settings.PawnIsSelected)
+        if (!passedTest && MarkThatPawnMod.Instance.Settings.PawnIsSelected)
         {
             passedTest = Find.Selector.SelectedPawns.Contains(pawn);
         }
@@ -401,13 +401,7 @@ public static class MarkThatPawn
         {
             case > 0:
                 var markerSet = GetMarkerDefForPawn(thing);
-                if (markerSet == null)
-                {
-                    tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
-                    break;
-                }
-
-                if (markerSet.MarkerMaterials.Count < marker)
+                if (markerSet == null || markerSet.MarkerMaterials.Count < marker)
                 {
                     tracker.GlobalMarkingTracker.MarkedPawns[thing] = 0;
                     break;
@@ -431,7 +425,7 @@ public static class MarkThatPawn
 
                     baseMaterials.Add(autoMaterial);
 
-                    if (!MarkThatPawnMod.instance.Settings.NormalShowAll)
+                    if (!MarkThatPawnMod.Instance.Settings.NormalShowAll)
                     {
                         break;
                     }
@@ -461,7 +455,7 @@ public static class MarkThatPawn
                 }
 
                 overrideMaterials.Add(material);
-                if (!MarkThatPawnMod.instance.Settings.SeparateShowAll)
+                if (!MarkThatPawnMod.Instance.Settings.SeparateShowAll)
                 {
                     break;
                 }
@@ -479,10 +473,10 @@ public static class MarkThatPawn
             pawnHeight = standardSize + (int)Math.Floor((pawn.def.size.z - standardSize) / 2f);
         }
 
-        drawPos.x += MarkThatPawnMod.instance.Settings.XOffset;
+        drawPos.x += MarkThatPawnMod.Instance.Settings.XOffset;
         drawPos.y = AltitudeLayer.MetaOverlays.AltitudeFor() + 0.28125f;
-        drawPos.z += pawnHeight + (MarkThatPawnMod.instance.Settings.IconSize / 3);
-        drawPos.z += MarkThatPawnMod.instance.Settings.ZOffset;
+        drawPos.z += pawnHeight + (MarkThatPawnMod.Instance.Settings.IconSize / 3);
+        drawPos.z += MarkThatPawnMod.Instance.Settings.ZOffset;
         var mesh = getRightSizeMesh(pawn);
 
         var icons = overrideMaterials.Count + baseMaterials.Count;
@@ -491,24 +485,24 @@ public static class MarkThatPawn
         if (icons > 1 && tracker.GlobalMarkingTracker.ShouldShowMultiMarking(thing))
         {
             var iconWidth = mesh.vertices[2].x / 0.5f;
-            var shouldExpand = MarkThatPawnMod.instance.Settings.ShowWhenSelected &&
+            var shouldExpand = MarkThatPawnMod.Instance.Settings.ShowWhenSelected &&
                                Find.Selector.SelectedObjects.Contains(thing);
 
-            if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowOnShift &&
+            if (!shouldExpand && MarkThatPawnMod.Instance.Settings.ShowOnShift &&
                 Event.current.shift)
             {
                 shouldExpand = true;
             }
 
-            if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowOnPaused &&
+            if (!shouldExpand && MarkThatPawnMod.Instance.Settings.ShowOnPaused &&
                 Find.TickManager.Paused)
             {
                 shouldExpand = true;
             }
 
-            if (!shouldExpand && MarkThatPawnMod.instance.Settings.ShowWhenHover)
+            if (!shouldExpand && MarkThatPawnMod.Instance.Settings.ShowWhenHover)
             {
-                var tempWidth = (2f + (pawnExpandCache[thing] * MarkThatPawnMod.instance.Settings.IconSpacingFactor)) *
+                var tempWidth = (2f + (pawnExpandCache[thing] * MarkThatPawnMod.Instance.Settings.IconSpacingFactor)) *
                                 iconWidth * iconSpaces;
 
                 var mouseOverRect = new Rect(drawPos.x - (tempWidth / 2), drawPos.z - mesh.vertices[2].z, tempWidth,
@@ -519,12 +513,12 @@ public static class MarkThatPawn
 
             overrideMaterials.AddRange(baseMaterials);
 
-            if (!MarkThatPawnMod.instance.Settings.InvertOrder)
+            if (!MarkThatPawnMod.Instance.Settings.InvertOrder)
             {
                 overrideMaterials.Reverse();
             }
 
-            if (!shouldExpand && MarkThatPawnMod.instance.Settings.RotateIcons && pawnExpandCache[thing] == 1f)
+            if (!shouldExpand && MarkThatPawnMod.Instance.Settings.RotateIcons && pawnExpandCache[thing] == 1f)
             {
                 var tickInterval = rotationInterval;
                 if (!Find.TickManager.Paused)
@@ -561,7 +555,7 @@ public static class MarkThatPawn
                 }
             }
 
-            iconWidth *= 1f + (pawnExpandCache[thing] * MarkThatPawnMod.instance.Settings.IconSpacingFactor);
+            iconWidth *= 1f + (pawnExpandCache[thing] * MarkThatPawnMod.Instance.Settings.IconSpacingFactor);
 
             var totalWidth = iconWidth * iconSpaces;
             drawPos.x -= totalWidth / 2;
@@ -586,7 +580,7 @@ public static class MarkThatPawn
 
     private static Mesh getRightSizeMesh(Pawn pawn)
     {
-        if (MarkThatPawnMod.instance.Settings.RelativeToZoom && lastCameraZoomRange != Find.CameraDriver.CurrentZoom)
+        if (MarkThatPawnMod.Instance.Settings.RelativeToZoom && lastCameraZoomRange != Find.CameraDriver.CurrentZoom)
         {
             pawnMeshCache.Clear();
             lastCameraZoomRange = Find.CameraDriver.CurrentZoom;
@@ -598,19 +592,19 @@ public static class MarkThatPawn
             return meshForPawn;
         }
 
-        var iconInt = (int)Math.Round(MarkThatPawnMod.instance.Settings.IconSize * 10);
+        var iconInt = (int)Math.Round(MarkThatPawnMod.Instance.Settings.IconSize * 10);
 
-        if (MarkThatPawnMod.instance.Settings.RelativeIconSize)
+        if (MarkThatPawnMod.Instance.Settings.RelativeIconSize)
         {
             var relativeSize = ((pawn.def.size.z - standardSize) / 2) + 1;
             iconInt = Math.Min((int)Math.Round(relativeSize * (float)iconInt), SizeMesh.Count);
         }
 
-        if (MarkThatPawnMod.instance.Settings.RelativeToZoom)
+        if (MarkThatPawnMod.Instance.Settings.RelativeToZoom)
         {
             iconInt = Math.Min(
                 iconInt + (int)Math.Round((int)Find.CameraDriver.CurrentZoom *
-                                          MarkThatPawnMod.instance.Settings.IconScalingFactor), SizeMesh.Count);
+                                          MarkThatPawnMod.Instance.Settings.IconScalingFactor), SizeMesh.Count);
         }
 
         pawnMeshCache[pawn] = SizeMesh.Count < iconInt ? MeshPool.plane10 : SizeMesh[iconInt - 1];
@@ -619,7 +613,7 @@ public static class MarkThatPawn
 
     private static void renderMarker(ThingWithComps thing, Material material, Vector3 drawPos, Mesh mesh)
     {
-        if (!MarkThatPawnMod.instance.Settings.PulsatingIcons)
+        if (!MarkThatPawnMod.Instance.Settings.PulsatingIcons)
         {
             Graphics.DrawMesh(mesh, drawPos, Quaternion.identity, material, 0);
             return;
@@ -636,7 +630,7 @@ public static class MarkThatPawn
     public static bool TryGetAutoMarkerForPawn(ThingWithComps thing, out string result)
     {
         result = null;
-        if (MarkThatPawnMod.instance.Settings.AutoRules == null || !MarkThatPawnMod.instance.Settings.AutoRules.Any())
+        if (MarkThatPawnMod.Instance.Settings.AutoRules == null || !MarkThatPawnMod.Instance.Settings.AutoRules.Any())
         {
             return false;
         }
@@ -658,12 +652,12 @@ public static class MarkThatPawn
 
         var validRules = new List<string>();
 
-        foreach (var markerRule in MarkThatPawnMod.instance.Settings.AutoRules
+        foreach (var markerRule in MarkThatPawnMod.Instance.Settings.AutoRules
                      .Where(rule => rule.Enabled && !rule.IsOverride && rule.AppliesToPawn(pawn))
                      .OrderBy(rule => rule.RuleOrder))
         {
             validRules.Add(markerRule.GetMarkerBlob());
-            if (!MarkThatPawnMod.instance.Settings.NormalShowAll)
+            if (!MarkThatPawnMod.Instance.Settings.NormalShowAll)
             {
                 break;
             }
@@ -820,43 +814,43 @@ public static class MarkThatPawn
 
         var pawnTypes = pawn.GetPawnTypes();
 
-        if (pawnTypes.Contains(PawnType.Colonist) && MarkThatPawnMod.instance.Settings.ColonistDiffer)
+        if (pawnTypes.Contains(PawnType.Colonist) && MarkThatPawnMod.Instance.Settings.ColonistDiffer)
         {
-            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.ColonistMarkerSet;
+            pawnMarkerCache[thing] = MarkThatPawnMod.Instance.Settings.ColonistMarkerSet;
             return pawnMarkerCache[thing];
         }
 
-        if (pawnTypes.Contains(PawnType.Prisoner) && MarkThatPawnMod.instance.Settings.PrisonerDiffer)
+        if (pawnTypes.Contains(PawnType.Prisoner) && MarkThatPawnMod.Instance.Settings.PrisonerDiffer)
         {
-            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.PrisonerMarkerSet;
+            pawnMarkerCache[thing] = MarkThatPawnMod.Instance.Settings.PrisonerMarkerSet;
             return pawnMarkerCache[thing];
         }
 
-        if (pawnTypes.Contains(PawnType.Slave) && MarkThatPawnMod.instance.Settings.SlaveDiffer)
+        if (pawnTypes.Contains(PawnType.Slave) && MarkThatPawnMod.Instance.Settings.SlaveDiffer)
         {
-            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.SlaveMarkerSet;
+            pawnMarkerCache[thing] = MarkThatPawnMod.Instance.Settings.SlaveMarkerSet;
             return pawnMarkerCache[thing];
         }
 
-        if (pawnTypes.Contains(PawnType.Enemy) && MarkThatPawnMod.instance.Settings.EnemyDiffer)
+        if (pawnTypes.Contains(PawnType.Enemy) && MarkThatPawnMod.Instance.Settings.EnemyDiffer)
         {
-            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.EnemyMarkerSet;
+            pawnMarkerCache[thing] = MarkThatPawnMod.Instance.Settings.EnemyMarkerSet;
             return pawnMarkerCache[thing];
         }
 
-        if (pawnTypes.Contains(PawnType.Neutral) && MarkThatPawnMod.instance.Settings.NeutralDiffer)
+        if (pawnTypes.Contains(PawnType.Neutral) && MarkThatPawnMod.Instance.Settings.NeutralDiffer)
         {
-            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.NeutralMarkerSet;
+            pawnMarkerCache[thing] = MarkThatPawnMod.Instance.Settings.NeutralMarkerSet;
             return pawnMarkerCache[thing];
         }
 
-        if (VehiclesLoaded && pawnTypes.Contains(PawnType.Vehicle) && MarkThatPawnMod.instance.Settings.VehiclesDiffer)
+        if (VehiclesLoaded && pawnTypes.Contains(PawnType.Vehicle) && MarkThatPawnMod.Instance.Settings.VehiclesDiffer)
         {
-            pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.VehiclesMarkerSet;
+            pawnMarkerCache[thing] = MarkThatPawnMod.Instance.Settings.VehiclesMarkerSet;
             return pawnMarkerCache[thing];
         }
 
-        pawnMarkerCache[thing] = MarkThatPawnMod.instance.Settings.DefaultMarkerSet;
+        pawnMarkerCache[thing] = MarkThatPawnMod.Instance.Settings.DefaultMarkerSet;
         return pawnMarkerCache[thing];
     }
 
@@ -970,32 +964,32 @@ public static class MarkThatPawn
         var pawnTypes = pawn.GetPawnTypes();
         if (VehiclesLoaded && pawnTypes.Contains(PawnType.Vehicle))
         {
-            return MarkThatPawnMod.instance.Settings.ShowForVehicles;
+            return MarkThatPawnMod.Instance.Settings.ShowForVehicles;
         }
 
         if (pawnTypes.Contains(PawnType.Prisoner))
         {
-            return MarkThatPawnMod.instance.Settings.ShowForPrisoner;
+            return MarkThatPawnMod.Instance.Settings.ShowForPrisoner;
         }
 
         if (pawnTypes.Contains(PawnType.Slave))
         {
-            return MarkThatPawnMod.instance.Settings.ShowForSlave;
+            return MarkThatPawnMod.Instance.Settings.ShowForSlave;
         }
 
         if (pawnTypes.Contains(PawnType.Colonist) || pawnTypes.Contains(PawnType.ColonistAnimal))
         {
-            return MarkThatPawnMod.instance.Settings.ShowForColonist;
+            return MarkThatPawnMod.Instance.Settings.ShowForColonist;
         }
 
         if (pawnTypes.Contains(PawnType.Enemy) || pawnTypes.Contains(PawnType.Enemy))
         {
-            return MarkThatPawnMod.instance.Settings.ShowForEnemy;
+            return MarkThatPawnMod.Instance.Settings.ShowForEnemy;
         }
 
         if (pawnTypes.Contains(PawnType.Neutral) || pawnTypes.Contains(PawnType.NeutralAnimal))
         {
-            return MarkThatPawnMod.instance.Settings.ShowForNeutral;
+            return MarkThatPawnMod.Instance.Settings.ShowForNeutral;
         }
 
         return true;
@@ -1108,11 +1102,11 @@ public static class MarkThatPawn
                     {
                         var mark = i + 1;
 
-                        markerNumber.Add(new FloatMenuOption("MTP.MarkerNumber".Translate(mark), Action,
+                        markerNumber.Add(new FloatMenuOption("MTP.MarkerNumber".Translate(mark), action,
                             markerDef.MarkerTextures[i], Color.white));
                         continue;
 
-                        void Action()
+                        void action()
                         {
                             tracker.GlobalMarkingTracker.SetPawnMarking(thing, -2, currentMarking,
                                 customMarkerString: $"{markerDef.defName};{mark}");
@@ -1132,27 +1126,27 @@ public static class MarkThatPawn
         var returnList = new List<FloatMenuOption>();
         foreach (var markingSet in MarkerDefs)
         {
-            var action = () => { MarkThatPawnMod.instance.Settings.DefaultMarkerSet = markingSet; };
+            var action = () => { MarkThatPawnMod.Instance.Settings.DefaultMarkerSet = markingSet; };
 
             switch (type)
             {
                 case PawnType.Colonist:
-                    action = () => { MarkThatPawnMod.instance.Settings.ColonistMarkerSet = markingSet; };
+                    action = () => { MarkThatPawnMod.Instance.Settings.ColonistMarkerSet = markingSet; };
                     break;
                 case PawnType.Prisoner:
-                    action = () => { MarkThatPawnMod.instance.Settings.PrisonerMarkerSet = markingSet; };
+                    action = () => { MarkThatPawnMod.Instance.Settings.PrisonerMarkerSet = markingSet; };
                     break;
                 case PawnType.Slave:
-                    action = () => { MarkThatPawnMod.instance.Settings.SlaveMarkerSet = markingSet; };
+                    action = () => { MarkThatPawnMod.Instance.Settings.SlaveMarkerSet = markingSet; };
                     break;
                 case PawnType.Enemy:
-                    action = () => { MarkThatPawnMod.instance.Settings.EnemyMarkerSet = markingSet; };
+                    action = () => { MarkThatPawnMod.Instance.Settings.EnemyMarkerSet = markingSet; };
                     break;
                 case PawnType.Neutral:
-                    action = () => { MarkThatPawnMod.instance.Settings.NeutralMarkerSet = markingSet; };
+                    action = () => { MarkThatPawnMod.Instance.Settings.NeutralMarkerSet = markingSet; };
                     break;
                 case PawnType.Vehicle:
-                    action = () => { MarkThatPawnMod.instance.Settings.VehiclesMarkerSet = markingSet; };
+                    action = () => { MarkThatPawnMod.Instance.Settings.VehiclesMarkerSet = markingSet; };
                     break;
             }
 

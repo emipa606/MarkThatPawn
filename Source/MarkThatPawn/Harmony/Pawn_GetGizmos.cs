@@ -14,7 +14,7 @@ public static class Pawn_GetGizmos
         yield return AccessTools.Method(typeof(Pawn), nameof(Pawn.GetGizmos));
         yield return AccessTools.Method(typeof(Corpse), nameof(Corpse.GetGizmos));
 
-        if (ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework") != null)
+        if (ModLister.GetActiveModWithIdentifier("SmashPhil.VehicleFramework", true) != null)
         {
             yield return AccessTools.Method("Vehicles.VehiclePawn:GetGizmos");
         }
