@@ -9,5 +9,11 @@
     "pawn marking",
     " icon customization"
   ],
-  "LastXmlCleaning": "2025-06-19T21:31:41.7727654+02:00"
+  "LastXmlCleaning": "2025-07-27T18:35:50.5157341+02:00",
+  "Patches": false,
+  "Defs": true,
+  "Assemblies": true,
+  "LinesOfCode": 258715,
+  "LinesOfXML": 6801,
+  "CodeBaseSize": 86
 }

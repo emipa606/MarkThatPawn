@@ -338,9 +338,18 @@ public static class MarkThatPawn
         }
 
         Log.Message("[MarkThatPawn]: Vehicle Framework detected, adding compatility patch");
-        var original = AccessTools.Method("Vehicles.VehicleRenderer:RenderPawnAt");
-        var postfix = typeof(VehicleRenderer_RenderPawnAt).GetMethod(nameof(VehicleRenderer_RenderPawnAt.Postfix));
-        harmony.Patch(original, postfix: new HarmonyMethod(postfix));
+        var original = AccessTools.Method("Vehicles.Rendering.VehicleRenderer:DynamicDrawPhaseAt");
+        var postfix =
+            typeof(VehicleRenderer_DynamicDrawPhaseAt).GetMethod(nameof(VehicleRenderer_DynamicDrawPhaseAt.Postfix));
+        if (original != null)
+        {
+            harmony.Patch(original, postfix: new HarmonyMethod(postfix));
+            return;
+        }
+
+        Log.Warning(
+            "[MarkThatPawn]: Failed to find DynamicDrawPhaseAt in Vehicle Framework, will not add compatibility.");
+        VehiclesLoaded = false;
     }
 
     public static void RenderMarkingOverlay(ThingWithComps thing, MarkingTracker tracker)

@@ -2,7 +2,7 @@ using Verse;
 
 namespace MarkThatPawn.Harmony;
 
-public static class VehicleRenderer_RenderPawnAt
+public static class VehicleRenderer_DynamicDrawPhaseAt
 {
     public static void Postfix(Pawn ___vehicle)
     {
