@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.6.2 - Updated reference to Pawn Badge Fan Fork [Adopted]
+
+
 1.6.1 - Fixed compatiblitity with Vehicle Framwork
 
 
