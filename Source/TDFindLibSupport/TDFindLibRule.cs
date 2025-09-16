@@ -63,7 +63,7 @@ public class TDFindLibRule : MarkerRule
         return new TDFindLibRule(GetBlob());
     }
 
-    protected override void PopulateRuleParameterObjects()
+    public override void PopulateRuleParameterObjects()
     {
         if (RuleParameters == null)
         {

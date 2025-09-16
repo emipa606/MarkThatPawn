@@ -16,7 +16,7 @@
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <Reference Include="TDFindLib">
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\2895299310\Assemblies\TD_Find_Lib.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\3529443295\Assemblies\TD_Find_Lib.dll</HintPath>
       <CopyLocal>False</CopyLocal>
       <Private>false</Private>
     </Reference>

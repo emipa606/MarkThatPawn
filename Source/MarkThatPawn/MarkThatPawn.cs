@@ -205,7 +205,8 @@ public static class MarkThatPawn
             $"{AllPsycastApparel.Count} psycast apparel, {AllEnviromentalProtectionApparel.Count} enviromental protection apparel, " +
             $"{AllMechanatorApparel.Count} mechanator apparel and {AllBasicApparel.Count} basic apparel ");
 
-        TDFindLibLoaded = ModLister.GetActiveModWithIdentifier("Uuugggg.TDFindLib", true) != null;
+        TDFindLibLoaded = ModLister.GetActiveModWithIdentifier("Uuugggg.TDFindLib", true) != null
+            || ModLister.GetActiveModWithIdentifier("Memegoddess.TDFindLib", true) != null;
         if (TDFindLibLoaded)
         {
             TDFindLibRuleType = AccessTools.TypeByName("TDFindLibRule");
