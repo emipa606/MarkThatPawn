@@ -483,7 +483,7 @@ public static class MarkThatPawn
         }
 
         drawPos.x += MarkThatPawnMod.Instance.Settings.XOffset;
-        drawPos.y = AltitudeLayer.MetaOverlays.AltitudeFor() + 0.28125f;
+        drawPos.y = AltitudeLayer.MetaOverlays.AltitudeFor(1);
         drawPos.z += pawnHeight + (MarkThatPawnMod.Instance.Settings.IconSize / 3);
         drawPos.z += MarkThatPawnMod.Instance.Settings.ZOffset;
         var mesh = getRightSizeMesh(pawn);
