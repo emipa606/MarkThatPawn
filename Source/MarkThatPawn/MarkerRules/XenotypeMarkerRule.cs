@@ -65,14 +65,11 @@ public class XenotypeMarkerRule : MarkerRule
             return;
         }
 
-        if (RuleParameters == null)
+        switch (RuleParameters)
         {
-            return;
-        }
-
-        if (RuleParameters == string.Empty && !Enabled)
-        {
-            return;
+            case null:
+            case "" when !Enabled:
+                return;
         }
 
         ruleXenotype = DefDatabase<XenotypeDef>.GetNamedSilentFail(RuleParameters);

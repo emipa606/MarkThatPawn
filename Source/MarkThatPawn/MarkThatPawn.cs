@@ -206,7 +206,7 @@ public static class MarkThatPawn
             $"{AllMechanatorApparel.Count} mechanator apparel and {AllBasicApparel.Count} basic apparel ");
 
         TDFindLibLoaded = ModLister.GetActiveModWithIdentifier("Uuugggg.TDFindLib", true) != null
-            || ModLister.GetActiveModWithIdentifier("Memegoddess.TDFindLib", true) != null;
+                          || ModLister.GetActiveModWithIdentifier("Memegoddess.TDFindLib", true) != null;
         if (TDFindLibLoaded)
         {
             TDFindLibRuleType = AccessTools.TypeByName("TDFindLibRule");
@@ -1031,15 +1031,9 @@ public static class MarkThatPawn
         MarkerDef markerSet, ThingWithComps thing)
     {
         var returnList = new List<FloatMenuOption>();
-        if (tracker.GlobalMarkingTracker.AutomaticPawns == null)
-        {
-            tracker.GlobalMarkingTracker.AutomaticPawns = new Dictionary<ThingWithComps, string>();
-        }
+        tracker.GlobalMarkingTracker.AutomaticPawns ??= new Dictionary<ThingWithComps, string>();
 
-        if (tracker.GlobalMarkingTracker.CustomPawns == null)
-        {
-            tracker.GlobalMarkingTracker.CustomPawns = new Dictionary<ThingWithComps, string>();
-        }
+        tracker.GlobalMarkingTracker.CustomPawns ??= new Dictionary<ThingWithComps, string>();
 
         returnList.Add(new FloatMenuOption("MTP.CustomIcon".Translate(), CustomAction, TexButton.NewItem,
             Color.white));

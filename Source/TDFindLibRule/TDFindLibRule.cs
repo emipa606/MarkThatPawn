@@ -18,10 +18,7 @@ public class TDFindLibRule : MarkerRule
         {
             name = RuleParameters
         };
-        if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches == null)
-        {
-            Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches = [];
-        }
+        Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches ??= [];
 
         Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches.Add(tdSearcher);
         IsInCorrectGame = true;
@@ -100,10 +97,7 @@ public class TDFindLibRule : MarkerRule
             parameters = tdSearcher.parameters
         };
 
-        if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches == null)
-        {
-            Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches = [];
-        }
+        Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches ??= [];
 
         Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches.Add(returnRule.tdSearcher);
         return returnRule;
@@ -201,7 +195,7 @@ public class TDFindLibRule : MarkerRule
             resizeable = false;
         }
 
-        public override Vector2 InitialSize => new Vector2(750, 320);
+        public override Vector2 InitialSize => new(750, 320);
         public string Source => TransferTag;
         public string ReceiveName => "MTP.TDFindLibRuleLabel".Translate();
         public QuerySearch.CloneArgs CloneArgs => QuerySearch.CloneArgs.use;

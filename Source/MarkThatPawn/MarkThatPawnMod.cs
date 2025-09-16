@@ -8,7 +8,7 @@ namespace MarkThatPawn;
 [StaticConstructorOnStartup]
 public class MarkThatPawnMod : Mod
 {
-    private const float selectorHeight = 50f;
+    private const float SelectorHeight = 50f;
 
     /// <summary>
     ///     The instance of the settings to be read by the mod
@@ -66,47 +66,44 @@ public class MarkThatPawnMod : Mod
     /// <param name="rect"></param>
     public override void DoSettingsWindowContents(Rect rect)
     {
-        //var viewingRect = rect.ContractedBy(10f);
-        //viewingRect.height = selectorHeight * 20f;
-        //Widgets.BeginScrollView(rect, ref optionsScrollPosition, viewingRect);
-        var listing_Standard = new Listing_Standard();
+        var listingStandard = new Listing_Standard();
 
-        listing_Standard.Begin(rect);
-        listing_Standard.ColumnWidth = rect.width * 0.48f;
-        listing_Standard.Gap();
-        listing_Standard.CheckboxLabeled("MTP.RefreshRules".Translate(), ref Settings.RefreshRules,
+        listingStandard.Begin(rect);
+        listingStandard.ColumnWidth = rect.width * 0.48f;
+        listingStandard.Gap();
+        listingStandard.CheckboxLabeled("MTP.RefreshRules".Translate(), ref Settings.RefreshRules,
             "MTP.RefreshRulesTT".Translate());
-        listing_Standard.CheckboxLabeled("MTP.ShowOnCorpses".Translate(), ref Settings.ShowOnCorpses,
+        listingStandard.CheckboxLabeled("MTP.ShowOnCorpses".Translate(), ref Settings.ShowOnCorpses,
             "MTP.ShowOnCorpsesTT".Translate());
-        listing_Standard.CheckboxLabeled("MTP.SeparateTemporary".Translate(), ref Settings.SeparateTemporary,
+        listingStandard.CheckboxLabeled("MTP.SeparateTemporary".Translate(), ref Settings.SeparateTemporary,
             "MTP.SeparateTemporaryTT".Translate());
         if (Settings.SeparateTemporary)
         {
-            listing_Standard.CheckboxLabeled("MTP.RotateIcons".Translate(), ref Settings.RotateIcons,
+            listingStandard.CheckboxLabeled("MTP.RotateIcons".Translate(), ref Settings.RotateIcons,
                 "MTP.RotateIconsTT".Translate());
-            listing_Standard.CheckboxLabeled("MTP.SeparateShowAll".Translate(), ref Settings.SeparateShowAll,
+            listingStandard.CheckboxLabeled("MTP.SeparateShowAll".Translate(), ref Settings.SeparateShowAll,
                 "MTP.SeparateShowAllTT".Translate());
-            listing_Standard.CheckboxLabeled("MTP.NormalShowAll".Translate(), ref Settings.NormalShowAll,
+            listingStandard.CheckboxLabeled("MTP.NormalShowAll".Translate(), ref Settings.NormalShowAll,
                 "MTP.NormalShowAllTT".Translate());
-            listing_Standard.CheckboxLabeled("MTP.InvertOrder".Translate(), ref Settings.InvertOrder,
+            listingStandard.CheckboxLabeled("MTP.InvertOrder".Translate(), ref Settings.InvertOrder,
                 "MTP.InvertOrderTT".Translate());
             if (!Settings.RotateIcons)
             {
                 Settings.IconSpacingFactor =
-                    listing_Standard.SliderLabeled(
+                    listingStandard.SliderLabeled(
                         "MTP.IconSpacingFactor".Translate(Settings.IconSpacingFactor.ToStringPercent()),
                         Settings.IconSpacingFactor, -1f, 1f);
             }
 
             if (Settings.IconSpacingFactor < 0f || Settings.RotateIcons)
             {
-                listing_Standard.CheckboxLabeled("MTP.ShowWhenSelected".Translate(), ref Settings.ShowWhenSelected,
+                listingStandard.CheckboxLabeled("MTP.ShowWhenSelected".Translate(), ref Settings.ShowWhenSelected,
                     "MTP.ShowWhenSelectedTT".Translate());
-                listing_Standard.CheckboxLabeled("MTP.ShowWhenHover".Translate(), ref Settings.ShowWhenHover,
+                listingStandard.CheckboxLabeled("MTP.ShowWhenHover".Translate(), ref Settings.ShowWhenHover,
                     "MTP.ShowWhenHoverTT".Translate());
-                listing_Standard.CheckboxLabeled("MTP.ShowOnShift".Translate(), ref Settings.ShowOnShift,
+                listingStandard.CheckboxLabeled("MTP.ShowOnShift".Translate(), ref Settings.ShowOnShift,
                     "MTP.ShowOnShiftTT".Translate());
-                listing_Standard.CheckboxLabeled("MTP.ShowOnPaused".Translate(), ref Settings.ShowOnPaused,
+                listingStandard.CheckboxLabeled("MTP.ShowOnPaused".Translate(), ref Settings.ShowOnPaused,
                     "MTP.ShowOnPausedTT".Translate());
             }
             else
@@ -115,47 +112,47 @@ public class MarkThatPawnMod : Mod
             }
         }
 
-        listing_Standard.Label("MTP.HideIcons".Translate());
-        listing_Standard.CheckboxLabeled("MTP.PawnIsSelected".Translate(), ref Settings.PawnIsSelected);
-        listing_Standard.CheckboxLabeled("MTP.ShiftIsPressed".Translate(), ref Settings.ShiftIsPressed);
-        listing_Standard.CheckboxLabeled("MTP.GameIsPaused".Translate(), ref Settings.GameIsPaused);
+        listingStandard.Label("MTP.HideIcons".Translate());
+        listingStandard.CheckboxLabeled("MTP.PawnIsSelected".Translate(), ref Settings.PawnIsSelected);
+        listingStandard.CheckboxLabeled("MTP.ShiftIsPressed".Translate(), ref Settings.ShiftIsPressed);
+        listingStandard.CheckboxLabeled("MTP.GameIsPaused".Translate(), ref Settings.GameIsPaused);
 
-        listing_Standard.CheckboxLabeled("MTP.PulsatingIcons".Translate(), ref Settings.PulsatingIcons,
+        listingStandard.CheckboxLabeled("MTP.PulsatingIcons".Translate(), ref Settings.PulsatingIcons,
             "MTP.PulsatingIconsTT".Translate());
-        listing_Standard.CheckboxLabeled("MTP.RelativeIconSize".Translate(), ref Settings.RelativeIconSize,
+        listingStandard.CheckboxLabeled("MTP.RelativeIconSize".Translate(), ref Settings.RelativeIconSize,
             "MTP.RelativeIconSizeTT".Translate());
-        listing_Standard.CheckboxLabeled("MTP.RelativeToZoom".Translate(), ref Settings.RelativeToZoom,
+        listingStandard.CheckboxLabeled("MTP.RelativeToZoom".Translate(), ref Settings.RelativeToZoom,
             "MTP.RelativeToZoomTT".Translate());
         if (Settings.RelativeToZoom)
         {
             Settings.IconScalingFactor =
-                (float)Math.Round(listing_Standard.SliderLabeled(
+                (float)Math.Round(listingStandard.SliderLabeled(
                     "MTP.IconScalingFactor".Translate(Settings.IconScalingFactor.ToStringPercent()),
                     Settings.IconScalingFactor, 0.1f, 5f), 2);
         }
 
         Settings.IconSize =
-            (float)Math.Round(listing_Standard.SliderLabeled(
+            (float)Math.Round(listingStandard.SliderLabeled(
                 "MTP.IconSize".Translate(Settings.IconSize.ToStringPercent()),
                 Settings.IconSize, 0.1f, 5f), 1);
         Settings.XOffset =
-            listing_Standard.SliderLabeled(
+            listingStandard.SliderLabeled(
                 "MTP.XOffset".Translate(Math.Round(Settings.XOffset, 2)),
                 Settings.XOffset, -1f, 1f);
         Settings.ZOffset =
-            listing_Standard.SliderLabeled(
+            listingStandard.SliderLabeled(
                 "MTP.ZOffset".Translate(Math.Round(Settings.ZOffset, 2)),
                 Settings.ZOffset, -1f, 1f);
 
-        listing_Standard.NewColumn();
+        listingStandard.NewColumn();
         var activeRules = Settings.AutoRules.Count(rule => rule.Enabled);
-        if (listing_Standard.ButtonTextLabeled("MTP.RulesButtonInfo".Translate(activeRules),
+        if (listingStandard.ButtonTextLabeled("MTP.RulesButtonInfo".Translate(activeRules),
                 "MTP.RulesButtonText".Translate()))
         {
             Find.WindowStack.Add(new Dialog_AutoMarkingRules());
         }
 
-        var selectorRect = listing_Standard.GetRect(selectorHeight);
+        var selectorRect = listingStandard.GetRect(SelectorHeight);
         Widgets.Label(selectorRect.LeftHalf(),
             "MTP.DefaultMarkerSet".Translate(Settings.DefaultMarkerSet.LabelCap));
         if (markerSelector(selectorRect.RightHalf(), Settings.DefaultMarkerSet))
@@ -164,11 +161,11 @@ public class MarkThatPawnMod : Mod
                 new FloatMenu(MarkThatPawn.GetMarkingSetOptions(MarkThatPawn.PawnType.Default)));
         }
 
-        listing_Standard.GapLine();
-        listing_Standard.CheckboxLabeled("MTP.ShowForColonist".Translate(), ref Settings.ShowForColonist);
+        listingStandard.GapLine();
+        listingStandard.CheckboxLabeled("MTP.ShowForColonist".Translate(), ref Settings.ShowForColonist);
         if (Settings.ShowForColonist)
         {
-            selectorRect = listing_Standard.GetRect(selectorHeight);
+            selectorRect = listingStandard.GetRect(SelectorHeight);
             Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                 "MTP.ColonistDiffer".Translate(Settings.ColonistMarkerSet.LabelCap), ref Settings.ColonistDiffer);
             if (Settings.ColonistDiffer)
@@ -181,11 +178,11 @@ public class MarkThatPawnMod : Mod
             }
         }
 
-        listing_Standard.GapLine();
-        listing_Standard.CheckboxLabeled("MTP.ShowForPrisoner".Translate(), ref Settings.ShowForPrisoner);
+        listingStandard.GapLine();
+        listingStandard.CheckboxLabeled("MTP.ShowForPrisoner".Translate(), ref Settings.ShowForPrisoner);
         if (Settings.ShowForPrisoner)
         {
-            selectorRect = listing_Standard.GetRect(selectorHeight);
+            selectorRect = listingStandard.GetRect(SelectorHeight);
             Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                 "MTP.PrisonerDiffer".Translate(Settings.PrisonerMarkerSet.LabelCap), ref Settings.PrisonerDiffer);
             if (Settings.PrisonerDiffer)
@@ -200,11 +197,11 @@ public class MarkThatPawnMod : Mod
 
         if (ModLister.RoyaltyInstalled)
         {
-            listing_Standard.GapLine();
-            listing_Standard.CheckboxLabeled("MTP.ShowForSlave".Translate(), ref Settings.ShowForSlave);
+            listingStandard.GapLine();
+            listingStandard.CheckboxLabeled("MTP.ShowForSlave".Translate(), ref Settings.ShowForSlave);
             if (Settings.ShowForSlave)
             {
-                selectorRect = listing_Standard.GetRect(selectorHeight);
+                selectorRect = listingStandard.GetRect(SelectorHeight);
                 Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                     "MTP.SlaveDiffer".Translate(Settings.SlaveMarkerSet.LabelCap), ref Settings.SlaveDiffer);
                 if (Settings.SlaveDiffer)
@@ -218,11 +215,11 @@ public class MarkThatPawnMod : Mod
             }
         }
 
-        listing_Standard.GapLine();
-        listing_Standard.CheckboxLabeled("MTP.ShowForEnemy".Translate(), ref Settings.ShowForEnemy);
+        listingStandard.GapLine();
+        listingStandard.CheckboxLabeled("MTP.ShowForEnemy".Translate(), ref Settings.ShowForEnemy);
         if (Settings.ShowForEnemy)
         {
-            selectorRect = listing_Standard.GetRect(selectorHeight);
+            selectorRect = listingStandard.GetRect(SelectorHeight);
             Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                 "MTP.EnemyDiffer".Translate(Settings.EnemyMarkerSet.LabelCap), ref Settings.EnemyDiffer);
             if (Settings.EnemyDiffer)
@@ -235,11 +232,11 @@ public class MarkThatPawnMod : Mod
             }
         }
 
-        listing_Standard.GapLine();
-        listing_Standard.CheckboxLabeled("MTP.ShowForNeutral".Translate(), ref Settings.ShowForNeutral);
+        listingStandard.GapLine();
+        listingStandard.CheckboxLabeled("MTP.ShowForNeutral".Translate(), ref Settings.ShowForNeutral);
         if (Settings.ShowForNeutral)
         {
-            selectorRect = listing_Standard.GetRect(selectorHeight);
+            selectorRect = listingStandard.GetRect(SelectorHeight);
             Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                 "MTP.NeutralDiffer".Translate(Settings.NeutralMarkerSet.LabelCap), ref Settings.NeutralDiffer);
             if (Settings.NeutralDiffer)
@@ -254,11 +251,11 @@ public class MarkThatPawnMod : Mod
 
         if (MarkThatPawn.VehiclesLoaded)
         {
-            listing_Standard.GapLine();
-            listing_Standard.CheckboxLabeled("MTP.ShowForVehicles".Translate(), ref Settings.ShowForVehicles);
+            listingStandard.GapLine();
+            listingStandard.CheckboxLabeled("MTP.ShowForVehicles".Translate(), ref Settings.ShowForVehicles);
             if (Settings.ShowForVehicles)
             {
-                selectorRect = listing_Standard.GetRect(selectorHeight);
+                selectorRect = listingStandard.GetRect(SelectorHeight);
                 Widgets.CheckboxLabeled(selectorRect.LeftHalf().TopHalf(),
                     "MTP.VehiclesDiffer".Translate(Settings.VehiclesMarkerSet.LabelCap), ref Settings.VehiclesDiffer);
                 if (Settings.VehiclesDiffer)
@@ -272,7 +269,7 @@ public class MarkThatPawnMod : Mod
             }
         }
 
-        if (listing_Standard.ButtonText("MTP.Reset".Translate()))
+        if (listingStandard.ButtonText("MTP.Reset".Translate()))
         {
             Settings.Reset();
         }
@@ -280,12 +277,11 @@ public class MarkThatPawnMod : Mod
         if (currentVersion != null)
         {
             GUI.contentColor = Color.gray;
-            listing_Standard.Label("MTP.CurrentModVersion".Translate(currentVersion));
+            listingStandard.Label("MTP.CurrentModVersion".Translate(currentVersion));
             GUI.contentColor = Color.white;
         }
 
-        listing_Standard.End();
-        //Widgets.EndScrollView();
+        listingStandard.End();
         MarkThatPawn.ResetCache();
     }
 

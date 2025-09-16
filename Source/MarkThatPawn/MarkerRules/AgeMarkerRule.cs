@@ -98,14 +98,11 @@ public class AgeMarkerRule : MarkerRule
 
     public override void PopulateRuleParameterObjects()
     {
-        if (RuleParameters == null)
+        switch (RuleParameters)
         {
-            return;
-        }
-
-        if (RuleParameters == string.Empty && !Enabled)
-        {
-            return;
+            case null:
+            case "" when !Enabled:
+                return;
         }
 
         if (!RuleParameters.Contains(MarkThatPawn.RuleItemsSplitter.ToString()))

@@ -71,14 +71,11 @@ public class MechanoidMarkerRule : MarkerRule
 
     public override void PopulateRuleParameterObjects()
     {
-        if (RuleParameters == null)
+        switch (RuleParameters)
         {
-            return;
-        }
-
-        if (RuleParameters == string.Empty && !Enabled)
-        {
-            return;
+            case null:
+            case "" when !Enabled:
+                return;
         }
 
         mechanoid = DefDatabase<ThingDef>.GetNamedSilentFail(RuleParameters);

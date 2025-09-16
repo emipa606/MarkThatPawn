@@ -13,10 +13,7 @@ public class MarkingTracker(Map map) : MapComponent(map)
     {
         base.MapComponentTick();
 
-        if (GlobalMarkingTracker == null)
-        {
-            GlobalMarkingTracker = Current.Game.GetComponent<GlobalMarkingTracker>();
-        }
+        GlobalMarkingTracker ??= Current.Game.GetComponent<GlobalMarkingTracker>();
 
         if (PawnsToEvaluate?.Any() != true)
         {
@@ -69,10 +66,7 @@ public class MarkingTracker(Map map) : MapComponent(map)
 
         Log.Message(
             $"[MarkThatPawn]: Found map-specific marking-values for map {map}, converting to global. This should only happen once per map.");
-        if (GlobalMarkingTracker == null)
-        {
-            GlobalMarkingTracker = Current.Game.GetComponent<GlobalMarkingTracker>();
-        }
+        GlobalMarkingTracker ??= Current.Game.GetComponent<GlobalMarkingTracker>();
 
         if (MarkedPawns.Any())
         {

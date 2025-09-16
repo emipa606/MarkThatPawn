@@ -34,10 +34,10 @@ public class AnimalMarkerRule : MarkerRule
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
     {
-        var AnimalArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
+        var animalArea = rect.LeftPart(0.75f).TopHalf().CenteredOnYIn(rect);
         if (edit)
         {
-            if (Widgets.ButtonText(AnimalArea,
+            if (Widgets.ButtonText(animalArea,
                     animal?.LabelCap ?? "MTP.NoneSelected".Translate()))
             {
                 showAnimalSelectorMenu();
@@ -45,7 +45,7 @@ public class AnimalMarkerRule : MarkerRule
         }
         else
         {
-            Widgets.Label(AnimalArea,
+            Widgets.Label(animalArea,
                 animal?.LabelCap ?? "MTP.NoneSelected".Translate());
         }
 
@@ -66,14 +66,11 @@ public class AnimalMarkerRule : MarkerRule
 
     public override void PopulateRuleParameterObjects()
     {
-        if (RuleParameters == null)
+        switch (RuleParameters)
         {
-            return;
-        }
-
-        if (RuleParameters == string.Empty && !Enabled)
-        {
-            return;
+            case null:
+            case "" when !Enabled:
+                return;
         }
 
         animal = DefDatabase<ThingDef>.GetNamedSilentFail(RuleParameters);
@@ -103,17 +100,17 @@ public class AnimalMarkerRule : MarkerRule
 
     private void showAnimalSelectorMenu()
     {
-        var AnimalList = new List<FloatMenuOption>();
+        var animalList = new List<FloatMenuOption>();
 
         foreach (var animalToSelect in MarkThatPawn.AllAnimals)
         {
-            AnimalList.Add(new FloatMenuOption(animalToSelect.LabelCap, () =>
+            animalList.Add(new FloatMenuOption(animalToSelect.LabelCap, () =>
             {
                 RuleParameters = animalToSelect.defName;
                 animal = animalToSelect;
             }, animalToSelect));
         }
 
-        Find.WindowStack.Add(new FloatMenu(AnimalList));
+        Find.WindowStack.Add(new FloatMenu(animalList));
     }
 }

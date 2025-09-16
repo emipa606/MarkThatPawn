@@ -58,7 +58,7 @@ There are also priority rules that get applied based on events
 
 
 
-If you have [TD Find Lib](https://steamcommunity.com/sharedfiles/filedetails/?id=3529443295) active you can add rules that uses its search filters. These filters are saved in the save-game so they require and active game to add or edit.
+If you have [TD Find Lib](https://steamcommunity.com/sharedfiles/filedetails/?id=2895299310) active you can add rules that uses its search filters. These filters are saved in the save-game so they require and active game to add or edit.
 
 All applicable rules can also be set to only apply to one category of pawns.
 There is also support for the fog of war in [CAI 5000](https://steamcommunity.com/sharedfiles/filedetails/?id=2938891185)

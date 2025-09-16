@@ -75,7 +75,7 @@ There are also priority rules that get applied based on events
 [*]Pawn has one or more temporary hediffs, like an injury
 [/list]
 
-If you have [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3529443295]TD Find Lib[/url] active you can add rules that uses its search filters. These filters are saved in the save-game so they require and active game to add or edit.
+If you have [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2895299310]TD Find Lib[/url] active you can add rules that uses its search filters. These filters are saved in the save-game so they require and active game to add or edit.
 
 All applicable rules can also be set to only apply to one category of pawns.
 There is also support for the fog of war in [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2938891185]CAI 5000[/url]
@@ -120,5 +120,5 @@ Since modding is just a hobby for me I expect no donations to keep modding. If y
 [/list] 
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662][img]https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&amp;style=plastic&amp;labelColor=0070cd&amp;color=white[/img][/url] | tags: pawn marking,  icon customization</description>
-  <modVersion IgnoreIfNoMatchingField="True">1.6.2</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">1.6.3</modVersion>
 </ModMetaData>

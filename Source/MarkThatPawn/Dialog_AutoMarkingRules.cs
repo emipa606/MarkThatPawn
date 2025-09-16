@@ -334,7 +334,7 @@ public class Dialog_AutoMarkingRules : Window
         return false;
     }
 
-    private void showNewRuleMenu()
+    private static void showNewRuleMenu()
     {
         var ruleTypeList = new List<FloatMenuOption>();
 

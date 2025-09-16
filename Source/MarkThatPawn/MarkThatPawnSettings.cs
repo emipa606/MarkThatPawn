@@ -136,7 +136,7 @@ public class MarkThatPawnSettings : ModSettings
     }
 
 
-    private MarkerDef genericSetGetter(ref MarkerDef privateMarkerSetDef, ref string privateMarkerSet)
+    private static MarkerDef genericSetGetter(ref MarkerDef privateMarkerSetDef, ref string privateMarkerSet)
     {
         if (privateMarkerSetDef != null)
         {

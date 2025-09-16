@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.6.3 - Fix for TDLib, icons show when zoomed in full. Thanks Ilunak
+
+
 1.6.2 - Updated reference to Pawn Badge Fan Fork [Adopted]
 
 

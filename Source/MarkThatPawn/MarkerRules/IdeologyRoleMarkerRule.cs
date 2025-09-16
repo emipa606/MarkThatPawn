@@ -67,14 +67,11 @@ public class IdeologyRoleMarkerRule : MarkerRule
 
     public override void PopulateRuleParameterObjects()
     {
-        if (RuleParameters == null)
+        switch (RuleParameters)
         {
-            return;
-        }
-
-        if (RuleParameters == string.Empty && !Enabled)
-        {
-            return;
+            case null:
+            case "" when !Enabled:
+                return;
         }
 
         var ruleParametersSplitted = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter);
@@ -82,12 +79,12 @@ public class IdeologyRoleMarkerRule : MarkerRule
         var ideoRolePart = ruleParametersSplitted[0];
         ideoRoleDefs = [];
 
-        foreach (var ideoRoleDefname in ideoRolePart.Split(MarkThatPawn.RuleAlternateItemsSplitter))
+        foreach (var ideoRoleDefName in ideoRolePart.Split(MarkThatPawn.RuleAlternateItemsSplitter))
         {
-            var ideoRoleDef = DefDatabase<PreceptDef>.GetNamedSilentFail(ideoRoleDefname);
+            var ideoRoleDef = DefDatabase<PreceptDef>.GetNamedSilentFail(ideoRoleDefName);
             if (ideoRoleDef == null)
             {
-                ErrorMessage = $"Could not find ideoRole with defname {ideoRoleDefname}";
+                ErrorMessage = $"Could not find ideoRole with defname {ideoRoleDefName}";
                 continue;
             }
 

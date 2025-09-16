@@ -65,40 +65,39 @@ public class GenderMarkerRule : MarkerRule
 
     public override void PopulateRuleParameterObjects()
     {
-        if (RuleParameters == null)
+        switch (RuleParameters)
         {
-            return;
-        }
+            case null:
+            case "" when !Enabled:
+                return;
+            default:
+                try
+                {
+                    var genderPart = RuleParameters;
+                    var animalPart = $"{false}";
+                    if (RuleParameters.Contains(MarkThatPawn.RuleItemsSplitter.ToString()))
+                    {
+                        genderPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[0];
+                        animalPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[1];
+                    }
 
-        if (RuleParameters == string.Empty && !Enabled)
-        {
-            return;
-        }
+                    if (!bool.TryParse(genderPart, out male))
+                    {
+                        male = true;
+                    }
 
-        try
-        {
-            var genderPart = RuleParameters;
-            var animalPart = $"{false}";
-            if (RuleParameters.Contains(MarkThatPawn.RuleItemsSplitter.ToString()))
-            {
-                genderPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[0];
-                animalPart = RuleParameters.Split(MarkThatPawn.RuleItemsSplitter)[1];
-            }
+                    if (!bool.TryParse(animalPart, out animal))
+                    {
+                        animal = false;
+                    }
+                }
+                catch
+                {
+                    ErrorMessage = $"Could not parse gender-type {RuleParameters}, disabling rule";
+                    ConfigError = true;
+                }
 
-            if (!bool.TryParse(genderPart, out male))
-            {
-                male = true;
-            }
-
-            if (!bool.TryParse(animalPart, out animal))
-            {
-                animal = false;
-            }
-        }
-        catch
-        {
-            ErrorMessage = $"Could not parse gender-type {RuleParameters}, disabling rule";
-            ConfigError = true;
+                break;
         }
     }
 
