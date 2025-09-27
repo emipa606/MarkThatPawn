@@ -24,7 +24,8 @@ public class TDFindLibRule : MarkerRule
         IsInCorrectGame = true;
     }
 
-    private TDFindLibRule(string blob)
+    // ReSharper disable once MemberCanBePrivate.Global
+    public TDFindLibRule(string blob) // Changed from private to public so reflection can construct with blob
     {
         RuleType = AutoRuleType.TDFindLib;
         RequiresASpecificGame = true;
@@ -48,7 +49,18 @@ public class TDFindLibRule : MarkerRule
     public override void OnDelete()
     {
         base.OnDelete();
-        Current.Game?.GetComponent<GameComponent_TDFindLibRuleComponent>()?.TdFindLibSearches.Remove(tdSearcher);
+        if (Current.ProgramState != ProgramState.Playing)
+        {
+            return;
+        }
+
+        var component = Current.Game?.GetComponent<GameComponent_TDFindLibRuleComponent>();
+        if (component?.TdFindLibSearches == null || !component.TdFindLibSearches.Contains(tdSearcher))
+        {
+            return;
+        }
+
+        component.TdFindLibSearches.Remove(tdSearcher);
     }
 
     public override void ShowTypeParametersRect(Rect rect, bool edit)
@@ -121,14 +133,11 @@ public class TDFindLibRule : MarkerRule
             return;
         }
 
-        if (RuleParameters == null)
+        switch (RuleParameters)
         {
-            return;
-        }
-
-        if (RuleParameters == string.Empty && !Enabled)
-        {
-            return;
+            case null:
+            case "" when !Enabled:
+                return;
         }
 
         if (Current.Game.GetComponent<GameComponent_TDFindLibRuleComponent>().TdFindLibSearches == null ||
@@ -159,6 +168,11 @@ public class TDFindLibRule : MarkerRule
 
     public override bool AppliesToPawn(Pawn pawn)
     {
+        if (!CanEnable())
+        {
+            return false;
+        }
+
         if (!base.AppliesToPawn(pawn))
         {
             return false;

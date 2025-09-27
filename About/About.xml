@@ -88,6 +88,7 @@ It is very simple to add more Icon-sets as only a small xml-definition is needed
 [b]Extra Icons[/b]
 [list]
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3218640675]More Markers[/url] by Tonic
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3574221418]More Mark That Pawn Icons[/url] by 부산국밥홍보대사
 [/list]
 
 Mod-idea: Cedric
@@ -112,7 +113,7 @@ Since modding is just a hobby for me I expect no donations to keep modding. If y
 [list]
 [*] See if the the error persists if you just have this mod and its requirements active.
 [*] If not, try adding your other mods until it happens again.
-[*] Post your error-log using the [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404]Log Uploader[/url] or the standalone [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404]Uploader[/url] and command Ctrl+F12
+[*] Always post your log using the [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404]Log Uploader[/url]
 [*] For best support, please use the Discord-channel for error-reporting.
 [*] Do not report errors by making a discussion-thread, I get no notification of that.
 [*] If you have the solution for a problem, please post it to the GitHub repository.
@@ -120,5 +121,5 @@ Since modding is just a hobby for me I expect no donations to keep modding. If y
 [/list] 
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662][img]https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&amp;style=plastic&amp;labelColor=0070cd&amp;color=white[/img][/url] | tags: pawn marking,  icon customization</description>
-  <modVersion IgnoreIfNoMatchingField="True">1.6.3</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">1.6.4</modVersion>
 </ModMetaData>

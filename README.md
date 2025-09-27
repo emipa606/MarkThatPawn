@@ -72,6 +72,7 @@ It is very simple to add more Icon-sets as only a small xml-definition is needed
 
 
 - [More Markers](https://steamcommunity.com/sharedfiles/filedetails/?id=3218640675) by Tonic
+- [More Mark That Pawn Icons](https://steamcommunity.com/sharedfiles/filedetails/?id=3574221418) by 부산국밥홍보대사
 
 
 
@@ -89,7 +90,7 @@ Since modding is just a hobby for me I expect no donations to keep modding. If y
 
 -  See if the the error persists if you just have this mod and its requirements active.
 -  If not, try adding your other mods until it happens again.
--  Post your error-log using the [Log Uploader](https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404) or the standalone [Uploader](https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404) and command Ctrl+F12
+-  Always post your log using the [Log Uploader](https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404)
 -  For best support, please use the Discord-channel for error-reporting.
 -  Do not report errors by making a discussion-thread, I get no notification of that.
 -  If you have the solution for a problem, please post it to the GitHub repository.

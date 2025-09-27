@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.6.4 - Fixed TDFind-lib loader
+
+
 1.6.3 - Fix for TDLib, icons show when zoomed in full. Thanks Ilunak
 
 

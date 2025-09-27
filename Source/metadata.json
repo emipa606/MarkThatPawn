@@ -9,11 +9,12 @@
     "pawn marking",
     " icon customization"
   ],
-  "LastXmlCleaning": "2025-09-16T20:17:19.9208547+02:00",
+  "LastXmlCleaning": "2025-09-27T20:32:29.4617774+02:00",
   "Patches": false,
   "Defs": true,
   "Assemblies": true,
-  "LinesOfCode": 257651,
+  "LinesOfCode": 258103,
   "LinesOfXML": 6801,
-  "CodeBaseSize": 85
+  "CodeBaseSize": 85,
+  "RimWorldBaseId": "15319"
 }
