@@ -1,6 +1,6 @@
 # [Mark That Pawn](https://steamcommunity.com/sharedfiles/filedetails/?id=3056996662)
 
-![Image](https://i.imgur.com/iCj5o7O.png)
+![Image](https://img.litet.net/logos/Self-Info.png)
 
 You get a large raid and looking through the pawns you find one that would be excellent to capture, but sadly you lose them in the action. You later find their corpse blown up by one of your rockets.
 
@@ -78,13 +78,13 @@ It is very simple to add more Icon-sets as only a small xml-definition is needed
 
 Mod-idea: Cedric
 
-![Image](https://i.imgur.com/Ds0rBAD.png)
+![Image](https://img.litet.net/logos/Self-SupportAndDonations.png)
 
 Since modding is just a hobby for me I expect no donations to keep modding. If you still want to show your support you can gift me anything from my [Wishlist](https://store.steampowered.com/wishlist/id/Mlie) or buy me a cup of tea.
 
-[![Image](https://i.imgur.com/VWG0yff.png)](https://ko-fi.com/G2G55DDYD)
+[![Image](https://img.litet.net/logos/Kofi-Small.png)](https://ko-fi.com/G2G55DDYD)
 
-![Image](https://i.imgur.com/5xwDG6H.png)
+![Image](https://img.litet.net/logos/Self-ReportingIssues.png)
 
 
 
@@ -98,4 +98,4 @@ Since modding is just a hobby for me I expect no donations to keep modding. If y
 
  
 
-[![Image](https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&style=plastic&labelColor=0070cd&color=white)](https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662) | tags: pawn marking,  icon customization
+[![Image](https://img.shields.io/github/v/release/emipa606/MarkThatPawn?label=latest%20version&style=plastic&labelColor=0070cd&color=white)](https://steamcommunity.com/sharedfiles/filedetails/changelog/3056996662) | tags: pawn marking, icon customization

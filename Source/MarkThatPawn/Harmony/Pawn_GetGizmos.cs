@@ -56,6 +56,12 @@ public static class Pawn_GetGizmos
             yield break;
         }
 
+        // Only show the marker selector gizmo if exactly one pawn is selected
+        if (Find.Selector.SelectedPawns.Count != 1)
+        {
+            yield break;
+        }
+
         var currentMarking = tracker.GlobalMarkingTracker.GetPawnMarking(__instance);
         var currentMarkerSet = MarkThatPawn.GetMarkerDefForPawn(__instance);
 

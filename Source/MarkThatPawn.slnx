@@ -7,4 +7,14 @@
   </Configurations>
   <Project Path="MarkThatPawn/MarkThatPawn.csproj" />
   <Project Path="TDFindLibRule/TDFindLibRule.csproj" />
+  <Folder Name="/XML/Languages/English/Keyed/">
+    <File Path="../Languages/English/Keyed/Text.xml" />
+  </Folder>
+  <Folder Name="/XML/About/">
+    <File Path="../About/about.xml" />
+  </Folder>
+  <Folder Name="/XML/1.6/Defs/">
+    <File Path="../1.6/Defs/Markers.xml" />
+    <File Path="../1.6/Defs/UpdateInfo.xml" />
+  </Folder>
 </Solution>

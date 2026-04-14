@@ -1,5 +1,8 @@
 # Changelog for MarkThatPawn
 
+1.6.5 - Now only shows gizmo when only one pawn is selected
+
+
 1.6.4 - Fixed TDFind-lib loader
 
 
