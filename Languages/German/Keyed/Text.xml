@@ -164,4 +164,6 @@
   <MTP.PawnType.Trader>Neutraler Händler</MTP.PawnType.Trader>
   <MTP.AutomaticType.IdeologyRole>Besondere Rolle der Ideologie</MTP.AutomaticType.IdeologyRole>
   <MTP.AutomaticType.Title>Besondere königliche Titel</MTP.AutomaticType.Title>
+  <MTP.SingleSelectionGizmoOnly>Nur Marker-Gizmo für einzelne Auswahl anzeigen</MTP.SingleSelectionGizmoOnly>
+  <MTP.SingleSelectionGizmoOnlyTT>Wenn er aktiviert ist, wird das Markierungs-Gizmo nur angezeigt, wenn genau ein Objekt ausgewählt ist.</MTP.SingleSelectionGizmoOnlyTT>
 </LanguageData>

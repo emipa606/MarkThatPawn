@@ -164,4 +164,6 @@
   <MTP.PawnType.Trader>中立交易者</MTP.PawnType.Trader>
   <MTP.AutomaticType.IdeologyRole>具体的意识形态作用</MTP.AutomaticType.IdeologyRole>
   <MTP.AutomaticType.Title>具体的皇家头衔</MTP.AutomaticType.Title>
+  <MTP.SingleSelectionGizmoOnly>只显示单个选择的标记小工具</MTP.SingleSelectionGizmoOnly>
+  <MTP.SingleSelectionGizmoOnlyTT>启用后，标记小工具只有在正好选择一个对象时才会显示。</MTP.SingleSelectionGizmoOnlyTT>
 </LanguageData>

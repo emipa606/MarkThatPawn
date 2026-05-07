@@ -1,5 +1,9 @@
 # Changelog for MarkThatPawn
 
+1.6.6 - Added mod-option for multi-selection
+Used DeepL to update translations for ChineseSimplified, French, German
+
+
 1.6.5 - Now only shows gizmo when only one pawn is selected
 
 

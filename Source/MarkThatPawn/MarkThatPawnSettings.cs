@@ -55,6 +55,7 @@ public class MarkThatPawnSettings : ModSettings
     public bool ShowOnShift;
     public bool ShowWhenHover;
     public bool ShowWhenSelected;
+    public bool SingleSelectionGizmoOnly = true;
     public bool SlaveDiffer;
     private string slaveMarkerSet = "WowStyle";
     private MarkerDef slaveMarkerSetDef;
@@ -189,6 +190,7 @@ public class MarkThatPawnSettings : ModSettings
         Scribe_Values.Look(ref ShowOnShift, "ShowOnShift");
         Scribe_Values.Look(ref ShowOnPaused, "ShowOnPaused");
         Scribe_Values.Look(ref ShiftIsPressed, "ShiftIsPressed");
+        Scribe_Values.Look(ref SingleSelectionGizmoOnly, "SingleSelectionGizmoOnly", true);
         Scribe_Values.Look(ref PawnIsSelected, "PawnIsSelected");
         Scribe_Values.Look(ref GameIsPaused, "GameIsPaused");
         Scribe_Values.Look(ref PrisonerDiffer, "PrisonerDiffer");
@@ -239,6 +241,7 @@ public class MarkThatPawnSettings : ModSettings
         ShowOnPaused = false;
         GameIsPaused = false;
         ShiftIsPressed = false;
+        SingleSelectionGizmoOnly = true;
         PawnIsSelected = false;
         EnemyDiffer = false;
         NeutralDiffer = false;

@@ -8,7 +8,7 @@ namespace MarkThatPawn;
 [StaticConstructorOnStartup]
 public class MarkThatPawnMod : Mod
 {
-    private const float SelectorHeight = 50f;
+    private const float SelectorHeight = 40f;
 
     /// <summary>
     ///     The instance of the settings to be read by the mod
@@ -75,6 +75,9 @@ public class MarkThatPawnMod : Mod
             "MTP.RefreshRulesTT".Translate());
         listingStandard.CheckboxLabeled("MTP.ShowOnCorpses".Translate(), ref Settings.ShowOnCorpses,
             "MTP.ShowOnCorpsesTT".Translate());
+        listingStandard.CheckboxLabeled("MTP.SingleSelectionGizmoOnly".Translate(),
+            ref Settings.SingleSelectionGizmoOnly,
+            "MTP.SingleSelectionGizmoOnlyTT".Translate());
         listingStandard.CheckboxLabeled("MTP.SeparateTemporary".Translate(), ref Settings.SeparateTemporary,
             "MTP.SeparateTemporaryTT".Translate());
         if (Settings.SeparateTemporary)
@@ -131,10 +134,6 @@ public class MarkThatPawnMod : Mod
                     Settings.IconScalingFactor, 0.1f, 5f), 2);
         }
 
-        Settings.IconSize =
-            (float)Math.Round(listingStandard.SliderLabeled(
-                "MTP.IconSize".Translate(Settings.IconSize.ToStringPercent()),
-                Settings.IconSize, 0.1f, 5f), 1);
         Settings.XOffset =
             listingStandard.SliderLabeled(
                 "MTP.XOffset".Translate(Math.Round(Settings.XOffset, 2)),
@@ -143,8 +142,14 @@ public class MarkThatPawnMod : Mod
             listingStandard.SliderLabeled(
                 "MTP.ZOffset".Translate(Math.Round(Settings.ZOffset, 2)),
                 Settings.ZOffset, -1f, 1f);
-
         listingStandard.NewColumn();
+
+        Settings.IconSize =
+            (float)Math.Round(listingStandard.SliderLabeled(
+                "MTP.IconSize".Translate(Settings.IconSize.ToStringPercent()),
+                Settings.IconSize, 0.1f, 5f), 1);
+        listingStandard.GapLine();
+
         var activeRules = Settings.AutoRules.Count(rule => rule.Enabled);
         if (listingStandard.ButtonTextLabeled("MTP.RulesButtonInfo".Translate(activeRules),
                 "MTP.RulesButtonText".Translate()))

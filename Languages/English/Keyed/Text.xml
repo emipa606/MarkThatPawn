@@ -30,6 +30,8 @@
   <MTP.ResetAll>Reset rules</MTP.ResetAll>
   <MTP.ShowOnCorpses>Show icons on corpses</MTP.ShowOnCorpses>
   <MTP.ShowOnCorpsesTT>If possible, icons will be shown over corpses</MTP.ShowOnCorpsesTT>
+  <MTP.SingleSelectionGizmoOnly>Only show marker gizmo for single selection</MTP.SingleSelectionGizmoOnly>
+  <MTP.SingleSelectionGizmoOnlyTT>When enabled, the marker gizmo is only shown if exactly one object is selected.</MTP.SingleSelectionGizmoOnlyTT>
   <MTP.ResetAllConfirm>Really remove all defined rules?</MTP.ResetAllConfirm>
   <MTP.NoneSelected>None selected</MTP.NoneSelected>
   <MTP.SomeSelected>{0} selected</MTP.SomeSelected>

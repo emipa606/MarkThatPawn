@@ -56,8 +56,7 @@ public static class Pawn_GetGizmos
             yield break;
         }
 
-        // Only show the marker selector gizmo if exactly one pawn is selected
-        if (Find.Selector.SelectedPawns.Count != 1)
+        if (MarkThatPawnMod.Instance.Settings.SingleSelectionGizmoOnly && Find.Selector.NumSelected != 1)
         {
             yield break;
         }
